@@ -6,7 +6,6 @@ const App: React.FC = () => {
   return (
     <div
       style={{
-        // width: '100vh',
         height: '100vh',
         display: 'flex',
   

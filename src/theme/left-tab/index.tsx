@@ -17,31 +17,38 @@ export const tabBarConfig: (
     return (
       <div style={styles.tabBar}>
         <div style={styles.tabAlign}>{tabs.map(tabBar)}</div>
-        <div onClick={() => action.closeTab(onTab)} style={styles.closeButton}>
+        ${onTab !== -1 && <div onClick={() => action.closeTab(onTab)} style={styles.closeButton}>
           ×
-        </div>
+        </div>}
       </div>
     )
     function tabBar(tab: PaneName, i: number) {
       return (
         <DraggableTitle
-          style={i === onTab ? styles.tabTitleOn : styles.tabTitle}
+          style={{
+            ...(i === onTab ? styles.tabTitleOn : styles.tabTitle),
+            color: '#ffffff',
+            display: 'flex',
+            flexDirection: 'column',
+            minWidth:'40px'
+          }}
           name={tab}
           key={tab}
           onClick={() => {
-            console.log('Tab switching from =>to', tabs[onTab], onTab ,tab, i)
-            action.switchTab(i)}}
+            console.log('Tab switching from =>to', tabs[onTab], onTab, tab, i)
+            action.switchTab(i)
+          }}
         >
-          <div
-            style={{
-              background: i === onTab ? color.primary : color.secondaryL,
-              height: '100%',
-              width: 6,
-            }}
-          />
           <div style={{ ...flex.center, ...size.full }}>
             {icons[tab] ?? defaultIcon}
           </div>
+          <div
+            style={{
+              background: i === onTab ? color.primary : color.secondaryL,
+              width: '100%',
+              height: 6,
+            }}
+          />
         </DraggableTitle>
       )
     }

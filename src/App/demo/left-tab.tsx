@@ -21,6 +21,7 @@ const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum
 
 `
 const style = {
+  minWidth: '100px',
   width: '100%',
   height: '100%',
   overflowY: 'scroll',
@@ -37,7 +38,7 @@ const x = (element: any) => {
 }
 const nodes = {
   pineapple: x(<div style={style}>{'pineapple' + body}</div>),
-  banana: x(<div style={style}>{'banana' + body}</div>),
+  SomeGoodSection: x(<div style={style}>{'SomeGoodSection' + body}</div>),
   lemon: x(<div style={style}>{'lemon' + body}</div>),
   grape: x(<div style={style}>{'grape' + body}</div>),
   kiwifruit: x(<div style={style}>{'kiwifruit' + body}</div>),
@@ -46,7 +47,7 @@ const nodes = {
 export type nodeNames = keyof typeof nodes
 
 export const icons: Record<nodeNames, string> = {
-  banana: '🍌',
+  SomeGoodSection: 'SomeGoodSection',
   pineapple: '🍍',
   lemon: '🍋',
   grape: '🍇',
@@ -56,8 +57,11 @@ export const icons: Record<nodeNames, string> = {
 export const [nodeList, names] = createTilePanes(nodes)
 
 export const rootPane: TileBranchSubstance = {
+  // children: [
+  //   { children: [] },
+  // ],
   children: [
-    { children: [names.pineapple, names.banana] },
+    { children: [names.SomeGoodSection, names.pineapple] },
     {
       isRow: true,
       grow: 2,
@@ -85,17 +89,19 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: 60,
+        // width: 60,
         background: color.backL,
-        fontSize: 30,
+        fontSize: 25,
         padding: 10,
+        color: '#ffffff',
+        gap: '1rem',
       }}
     >
       <div style={{ cursor: 'move' }}>
         <DraggableTitle name={name}>{icons[name]}</DraggableTitle>
       </div>
       <div
-        onClick={() => move(name, isShowing ? null : [0.001, 0.001])}
+        onClick={() => move(name, isShowing ? null : [0, 0])}
         style={{
           cursor: 'pointer',
           background: isShowing ? color.primary : color.secondary,
@@ -109,6 +115,7 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
 }
 
 export const LeftTabDemo: React.FC = () => {
+  console.log('rebuild view')
   const localRoot = localStorage.getItem(localStorageKey)
   const root = localRoot
     ? (JSON.parse(localRoot) as TileBranchSubstance)

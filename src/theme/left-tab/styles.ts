@@ -69,8 +69,8 @@ export const styles = createStyles({
     ...flex.columnRow,
   },
   tabTitle: {
-    height: thickness,
-    width: thickness,
+    minHeight: thickness,
+    minWidth: thickness,
     ...flex.between,
     background: color.secondaryLL,
     marginBottom: 6,
@@ -78,8 +78,8 @@ export const styles = createStyles({
     userSelect: 'none',
   },
   tabTitleOn: {
-    height: thickness ,
-    width: thickness,
+    minHeight: thickness ,
+    minwidth: thickness,
     ...flex.between,
     background: color.secondaryL,
     marginBottom: 6,

@@ -75,6 +75,11 @@ export function calcPreBox(
     }
   }
   console.log('@@@@@@@@@', 12312)
+  const leaveBranch = leaves.find(notUsed => true);
+  console.log('@@@@@@@@@', leaveBranch)
+  if(leaveBranch){
+    return  { leaf: { target: leaveBranch, into: 'center' } }
+  }
 }
 
 function isInPane(position: TileNodeRect, [x, y]: [number, number]) {
