@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useRef } from 'react'
 
 export function useThrottleFn<Fn extends (...args: any[]) => any>(
