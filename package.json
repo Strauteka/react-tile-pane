@@ -91,7 +91,7 @@
     "@types/react-dom": "^18.0.5",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
-    "@use-gesture/react": "^10.2.15",
+    "@use-gesture/react": "^10.3.0",
     "copyfiles": "^2.4.1",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",

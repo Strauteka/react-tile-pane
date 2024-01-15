@@ -42,26 +42,34 @@ export const flex = createStyles({
     alignItems: 'center',
   },
   columnBetween: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  columnRow: {
+    flexDirection: 'row',
+    display: 'flex',
   },
 })
 
 export const styles = createStyles({
   container: {
-    color: '#fff',
-    height: 600,
-    width: 1000,
+    height: 'inherit',
+    width: 'inherit',
   },
   tabBar: {
     background: color.backL,
     ...size.full,
     ...flex.columnBetween,
   },
+  tabAlign: {
+    background: color.backL,
+    ...size.full,
+    ...flex.columnRow,
+  },
   tabTitle: {
-    height: thickness * 0.8,
+    height: thickness,
     width: thickness,
     ...flex.between,
     background: color.secondaryLL,
@@ -70,7 +78,7 @@ export const styles = createStyles({
     userSelect: 'none',
   },
   tabTitleOn: {
-    height: thickness * 0.8,
+    height: thickness ,
     width: thickness,
     ...flex.between,
     background: color.secondaryL,

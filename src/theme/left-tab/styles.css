@@ -3,8 +3,8 @@
   background: #12171d;
   width: 4px;
   height: 4px;
-  transition: 233ms;
-  transition-property: background;
+  /* transition: 233ms; */
+  /* transition-property: background; */
 }
 .left-stretch-bar:hover {
   background: #567091;

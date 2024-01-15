@@ -16,7 +16,7 @@ export const tabBarConfig: (
   render({ tabs, onTab, action }) {
     return (
       <div style={styles.tabBar}>
-        <div>{tabs.map(tabBar)}</div>
+        <div style={styles.tabAlign}>{tabs.map(tabBar)}</div>
         <div onClick={() => action.closeTab(onTab)} style={styles.closeButton}>
           ×
         </div>
@@ -28,7 +28,9 @@ export const tabBarConfig: (
           style={i === onTab ? styles.tabTitleOn : styles.tabTitle}
           name={tab}
           key={tab}
-          onClick={() => action.switchTab(i)}
+          onClick={() => {
+            console.log('Tab switching from =>to', tabs[onTab], onTab ,tab, i)
+            action.switchTab(i)}}
         >
           <div
             style={{
@@ -45,7 +47,7 @@ export const tabBarConfig: (
     }
   },
   thickness,
-  position: 'left',
+  position: 'top',
   preBox: {
     isRow: false,
     isReverse: false,

@@ -16,17 +16,17 @@ export const defaultPreBox: PreBoxConfig = {
   style: ({ branch, leaf, tab }) => {
     if (branch)
       return {
-        background: '#35cf9457',
+        background: '#00000088',
         transition: 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms',
       }
     if (leaf)
       return {
-        background: '#23c6cc57',
+        background: '#00000088',
         transition: 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms',
       }
     if (tab)
       return {
-        background: '#23c6cc',
+        background: '#00000088',
         transition: 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms',
       }
     return {

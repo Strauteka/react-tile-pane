@@ -71,7 +71,7 @@
   height: 4px;
 }
 .react-tile-pane-Bar:hover {
-  background: #7dd0db;
+  background: gray;
   height: 6px;
   width: 6px;
 }
