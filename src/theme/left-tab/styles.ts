@@ -67,6 +67,7 @@ export const styles = createStyles({
     background: color.backL,
     ...size.full,
     ...flex.columnRow,
+    gap: '0.25rem',
   },
   tabTitle: {
     minHeight: thickness,
@@ -78,7 +79,7 @@ export const styles = createStyles({
     userSelect: 'none',
   },
   tabTitleOn: {
-    minHeight: thickness ,
+    minHeight: thickness,
     minwidth: thickness,
     ...flex.between,
     background: color.secondaryL,

@@ -11,6 +11,7 @@ import {
 } from 'components'
 import { color, styles, theme } from 'theme/left-tab'
 import 'theme/left-tab/styles.css'
+import { CustomSection } from './CustomSection'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum in nostrane potestate est, quid meminerimus? Causa autem fuit huc veniendi ut quosdam hinc libros promerem. At iam decimum annum in spelunca iacet. Illa videamus, quae a te de amicitia dicta sunt. Bork Eam si varietatem diceres, intellegerem, ut etiam non dicente te intellego; Et ille ridens: Video, inquit, quid agas; <a href="http://loripsum.net/" target="_blank">Duo Reges: constructio interrete.</a> </p>
@@ -20,6 +21,8 @@ const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum
 <p>An est aliquid, quod te sua sponte delectet? Cuius ad naturam apta ratio vera illa et summa lex a philosophis dicitur. Quod ea non occurrentia fingunt, vincunt Aristonem; Quid, si etiam iucunda memoria est praeteritorum malorum? Ille vero, si insipiens-quo certe, quoniam tyrannus -, numquam beatus; Nam aliquando posse recte fieri dicunt nulla expectata nec quaesita voluptate. Quid est igitur, inquit, quod requiras? </p>
 
 `
+
+
 const style = {
   minWidth: '100px',
   width: '100%',
@@ -38,24 +41,20 @@ const x = (element: any) => {
 }
 const nodes = {
   pineapple: x(<div style={style}>{'pineapple' + body}</div>),
-  SomeGoodSection: x(<div style={style}>{'SomeGoodSection' + body}</div>),
+  SomeGoodSection: <CustomSection/>,
   lemon: x(<div style={style}>{'lemon' + body}</div>),
   grape: x(<div style={style}>{'grape' + body}</div>),
   kiwifruit: x(<div style={style}>{'kiwifruit' + body}</div>),
 }
 
-export type nodeNames = keyof typeof nodes
-
-export const icons: Record<nodeNames, string> = {
+export const icons: Record<string, string> = {
   SomeGoodSection: 'SomeGoodSection',
   pineapple: '🍍',
   lemon: '🍋',
   grape: '🍇',
   kiwifruit: '🥝',
 }
-
-export const [nodeList, names] = createTilePanes(nodes)
-
+const [nodeList, names] = createTilePanes(nodes)
 export const rootPane: TileBranchSubstance = {
   // children: [
   //   { children: [] },
@@ -76,6 +75,19 @@ export const rootPane: TileBranchSubstance = {
       ],
     },
   ],
+}
+
+function makeid(length: number) {
+  let result = ''
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
+  let counter = 0
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    counter += 1
+  }
+  return result
 }
 
 function PaneIcon({ name }: { name: keyof typeof icons }) {
@@ -114,6 +126,36 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
   )
 }
 
+function CreateSection() {
+  const sectionid: string = 'testSection' + makeid(10)
+  const sectionName: string = 'testSection ' + makeid(10)
+  const getLeaf = useGetLeaf()
+  const move = useMovePane()
+  const leaf = getLeaf(sectionid)
+  return (
+    <div>
+      <span style={{ color: '#ffffff' }}>Some section</span>
+      <button
+        onClick={() => {
+          const isShowing = !!leaf
+          if (!isShowing) {
+            nodeList.push({
+              name: sectionid,
+              child: <p>{'Some Section ' + sectionName}</p>,
+            })
+            icons[sectionid] = sectionName
+
+            move(sectionid, isShowing ? null : [0, 0])
+          }
+          console.log('Clicked me!', names)
+        }}
+      >
+        Click me to create section
+      </button>
+    </div>
+  )
+}
+
 export const LeftTabDemo: React.FC = () => {
   console.log('rebuild view')
   const localRoot = localStorage.getItem(localStorageKey)
@@ -140,6 +182,7 @@ export const LeftTabDemo: React.FC = () => {
           {(Object.keys(icons) as (keyof typeof icons)[]).map((name) => (
             <PaneIcon key={name} {...{ name }} />
           ))}
+          <CreateSection></CreateSection>
         </div>
 
         <div

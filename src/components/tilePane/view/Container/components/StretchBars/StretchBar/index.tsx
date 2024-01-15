@@ -46,7 +46,6 @@ const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
 
   const bind = useDrag(
     ({ down, delta: [mx, my] }) => {
-      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@dragbar', mx, my)
       down && moveBar(mx, my)
     },
     { enabled: true }

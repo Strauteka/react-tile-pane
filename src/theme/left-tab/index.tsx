@@ -14,13 +14,26 @@ export const tabBarConfig: (
   defaultIcon: string
 ) => TabsBarConfig = (icons, defaultIcon) => ({
   render({ tabs, onTab, action }) {
+    tabs.forEach((entry) => {
+      console.log('childs', entry)
+    })
+    const isShow = tabs.find(entry => entry !== 'grape')
     return (
-      <div style={styles.tabBar}>
-        <div style={styles.tabAlign}>{tabs.map(tabBar)}</div>
-        ${onTab !== -1 && <div onClick={() => action.closeTab(onTab)} style={styles.closeButton}>
-          ×
-        </div>}
-      </div>
+      <>
+        {isShow && (
+          <div style={styles.tabBar}>
+            <div style={styles.tabAlign}>{tabs.map(tabBar)}</div>
+            {onTab !== -1 && (
+              <div
+                onClick={() => action.closeTab(onTab)}
+                style={styles.closeButton}
+              >
+                ×
+              </div>
+            )}
+          </div>
+        )}
+      </>
     )
     function tabBar(tab: PaneName, i: number) {
       return (
@@ -30,7 +43,7 @@ export const tabBarConfig: (
             color: '#ffffff',
             display: 'flex',
             flexDirection: 'column',
-            minWidth:'40px'
+            minWidth: '40px',
           }}
           name={tab}
           key={tab}
