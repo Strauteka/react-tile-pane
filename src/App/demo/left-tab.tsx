@@ -24,7 +24,7 @@ const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum
 
 `
 
-const mainContext:{ ref?: MovePane }  = { ref: undefined }
+const mainContext: { ref?: MovePane } = { ref: undefined }
 
 const style = {
   minWidth: '100px',
@@ -144,22 +144,29 @@ export const LeftTabDemo: React.FC = () => {
     // children: [
     //   { children: [] },
     // ],
-    children: [
-      { children: [names.SomeGoodSection, names.pineapple] },
-      {
-        isRow: true,
-        grow: 2,
+    // { children: [names.SomeGoodSection, names.pineapple] },
+
         children: [
           {
             isRow: true,
             children: [
-              { children: [names.lemon, names.grape], grow: 3 },
-              { children: names.kiwifruit },
+              { children: [names.SomeGoodSection, names.pineapple] },
+              {
+                isRow: false,
+                grow: 2,
+                children: [
+                  {
+                    isRow: false,
+                    children: [
+                      { children: [names.lemon, names.grape], grow: 3 },
+                      { children: names.kiwifruit },
+                    ],
+                  },
+                ],
+              },
             ],
           },
         ],
-      },
-    ],
   }
 
   console.log('rebuild view')
