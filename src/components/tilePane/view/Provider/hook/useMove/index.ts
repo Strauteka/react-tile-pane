@@ -39,7 +39,10 @@ export function useMovePane(): MovePane {
       dispatch({ leafToCloseTab: { name } })
       return
     }
-
+    console.log('moving', name, position)
+    console.log('branches', name, branches)
+    console.log('leaves', name, leaves)
+    
     const paneWithPreBox = calcPreBox(
       branches,
       leaves,

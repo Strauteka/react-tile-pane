@@ -1,9 +1,4 @@
-import {
-  DraggableTitle,
-  PaneName,
-  StretchBarConfig,
-  TabsBarConfig,
-} from 'components'
+import { PaneName, StretchBarConfig, TabsBarConfig } from 'components'
 import { color, flex, size, styles, thickness } from './styles'
 
 export * from './styles'
@@ -17,28 +12,18 @@ export const tabBarConfig: (
       <>
         <div style={styles.tabBar}>
           <div style={styles.tabAlign}>{tabs.map(tabBar)}</div>
-          {onTab !== -1 && (
-            <div
-              onClick={() => action.closeTab(onTab)}
-              style={styles.closeButton}
-            >
-              ×
-            </div>
-          )}
         </div>
       </>
     )
     function tabBar(tab: PaneName, i: number) {
       return (
-        <DraggableTitle
+        <div
           style={{
             ...(i === onTab ? styles.tabTitleOn : styles.tabTitle),
             color: '#ffffff',
             display: 'flex',
             flexDirection: 'column',
-            minWidth: '40px',
           }}
-          name={tab}
           key={tab}
           onClick={() => {
             console.log('Tab switching from =>to', tabs[onTab], onTab, tab, i)
@@ -55,7 +40,7 @@ export const tabBarConfig: (
               height: 6,
             }}
           />
-        </DraggableTitle>
+        </div>
       )
     }
   },

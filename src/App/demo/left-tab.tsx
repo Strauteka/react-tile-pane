@@ -8,6 +8,8 @@ import {
   useGetRootNode,
   TileBranchSubstance,
   createTilePanes,
+  TilePane,
+  MovePane,
 } from 'components'
 import { color, styles, theme } from 'theme/left-tab'
 import 'theme/left-tab/styles.css'
@@ -22,6 +24,7 @@ const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum
 
 `
 
+const mainContext:{ ref?: MovePane }  = { ref: undefined }
 
 const style = {
   minWidth: '100px',
@@ -39,13 +42,6 @@ const x = (element: any) => {
     </div>
   )
 }
-const nodes = {
-  pineapple: x(<div style={style}>{'pineapple' + body}</div>),
-  SomeGoodSection: <CustomSection/>,
-  lemon: x(<div style={style}>{'lemon' + body}</div>),
-  grape: x(<div style={style}>{'grape' + body}</div>),
-  kiwifruit: x(<div style={style}>{'kiwifruit' + body}</div>),
-}
 
 export const icons: Record<string, string> = {
   SomeGoodSection: 'SomeGoodSection',
@@ -53,28 +49,6 @@ export const icons: Record<string, string> = {
   lemon: '🍋',
   grape: '🍇',
   kiwifruit: '🥝',
-}
-const [nodeList, names] = createTilePanes(nodes)
-export const rootPane: TileBranchSubstance = {
-  // children: [
-  //   { children: [] },
-  // ],
-  children: [
-    { children: [names.SomeGoodSection, names.pineapple] },
-    {
-      isRow: true,
-      grow: 2,
-      children: [
-        {
-          isRow: true,
-          children: [
-            { children: [names.lemon, names.grape], grow: 3 },
-            { children: names.kiwifruit },
-          ],
-        },
-      ],
-    },
-  ],
 }
 
 function makeid(length: number) {
@@ -93,6 +67,7 @@ function makeid(length: number) {
 function PaneIcon({ name }: { name: keyof typeof icons }) {
   const getLeaf = useGetLeaf()
   const move = useMovePane()
+  mainContext.ref = move
   const leaf = getLeaf(name)
   const isShowing = !!leaf
   return (
@@ -126,7 +101,7 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
   )
 }
 
-function CreateSection() {
+function CreateSection(props: { nodeList: TilePane[] }) {
   const sectionid: string = 'testSection' + makeid(10)
   const sectionName: string = 'testSection ' + makeid(10)
   const getLeaf = useGetLeaf()
@@ -139,7 +114,7 @@ function CreateSection() {
         onClick={() => {
           const isShowing = !!leaf
           if (!isShowing) {
-            nodeList.push({
+            props.nodeList.push({
               name: sectionid,
               child: <p>{'Some Section ' + sectionName}</p>,
             })
@@ -147,7 +122,6 @@ function CreateSection() {
 
             move(sectionid, isShowing ? null : [0, 0])
           }
-          console.log('Clicked me!', names)
         }}
       >
         Click me to create section
@@ -157,13 +131,49 @@ function CreateSection() {
 }
 
 export const LeftTabDemo: React.FC = () => {
+  console.log('aaaaasss', TileProvider)
+  const nodes = {
+    pineapple: x(<div style={style}>{'pineapple' + body}</div>),
+    SomeGoodSection: <CustomSection movePane={mainContext} />,
+    lemon: x(<div style={style}>{'lemon' + body}</div>),
+    grape: x(<div style={style}>{'grape' + body}</div>),
+    kiwifruit: x(<div style={style}>{'kiwifruit' + body}</div>),
+  }
+  const [nodeList, names] = createTilePanes(nodes)
+  const rootPane: TileBranchSubstance = {
+    // children: [
+    //   { children: [] },
+    // ],
+    children: [
+      { children: [names.SomeGoodSection, names.pineapple] },
+      {
+        isRow: true,
+        grow: 2,
+        children: [
+          {
+            isRow: true,
+            children: [
+              { children: [names.lemon, names.grape], grow: 3 },
+              { children: names.kiwifruit },
+            ],
+          },
+        ],
+      },
+    ],
+  }
+
   console.log('rebuild view')
   const localRoot = localStorage.getItem(localStorageKey)
   const root = localRoot
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : rootPane
+
   return (
-    <TileProvider tilePanes={nodeList} rootNode={root} {...theme(icons)}>
+    <TileProvider
+      tilePanes={createTilePanes(nodes)[0]}
+      rootNode={root}
+      {...theme(icons)}
+    >
       <div
         style={{
           display: 'flex',
@@ -182,7 +192,7 @@ export const LeftTabDemo: React.FC = () => {
           {(Object.keys(icons) as (keyof typeof icons)[]).map((name) => (
             <PaneIcon key={name} {...{ name }} />
           ))}
-          <CreateSection></CreateSection>
+          <CreateSection nodeList={nodeList}></CreateSection>
         </div>
 
         <div

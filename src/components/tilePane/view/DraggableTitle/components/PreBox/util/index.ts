@@ -75,6 +75,8 @@ export function calcPreBox(
     }
   }
   console.log('@@@@@@@@@', 12312)
+  branches.forEach(entry => {console.log( 'BRANCHES', entry)})
+  leaves.forEach(entry => {console.log( 'LEAVES', entry)})
   const leaveBranch = leaves.find(notUsed => true);
   console.log('@@@@@@@@@', leaveBranch)
   if(leaveBranch){
