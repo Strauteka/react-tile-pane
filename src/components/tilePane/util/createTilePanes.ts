@@ -1,9 +1,11 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { TilePane } from '..'
 
-export function createTilePanes<Keys extends string = string>(obj: {
-  [K in Keys]: ReactNode
-}): [TilePane[], {[name:string]: string}] {
+export function createTilePanes<
+  Keys extends string = string
+>(obj: {
+  [K in Keys]: ReactNode | any
+}): [TilePane[], { [name: string]: string }] {
   const map = {} as any
   const list: TilePane[] = []
   Object.keys(obj).forEach((key) => {

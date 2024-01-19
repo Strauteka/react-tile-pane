@@ -9,7 +9,7 @@ import {
   TileBranchSubstance,
   createTilePanes,
   TilePane,
-  MovePane,
+  TileProviderContext,
 } from 'components'
 import { color, styles, theme } from 'theme/left-tab'
 import 'theme/left-tab/styles.css'
@@ -24,7 +24,10 @@ const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum
 
 `
 
-const mainContext: { ref?: MovePane } = { ref: undefined }
+const mainContext: TileProviderContext = {
+  superContext: undefined,
+  moveRef: undefined,
+}
 
 const style = {
   minWidth: '100px',
@@ -67,7 +70,7 @@ function makeid(length: number) {
 function PaneIcon({ name }: { name: keyof typeof icons }) {
   const getLeaf = useGetLeaf()
   const move = useMovePane()
-  mainContext.ref = move
+  mainContext.moveRef = move
   const leaf = getLeaf(name)
   const isShowing = !!leaf
   return (
@@ -134,7 +137,7 @@ export const LeftTabDemo: React.FC = () => {
   console.log('aaaaasss', TileProvider)
   const nodes = {
     pineapple: x(<div style={style}>{'pineapple' + body}</div>),
-    SomeGoodSection: <CustomSection movePane={mainContext} />,
+    SomeGoodSection: CustomSection,
     lemon: x(<div style={style}>{'lemon' + body}</div>),
     grape: x(<div style={style}>{'grape' + body}</div>),
     kiwifruit: x(<div style={style}>{'kiwifruit' + body}</div>),
@@ -146,27 +149,27 @@ export const LeftTabDemo: React.FC = () => {
     // ],
     // { children: [names.SomeGoodSection, names.pineapple] },
 
+    children: [
+      {
+        isRow: true,
         children: [
+          { children: [names.SomeGoodSection, names.pineapple] },
           {
-            isRow: true,
+            isRow: false,
+            grow: 2,
             children: [
-              { children: [names.SomeGoodSection, names.pineapple] },
               {
                 isRow: false,
-                grow: 2,
                 children: [
-                  {
-                    isRow: false,
-                    children: [
-                      { children: [names.lemon, names.grape], grow: 3 },
-                      { children: names.kiwifruit },
-                    ],
-                  },
+                  { children: [names.lemon, names.grape], grow: 3 },
+                  { children: names.kiwifruit },
                 ],
               },
             ],
           },
         ],
+      },
+    ],
   }
 
   console.log('rebuild view')
@@ -176,11 +179,7 @@ export const LeftTabDemo: React.FC = () => {
     : rootPane
 
   return (
-    <TileProvider
-      tilePanes={createTilePanes(nodes)[0]}
-      rootNode={root}
-      {...theme(icons)}
-    >
+    <TileProvider tilePanes={nodeList} rootNode={root} {...theme(icons)}>
       <div
         style={{
           display: 'flex',

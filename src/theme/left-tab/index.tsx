@@ -13,6 +13,7 @@ export const tabBarConfig: (
   defaultIcon: string
 ) => TabsBarConfig = (icons, defaultIcon) => ({
   render({ tabs, onTab, action }) {
+    console.log('bulding tabbar', tabs, onTab, action);
     return (
       <>
         <div style={styles.tabBar}>

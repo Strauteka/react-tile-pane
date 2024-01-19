@@ -16,14 +16,10 @@ export function calcPreBox(
   innerPosition: [number, number],
   config: TabsBarConfig['preBox']
 ): PaneWithPreBox | undefined {
-  console.log('aaaaabbbb')
   if (!innerPosition) return
   const [x, y] = innerPosition
-  console.log('aaaaa', innerPosition)
   for (const { leaf, rect: titleRect, index } of leafWithTitleRects) {
-    console.log('staffxBefor', titleRect, innerPosition)
     if (isInPane(titleRect, innerPosition)) {
-      console.log('staffx', titleRect, innerPosition)
       const isEnd = config?.isRow
         ? titleRect.left + titleRect.width / 2 < x
         : titleRect.top + titleRect.height / 2 < y
@@ -39,9 +35,7 @@ export function calcPreBox(
   }
 
   for (const pane of branches) {
-    console.log('staffxzzzz', pane)
     if (isInPane(pane.rect, innerPosition)) {
-      console.log('@@@@@@@@@', pane)
       const { left, top, width, height } = pane.rect
       if (pane.isRow) {
         if (y - top < height * branchProportion)
@@ -57,11 +51,8 @@ export function calcPreBox(
 
     }
   }
-  console.log('@@@@@@@@@', 123)
   for (const pane of leaves) {
-    console.log('sdsdasfasf', pane)
     if (isInPane(pane.rect, innerPosition)) {
-      console.log('123445', pane)
       const { left, top, width, height } = pane.rect
       if (x - left < width * leafProportion)
         return { leaf: { target: pane, into: 'left' } }
@@ -74,11 +65,8 @@ export function calcPreBox(
       return { leaf: { target: pane, into: 'center' } }
     }
   }
-  console.log('@@@@@@@@@', 12312)
-  branches.forEach(entry => {console.log( 'BRANCHES', entry)})
-  leaves.forEach(entry => {console.log( 'LEAVES', entry)})
+  
   const leaveBranch = leaves.find(notUsed => true);
-  console.log('@@@@@@@@@', leaveBranch)
   if(leaveBranch){
     return  { leaf: { target: leaveBranch, into: 'center' } }
   }

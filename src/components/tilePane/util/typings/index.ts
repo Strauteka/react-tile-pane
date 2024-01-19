@@ -12,7 +12,7 @@ export type MovingTab = {
 
 export type TilePane = {
   name: PaneName
-  child: React.ReactNode
+  child: React.ReactNode | React.Component<unknown, unknown>
 }
 
 export interface TilePaneWithRect {

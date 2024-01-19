@@ -1,11 +1,10 @@
-import { increasingID, PaneName } from '../..'
+import { increasingID, isTileLeaf, PaneName } from '../..'
 import {
   TileBranchSubstance,
   TileLeafSubstance,
   TileNodeConstructor,
   TileNodeRect,
 } from './typings'
-import { branchDehydrate, leafDehydrate } from './util'
 import { branchSetChildren, leafSetChildren } from './util/setChildren'
 
 export class TileNode {
@@ -31,7 +30,15 @@ export class TileLeaf extends TileNode {
     super(...rest)
   }
   public setChildren = leafSetChildren
-  public dehydrate = leafDehydrate
+  public dehydrate = (): TileLeafSubstance => {
+    this.children
+    return {
+      id: this.id,
+      onTab: this.onTab,
+      children: this.children,
+      grow: this.grow,
+    }
+  }
 }
 
 export class TileBranch extends TileNode {
@@ -46,7 +53,18 @@ export class TileBranch extends TileNode {
   }
 
   public setChildren = branchSetChildren
-  public dehydrate = branchDehydrate
+  public dehydrate(this: TileBranch): TileBranchSubstance {
+    const childrenDehydrated = this.children.map((it) =>
+      isTileLeaf(it) ? it.dehydrate() : it.dehydrate()
+    )
+
+    return {
+      id: this.id,
+      children: childrenDehydrated,
+      isRow: this.isRow,
+      grow: this.grow,
+    }
+  }
 }
 
 export * from './typings'

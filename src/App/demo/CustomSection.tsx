@@ -3,14 +3,15 @@ import {
   TileBranchSubstance,
   TileContainer,
   TileProvider,
+  TileProviderContext,
   createTilePanes,
   useGetRootNode,
 } from 'components'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { styles, theme } from './notDragable'
 import { CustomSection2 } from './CustomSection2'
 type CustomSectionState = {}
-type CustomSectionProps = { movePane: {ref?: MovePane} }
+type CustomSectionProps = { tileProviderContext: TileProviderContext }
 
 const body = ` Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis dui et libero iaculis aliquet. Suspendisse ultrices nisi vel hendrerit pretium. Phasellus eu mi ornare, venenatis nisi id, fermentum diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec varius nisl et nunc faucibus, quis sagittis quam pulvinar. Fusce vel auctor dui. Donec vehicula cursus est, tempus condimentum lectus accumsan ac.
 
@@ -59,7 +60,7 @@ export class CustomSection extends React.Component<
         </div>
       ),
       bbb: <div style={style}>{'test2' + body}</div>,
-      kiwifruit: <CustomSection2 movePane={this.props.movePane} />,
+      kiwifruit: CustomSection2,
     }
     const [nodeList, names] = createTilePanes(nodes)
     const localRoot = localStorage.getItem('SomeOtherKey')
@@ -81,7 +82,7 @@ export class CustomSection extends React.Component<
               height: '100%',
             }}
           >
-            <TileContainer style={styles.container} />
+            <TileContainer tileProviderContext={this.props.tileProviderContext} style={styles.container} />
           </div>
           <AutoSaveLayout />
           <div />

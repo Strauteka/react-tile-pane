@@ -3,15 +3,17 @@ import {
   TileBranchSubstance,
   TileContainer,
   TileProvider,
+  TileProviderContext,
   createTilePanes,
   useGetLeaf,
   useGetRootNode,
-  useMovePane,
 } from 'components'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { styles, theme } from './custom'
-type CustomSection2State = {input: string}
-type CustomSection2Props = { movePane: { ref?: MovePane } }
+type CustomSection2State = { input: string }
+type CustomSection2Props = {
+  tileProviderContext: TileProviderContext
+}
 
 const body = `asd12344`
 const style = {
@@ -25,17 +27,13 @@ const style = {
 
 export const rootPane: TileBranchSubstance = {
   children: [
-    { children: [
-      { children: 'SubSection1'}] },
+    { children: [{ children: 'SubSection1' }] },
     {
       grow: 2,
       children: [
         {
           isRow: true,
-          children: [
-            { children: 'SubSection2'},
-            { children: 'SubSection3'},
-          ],
+          children: [{ children: 'SubSection2' }, { children: 'SubSection3' }],
         },
       ],
     },
@@ -48,13 +46,19 @@ export class CustomSection2 extends React.Component<
 > {
   constructor(props: CustomSection2Props) {
     super(props)
+
+    console.log('CONSTRUCTOR!!!!! CustomSection2Props' )
   }
   shouldComponentUpdate(
     nextProps: CustomSection2Props,
     nextState: CustomSection2State
   ) {
-    console.log('CustomSection shouldComponentUpdate', nextProps)
+    console.log('11111111111111CustomSection shouldComponentUpdate', this.constructor.name)
     return true
+  }
+
+  test = () => {
+    console.log('testing component!')
   }
 
   OpenSectionStuff = () => {
@@ -62,7 +66,6 @@ export class CustomSection2 extends React.Component<
     const getLeaf = useGetLeaf()
     const leaf = getLeaf(sectionX)
     const isShowing = !!leaf
-    console.log('@@@@@@@@@@@!!!!!!!!!!!!!!!!', isShowing, leaf)
     return (
       <div
         style={{
@@ -80,9 +83,16 @@ export class CustomSection2 extends React.Component<
         ClickME!
         <div
           onClick={() => {
-            console.log('asd')
-            if (this.props.movePane.ref) {
-              this.props.movePane.ref(sectionX, [0, 0])
+            if (
+              this.props.tileProviderContext &&
+              this.props.tileProviderContext.superContext &&
+              this.props.tileProviderContext.superContext.moveRef
+            ) {
+              this.props.tileProviderContext.superContext.moveRef(
+                sectionX,
+                [0, 0],
+                { someText: '123' }
+              )
             } else {
               console.log('Reference NOT FOUND!!')
             }
@@ -107,7 +117,11 @@ export class CustomSection2 extends React.Component<
         </div>
       ),
       SubSection2: <div style={style}>{'test2' + body}</div>,
-      SubSection3: <div style={style}><this.OpenSectionStuff /></div>,
+      SubSection3: (
+        <div style={style}>
+          <this.OpenSectionStuff />
+        </div>
+      ),
     }
 
     const [nodeList, names] = createTilePanes(nodes)
@@ -135,7 +149,10 @@ export class CustomSection2 extends React.Component<
               height: '100%',
             }}
           >
-            <TileContainer style={styles.container} />
+            <TileContainer
+              tileProviderContext={this.props.tileProviderContext}
+              style={styles.container}
+            />
           </div>
           <AutoSaveLayout />
           <div />

@@ -7,9 +7,10 @@ const StretchBarsInner: React.FC = () => {
   return useMemo(
     () => (
       <>
-        {bars.map((bar) => (
-          <StretchBar bar={bar} key={bar.nextPane.id} />
-        ))}
+        {bars.map((bar, key) => {
+          console.log('stretchbarx',bar.nextPane.id, key)
+          return <StretchBar bar={bar} key={key + bar.nextPane.id} />
+        })}
       </>
     ),
     [bars]

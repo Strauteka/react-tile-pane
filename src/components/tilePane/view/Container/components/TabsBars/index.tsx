@@ -5,13 +5,14 @@ import { useTabs } from './hook'
 const TabsBarsInner: React.FC = () => {
   const tabBars = useTabs()
   return useMemo(
-    () => (
+    () => {
+      return (
       <>
-        {tabBars.map((tabBar) => (
-          <TabsBar key={tabBar.leaf.id} {...tabBar} />
+        {tabBars.map((tabBar, key) => (
+          <TabsBar key={key + tabBar.leaf.id} {...tabBar} />
         ))}
       </>
-    ),
+    )},
     [tabBars]
   )
 }

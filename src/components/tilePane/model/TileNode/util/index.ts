@@ -1,6 +1,5 @@
 import { TileBranch, TileNodeRect } from '..'
 
-export * from './dehydrate'
 
 export function calcChildGrows(children: { grow?: number }[]) {
   const growsSolid = children.map((c) => c.grow ?? 1)
