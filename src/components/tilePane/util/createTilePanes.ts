@@ -11,7 +11,6 @@ export function createTilePanes<
   Object.keys(obj).forEach((key) => {
     map[key] = key
     list.push({
-      idx: 0,
       name: key,
       child: obj[key as Keys],
     })

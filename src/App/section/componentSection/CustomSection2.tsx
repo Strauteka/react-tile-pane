@@ -9,7 +9,7 @@ import {
   useGetRootNode,
 } from 'components'
 import React from 'react'
-import { styles, theme } from './custom'
+import { styles, theme } from '../../demo/custom'
 type CustomSection2State = { input: string }
 type CustomSection2Props = {
   tileProviderContext: TileProviderContext

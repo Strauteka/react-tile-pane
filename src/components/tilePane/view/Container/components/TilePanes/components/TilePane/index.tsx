@@ -1,5 +1,6 @@
 import React, { memo, useContext, useMemo } from 'react'
 import {
+  Constr,
   PaneContext,
   TilePaneWithRect,
   TileProviderContext,
@@ -41,7 +42,7 @@ export interface TileWrapperProps {
     className?: string
     style?: React.CSSProperties
     styled?: React.CSSProperties
-    content: React.ReactNode | React.Component<unknown, unknown, unknown> | React.FC<unknown>
+    content: React.ReactNode | Constr<React.Component<any, any>> |  React.FC<any>
   }
 }
 

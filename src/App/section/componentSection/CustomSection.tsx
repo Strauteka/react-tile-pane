@@ -8,8 +8,9 @@ import {
   useGetRootNode,
 } from 'components'
 import React from 'react'
-import { styles, theme } from './notDragable'
+import { styles, theme } from '../../demo/notDragable'
 import { CustomSection2 } from './CustomSection2'
+
 type CustomSectionState = {}
 type CustomSectionProps = { tileProviderContext: TileProviderContext }
 

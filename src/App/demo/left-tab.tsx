@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import {
   DraggableTitle,
   TileContainer,
@@ -7,71 +7,39 @@ import {
   useMovePane,
   useGetRootNode,
   TileBranchSubstance,
-  createTilePanes,
+  // createTilePanes,
   TilePane,
   TileProviderContext,
 } from 'components'
 import { color, styles, theme } from 'theme/left-tab'
 import 'theme/left-tab/styles.css'
-import { CustomSection } from './CustomSection'
+
+import { SectionConfiguration, configuration } from './SectionConfiguration'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
-const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum in nostrane potestate est, quid meminerimus? Causa autem fuit huc veniendi ut quosdam hinc libros promerem. At iam decimum annum in spelunca iacet. Illa videamus, quae a te de amicitia dicta sunt. Bork Eam si varietatem diceres, intellegerem, ut etiam non dicente te intellego; Et ille ridens: Video, inquit, quid agas; <a href="http://loripsum.net/" target="_blank">Duo Reges: constructio interrete.</a> </p>
-
-<p>Sed plane dicit quod intellegit. Claudii libidini, qui tum erat summo ne imperio, dederetur. Traditur, inquit, ab Epicuro ratio neglegendi doloris. In qua quid est boni praeter summam voluptatem, et eam sempiternam? At iam decimum annum in spelunca iacet. <b>Quae cum dixisset paulumque institisset, Quid est?</b> </p>
-
-<p>An est aliquid, quod te sua sponte delectet? Cuius ad naturam apta ratio vera illa et summa lex a philosophis dicitur. Quod ea non occurrentia fingunt, vincunt Aristonem; Quid, si etiam iucunda memoria est praeteritorum malorum? Ille vero, si insipiens-quo certe, quoniam tyrannus -, numquam beatus; Nam aliquando posse recte fieri dicunt nulla expectata nec quaesita voluptate. Quid est igitur, inquit, quod requiras? </p>
-
-`
 
 const mainContext: TileProviderContext = {
   superContext: undefined,
   moveRef: undefined,
 }
 
-const style = {
-  minWidth: '100px',
-  width: '100%',
-  height: '100%',
-  overflowY: 'scroll',
-  paddingRight: '17px',
-  boxSizing: 'content-box',
-} as any
+export function createTilePanes<Keys extends string = string>(configuration: {
+  [K in Keys]: SectionConfiguration<unknown>
+}): TilePane[] {
+  const tilePanes: TilePane[] = Object.entries(configuration)
+    .map((entry) => ({ key: entry[0], value: entry[1] as any }))
+    .map((entry) => {
+      return { name: entry.key, child: entry.value.section }
+    })
 
-const x = (element: any) => {
-  return (
-    <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
-      {element}
-    </div>
-  )
+  return tilePanes
 }
 
-export const icons: Record<string, string> = {
-  SomeGoodSection: 'SomeGoodSection',
-  pineapple: '🍍',
-  lemon: '🍋',
-  grape: '🍇',
-  kiwifruit: '🥝',
-}
-
-function makeid(length: number) {
-  let result = ''
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  const charactersLength = characters.length
-  let counter = 0
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
-    counter += 1
-  }
-  return result
-}
-
-function PaneIcon({ name }: { name: keyof typeof icons }) {
+function PaneIcon(props: { name: string; title: string }) {
   const getLeaf = useGetLeaf()
   const move = useMovePane()
   mainContext.moveRef = move
-  const leaf = getLeaf(name)
+  const leaf = getLeaf(props.name)
   const isShowing = !!leaf
   return (
     <div
@@ -88,10 +56,10 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
       }}
     >
       <div style={{ cursor: 'move' }}>
-        <DraggableTitle name={name}>{icons[name]}</DraggableTitle>
+        <DraggableTitle name={props.name}>{props.title}</DraggableTitle>
       </div>
       <div
-        onClick={() => move(name, isShowing ? null : [0, 0])}
+        onClick={() => move(props.name, isShowing ? null : [0, 0])}
         style={{
           cursor: 'pointer',
           background: isShowing ? color.primary : color.secondary,
@@ -104,71 +72,41 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
   )
 }
 
-function CreateSection(props: { nodeList: TilePane[] }) {
-  const sectionName: string = 'testSection'
-  const move = useMovePane()
-  return (
-    <div>
-      <span style={{ color: '#ffffff' }}>Some section</span>
-      <button
-        onClick={() => {
-          props.nodeList.push({
-            name: sectionName,
-            idx: 0,
-            child: <p>{'Some Section ' + sectionName}</p>,
-          })
-          icons[sectionName] = sectionName
+// function CreateSection(props: { nodeList: TilePane[] }) {
+//   const sectionName: string = 'testSection'
+//   const move = useMovePane()
+//   return (
+//     <div>
+//       <span style={{ color: '#ffffff' }}>Some section</span>
+//       <button
+//         onClick={() => {
+//           props.nodeList.push({
+//             name: sectionName,
+//             idx: 0,
+//             child: <p>{'Some Section ' + sectionName}</p>,
+//           })
+//           icons[sectionName] = sectionName
 
-          move(sectionName, [0, 0])
-        }}
-      >
-        Click me to create section
-      </button>
-    </div>
-  )
-}
-
-const functionalTest: React.FC = (props: {}) => {
-  return x(<div style={style}>{'kiwifruit Simple FunctionalComponentTEst!'}</div>)
-}
+//           move(sectionName, [0, 0])
+//         }}
+//       >
+//         Click me to create section
+//       </button>
+//     </div>
+//   )
+// }
 
 export const LeftTabDemo: React.FC = () => {
-  console.log('aaaaasss', TileProvider)
-  const nodes = {
-    pineapple: x(<div style={style}>{'pineapple' + body}</div>),
-    SomeGoodSection: CustomSection,
-    lemon: x(<div style={style}>{'lemon' + body}</div>),
-    grape: x(<div style={style}>{'grape' + body}</div>),
-    kiwifruit: functionalTest,
-  }
-  const [nodeList, names] = createTilePanes(nodes)
+  const nodeList = createTilePanes(configuration)
+  const icons = Object.entries(configuration).reduce(
+    (c: { [name: string]: string }, v) => {
+      c[v[0]] = v[1].tabTitle
+      return c
+    },
+    {}
+  )
   const rootPane: TileBranchSubstance = {
-    // children: [
-    //   { children: [] },
-    // ],
-    // { children: [names.SomeGoodSection, names.pineapple] },
-
-    children: [
-      {
-        isRow: true,
-        children: [
-          { children: [names.SomeGoodSection, names.pineapple] },
-          {
-            isRow: false,
-            grow: 2,
-            children: [
-              {
-                isRow: false,
-                children: [
-                  { children: [names.lemon, names.grape], grow: 3 },
-                  { children: names.kiwifruit },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    children: [{ children: [] }],
   }
 
   console.log('rebuild view')
@@ -194,10 +132,10 @@ export const LeftTabDemo: React.FC = () => {
             background: color.backL,
           }}
         >
-          {(Object.keys(icons) as (keyof typeof icons)[]).map((name) => (
-            <PaneIcon key={name} {...{ name }} />
+          {Object.entries(icons).map((name) => (
+            <PaneIcon key={name[0]} name={name[0]} title={name[1]} />
           ))}
-          <CreateSection nodeList={nodeList}></CreateSection>
+          {/* <CreateSection nodeList={nodeList}></CreateSection> */}
         </div>
 
         <div
