@@ -41,7 +41,7 @@ export interface TileWrapperProps {
     className?: string
     style?: React.CSSProperties
     styled?: React.CSSProperties
-    content: React.ReactNode | React.Component<unknown, unknown, any>
+    content: React.ReactNode | React.Component<unknown, unknown, unknown> | React.FC<unknown>
   }
 }
 
@@ -51,7 +51,7 @@ export class TileWrapper extends React.Component<TileWrapperProps, {}> {
   }
   shouldComponentUpdate(nextProps: TileWrapperProps, nextState: {}) {
     const tabsMoving =
-    (nextProps.tilePaneProps.pane.rect != null) !==
+      (nextProps.tilePaneProps.pane.rect != null) !==
       (this.props.tilePaneProps.pane.rect != null)
     return tabsMoving || nextProps.tilePaneProps.pane.rect != null
   }
@@ -62,11 +62,15 @@ export class TileWrapper extends React.Component<TileWrapperProps, {}> {
         className={this.props.hooks.className}
         style={{ ...this.props.hooks.style, ...this.props.hooks.styled }}
       >
-        {React.isValidElement(this.props.hooks.content)
-          ? this.props.hooks.content
-          : React.createElement(this.props.hooks.content as any, {
-              tileProviderContext: this.props.tilePaneProps.tileProviderContext,
-            })}
+        {React.isValidElement(this.props.hooks.content) ? (
+          this.props.hooks.content
+        ) : this.props.hooks.content != null ? (
+          React.createElement(this.props.hooks.content as any, {
+            tileProviderContext: this.props.tilePaneProps.tileProviderContext,
+          })
+        ) : (
+          <></>
+        )}
       </div>
     )
   }

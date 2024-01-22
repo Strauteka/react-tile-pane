@@ -8,7 +8,6 @@ const StretchBarsInner: React.FC = () => {
     () => (
       <>
         {bars.map((bar, key) => {
-          console.log('stretchbarx',bar.nextPane.id, key)
           return <StretchBar bar={bar} key={key + bar.nextPane.id} />
         })}
       </>

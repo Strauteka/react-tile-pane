@@ -1,7 +1,7 @@
 import React from 'react'
 import { TileLeaf, TileNodeRect } from '../..'
 
-export type PaneName = string | number
+export type PaneName = string
 
 export type MovingTab = {
   name: PaneName
@@ -12,7 +12,8 @@ export type MovingTab = {
 
 export type TilePane = {
   name: PaneName
-  child: React.ReactNode | React.Component<unknown, unknown>
+  idx: number
+  child: React.ReactNode | React.Component<unknown, unknown> | React.FC<unknown>
 }
 
 export interface TilePaneWithRect {

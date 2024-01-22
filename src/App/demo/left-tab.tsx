@@ -105,32 +105,31 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
 }
 
 function CreateSection(props: { nodeList: TilePane[] }) {
-  const sectionid: string = 'testSection' + makeid(10)
-  const sectionName: string = 'testSection ' + makeid(10)
-  const getLeaf = useGetLeaf()
+  const sectionName: string = 'testSection'
   const move = useMovePane()
-  const leaf = getLeaf(sectionid)
   return (
     <div>
       <span style={{ color: '#ffffff' }}>Some section</span>
       <button
         onClick={() => {
-          const isShowing = !!leaf
-          if (!isShowing) {
-            props.nodeList.push({
-              name: sectionid,
-              child: <p>{'Some Section ' + sectionName}</p>,
-            })
-            icons[sectionid] = sectionName
+          props.nodeList.push({
+            name: sectionName,
+            idx: 0,
+            child: <p>{'Some Section ' + sectionName}</p>,
+          })
+          icons[sectionName] = sectionName
 
-            move(sectionid, isShowing ? null : [0, 0])
-          }
+          move(sectionName, [0, 0])
         }}
       >
         Click me to create section
       </button>
     </div>
   )
+}
+
+const functionalTest: React.FC = (props: {}) => {
+  return x(<div style={style}>{'kiwifruit Simple FunctionalComponentTEst!'}</div>)
 }
 
 export const LeftTabDemo: React.FC = () => {
@@ -140,7 +139,7 @@ export const LeftTabDemo: React.FC = () => {
     SomeGoodSection: CustomSection,
     lemon: x(<div style={style}>{'lemon' + body}</div>),
     grape: x(<div style={style}>{'grape' + body}</div>),
-    kiwifruit: x(<div style={style}>{'kiwifruit' + body}</div>),
+    kiwifruit: functionalTest,
   }
   const [nodeList, names] = createTilePanes(nodes)
   const rootPane: TileBranchSubstance = {
