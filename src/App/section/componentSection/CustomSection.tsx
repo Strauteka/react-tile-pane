@@ -10,6 +10,7 @@ import {
 import React from 'react'
 import { styles, theme } from '../../demo/notDragable'
 import { CustomSection2 } from './CustomSection2'
+import { ContextProps } from 'App/demo/SectionConfiguration'
 
 type CustomSectionState = {}
 type CustomSectionProps = { tileProviderContext: TileProviderContext }
@@ -38,14 +39,14 @@ export const rootPane: TileBranchSubstance = {
 }
 
 export class CustomSection extends React.Component<
-  CustomSectionProps,
+  ContextProps<CustomSectionProps>,
   CustomSectionState
 > {
-  constructor(props: CustomSectionProps) {
+  constructor(props: ContextProps<CustomSectionProps>) {
     super(props)
   }
   shouldComponentUpdate(
-    nextProps: CustomSectionProps,
+    nextProps: ContextProps<CustomSectionProps>,
     nextState: CustomSectionState
   ) {
     console.log('CustomSection shouldComponentUpdate', nextProps)
@@ -83,7 +84,10 @@ export class CustomSection extends React.Component<
               height: '100%',
             }}
           >
-            <TileContainer tileProviderContext={this.props.tileProviderContext} style={styles.container} />
+            <TileContainer
+              tileProviderContext={this.props.tileProviderContext}
+              style={styles.container}
+            />
           </div>
           <AutoSaveLayout />
           <div />

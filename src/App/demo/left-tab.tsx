@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import {
   DraggableTitle,
   TileContainer,
@@ -11,8 +11,9 @@ import {
   TilePane,
   TileProviderContext,
 } from 'components'
-import { color, styles, theme } from 'theme/left-tab'
-import 'theme/left-tab/styles.css'
+import { color, styles, theme } from  '../demo/basic'
+import '../demo/basic/styles.css'
+
 
 import { SectionConfiguration, configuration } from './SectionConfiguration'
 
@@ -71,30 +72,6 @@ function PaneIcon(props: { name: string; title: string }) {
     </div>
   )
 }
-
-// function CreateSection(props: { nodeList: TilePane[] }) {
-//   const sectionName: string = 'testSection'
-//   const move = useMovePane()
-//   return (
-//     <div>
-//       <span style={{ color: '#ffffff' }}>Some section</span>
-//       <button
-//         onClick={() => {
-//           props.nodeList.push({
-//             name: sectionName,
-//             idx: 0,
-//             child: <p>{'Some Section ' + sectionName}</p>,
-//           })
-//           icons[sectionName] = sectionName
-
-//           move(sectionName, [0, 0])
-//         }}
-//       >
-//         Click me to create section
-//       </button>
-//     </div>
-//   )
-// }
 
 export const LeftTabDemo: React.FC = () => {
   const nodeList = createTilePanes(configuration)

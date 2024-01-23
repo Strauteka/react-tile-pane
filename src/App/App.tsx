@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css'
 import { LeftTabDemo } from './demo'
 
 const App: React.FC = () => {
