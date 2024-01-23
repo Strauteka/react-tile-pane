@@ -1,16 +1,14 @@
 import {
-  MovePane,
   TileBranchSubstance,
   TileContainer,
   TileProvider,
   TileProviderContext,
-  createTilePanes,
   useGetRootNode,
 } from 'components'
 import React from 'react'
 import { styles, theme } from '../../demo/notDragable'
 import { CustomSection2 } from './CustomSection2'
-import { ContextProps } from 'App/demo/SectionConfiguration'
+import { ContextProps, createTilePanes } from 'App/sectionConfiguration/section'
 
 type CustomSectionState = {}
 type CustomSectionProps = { tileProviderContext: TileProviderContext }
@@ -35,7 +33,7 @@ const style = {
 } as any
 
 export const rootPane: TileBranchSubstance = {
-  children: [{ children: ['aaa', 'bbb', 'kiwifruit'] }],
+  children: [{onTab: 1, children: ['aaa', 'bbb', 'kiwifruit'] }],
 }
 
 export class CustomSection extends React.Component<
@@ -54,7 +52,6 @@ export class CustomSection extends React.Component<
   }
 
   render = () => {
-    console.log('rebuild view')
     const nodes = {
       aaa: (
         <div style={style}>
@@ -64,8 +61,8 @@ export class CustomSection extends React.Component<
       bbb: <div style={style}>{'test2' + body}</div>,
       kiwifruit: CustomSection2,
     }
-    const [nodeList, names] = createTilePanes(nodes)
-    const localRoot = localStorage.getItem('SomeOtherKey')
+    const nodeList = createTilePanes(nodes)
+    const localRoot = localStorage.getItem('SomeOtherKeyxxx')
     const root = localRoot
       ? (JSON.parse(localRoot) as TileBranchSubstance)
       : rootPane
@@ -85,7 +82,7 @@ export class CustomSection extends React.Component<
             }}
           >
             <TileContainer
-              tileProviderContext={this.props.tileProviderContext}
+              context={this.props.context}
               style={styles.container}
             />
           </div>
@@ -98,6 +95,6 @@ export class CustomSection extends React.Component<
 }
 function AutoSaveLayout() {
   const getRootNode = useGetRootNode()
-  localStorage.setItem('SomeOtherKey', JSON.stringify(getRootNode()))
+  localStorage.setItem('SomeOtherKeyxxx', JSON.stringify(getRootNode()))
   return <></>
 }

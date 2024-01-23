@@ -6,40 +6,19 @@ import {
   useGetLeaf,
   useMovePane,
   useGetRootNode,
-  TileBranchSubstance,
-  // createTilePanes,
-  TilePane,
-  TileProviderContext,
+  TileBranchSubstance
 } from 'components'
-import { color, styles, theme } from  '../demo/basic'
+import { color, styles, theme } from '../demo/basic'
 import '../demo/basic/styles.css'
 
-
-import { SectionConfiguration, configuration } from './SectionConfiguration'
+import { section, createTilePanes } from '../sectionConfiguration/section'
+import { named } from 'App/sectionConfiguration/named'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
-
-const mainContext: TileProviderContext = {
-  superContext: undefined,
-  moveRef: undefined,
-}
-
-export function createTilePanes<Keys extends string = string>(configuration: {
-  [K in Keys]: SectionConfiguration<unknown>
-}): TilePane[] {
-  const tilePanes: TilePane[] = Object.entries(configuration)
-    .map((entry) => ({ key: entry[0], value: entry[1] as any }))
-    .map((entry) => {
-      return { name: entry.key, child: entry.value.section }
-    })
-
-  return tilePanes
-}
 
 function PaneIcon(props: { name: string; title: string }) {
   const getLeaf = useGetLeaf()
   const move = useMovePane()
-  mainContext.moveRef = move
   const leaf = getLeaf(props.name)
   const isShowing = !!leaf
   return (
@@ -74,8 +53,8 @@ function PaneIcon(props: { name: string; title: string }) {
 }
 
 export const LeftTabDemo: React.FC = () => {
-  const nodeList = createTilePanes(configuration)
-  const icons = Object.entries(configuration).reduce(
+  const nodeList = createTilePanes(section)
+  const icons = Object.entries(named).reduce(
     (c: { [name: string]: string }, v) => {
       c[v[0]] = v[1].tabTitle
       return c

@@ -13,7 +13,7 @@ export interface TileBranchSubstance {
 export interface TileLeafSubstance {
   id?: TileNodeID
   onTab?: number
-  children: PaneName[] | PaneName
+  children: PaneName[]
   grow?: number | undefined
 }
 

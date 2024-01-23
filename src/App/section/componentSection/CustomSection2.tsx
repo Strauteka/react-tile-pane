@@ -4,12 +4,12 @@ import {
   TileContainer,
   TileProvider,
   TileProviderContext,
-  createTilePanes,
   useGetLeaf,
   useGetRootNode,
 } from 'components'
 import React from 'react'
 import { styles, theme } from '../../demo/custom'
+import { ContextProps, createTilePanes } from 'App/sectionConfiguration/section'
 type CustomSection2State = { input: string }
 type CustomSection2Props = {
   tileProviderContext: TileProviderContext
@@ -27,33 +27,31 @@ const style = {
 
 export const rootPane: TileBranchSubstance = {
   children: [
-    { children: [{ children: 'SubSection1' }] },
+    { children: [{ children: ['SubSection1'] }] },
     {
       grow: 2,
-      children: [
-        {
-          isRow: true,
-          children: [{ children: 'SubSection2' }, { children: 'SubSection3' }],
-        },
-      ],
+      children: [{ children: ['SubSection2'] }, { children: ['SubSection3'] }],
     },
   ],
 }
 
 export class CustomSection2 extends React.Component<
-  CustomSection2Props,
+  ContextProps<CustomSection2Props>,
   CustomSection2State
 > {
-  constructor(props: CustomSection2Props) {
+  constructor(props: ContextProps<CustomSection2Props>) {
     super(props)
 
-    console.log('CONSTRUCTOR!!!!! CustomSection2Props' )
+    console.log('CONSTRUCTOR!!!!! CustomSection2Props')
   }
   shouldComponentUpdate(
-    nextProps: CustomSection2Props,
+    nextProps: ContextProps<CustomSection2Props>,
     nextState: CustomSection2State
   ) {
-    console.log('11111111111111CustomSection shouldComponentUpdate', this.constructor.name)
+    console.log(
+      '11111111111111CustomSection shouldComponentUpdate',
+      this.constructor.name
+    )
     return true
   }
 
@@ -84,15 +82,13 @@ export class CustomSection2 extends React.Component<
         <div
           onClick={() => {
             if (
-              this.props.tileProviderContext &&
-              this.props.tileProviderContext.superContext &&
-              this.props.tileProviderContext.superContext.moveRef
+              this.props.context &&
+              this.props.context.context &&
+              this.props.context.context.moveRef
             ) {
-              this.props.tileProviderContext.superContext.moveRef(
-                sectionX,
-                [0, 0],
-                { someText: '123' }
-              )
+              this.props.context.context.moveRef(sectionX, [0, 0], {
+                someText: '123',
+              })
             } else {
               console.log('Reference NOT FOUND!!')
             }
@@ -124,7 +120,7 @@ export class CustomSection2 extends React.Component<
       ),
     }
 
-    const [nodeList, names] = createTilePanes(nodes)
+    const nodeList = createTilePanes(nodes)
     console.log('rebuild view')
     const localRoot = localStorage.getItem('SomeOtherKey1')
     const root = localRoot
@@ -150,7 +146,7 @@ export class CustomSection2 extends React.Component<
             }}
           >
             <TileContainer
-              tileProviderContext={this.props.tileProviderContext}
+              context={this.props.context}
               style={styles.container}
             />
           </div>

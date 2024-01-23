@@ -82,6 +82,7 @@ export class TileLeaf extends TileNode {
   ) {
     super(...rest)
   }
+  
   public setChildren(children: PaneName[]) {
     this.children = children.filter(
       (child, i) => children.findIndex((it) => it === child) === i

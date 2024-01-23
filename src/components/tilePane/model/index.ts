@@ -4,6 +4,6 @@ export * from './TileNode'
 export * from './StretchBar'
 
 export type TileProviderContext = {
-  superContext?: TileProviderContext
+  context?: TileProviderContext
   moveRef?: MovePane
 }

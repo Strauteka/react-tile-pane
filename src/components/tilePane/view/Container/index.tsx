@@ -4,18 +4,18 @@ import { StretchBars, TabsBars, TilePanes } from './components'
 import { TileProviderContext } from 'components/tilePane/model'
 
 export interface TileContainerProps {
-  tileProviderContext?: TileProviderContext
+  context?: TileProviderContext
   style?: React.CSSProperties
   className?: string
 }
 
 const TileContainerInner: React.FC<TileContainerProps> = ({
-  tileProviderContext,
+  context,
   style = { width: '100%', height: '100%' },
   className,
 }) => {
   const finalTileProviderContext: TileProviderContext = {
-    superContext: tileProviderContext,
+    context: context,
     moveRef: useMovePane(),
   }
   const targetRef = useContext(ContainerRefContext)
