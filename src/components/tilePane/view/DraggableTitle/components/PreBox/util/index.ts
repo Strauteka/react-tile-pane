@@ -65,7 +65,7 @@ export function calcPreBox(
       return { leaf: { target: pane, into: 'center' } }
     }
   }
-  
+
   const leaveBranch = leaves.find(notUsed => true);
   if(leaveBranch){
     return  { leaf: { target: leaveBranch, into: 'center' } }

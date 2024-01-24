@@ -5,5 +5,5 @@ export * from './StretchBar'
 
 export type TileProviderContext = {
   context?: TileProviderContext
-  moveRef?: MovePane
+  moveRef?:  MovePane
 }

@@ -33,7 +33,7 @@ const style = {
 } as any
 
 export const rootPane: TileBranchSubstance = {
-  children: [{onTab: 1, children: ['aaa', 'bbb', 'kiwifruit'] }],
+  children: [{onTab: 2, children: ['aaa', 'bbb', 'kiwifruit'] }],
 }
 
 export class CustomSection extends React.Component<

@@ -5,6 +5,7 @@ import {
   TabsBarConfig,
 } from 'components'
 import { color, flex, size, styles, thickness } from './styles'
+import { unfoldBearer } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer';
 
 export * from './styles'
 
@@ -30,6 +31,7 @@ export const tabBarConfig: (
       </>
     )
     function tabBar(tab: PaneName, i: number) {
+      const bearer = unfoldBearer(tab);
       return (
         <DraggableTitle
           style={{
@@ -47,7 +49,7 @@ export const tabBarConfig: (
           }}
         >
           <div style={{ ...flex.center, ...size.full }}>
-            {icons[tab] ?? defaultIcon}
+            {icons[bearer.paneName] ?? defaultIcon}
           </div>
           <div
             style={{

@@ -20,7 +20,7 @@ export type TabToStopMoving = {
 
 export function stopMovingTab(
   { movingTabs, ...rest }: TileStore,
-  { pane, preBox, props }: TabToStopMoving
+  { pane, preBox }: TabToStopMoving
 ): TileStore {
   const newMovingTabs = removeInArray(movingTabs, (it) => (it.name = pane))
   if (preBox) {
@@ -38,7 +38,6 @@ function insertPane(
   pane: PaneName,
   preBox: PaneWithPreBox,
   nodes: Pick<TileStore, 'branches' | 'leaves'>,
-  props?: unknown
 ) {
   // const { targetNode: node, into } = preBox
   const node = preBox.leaf ?? preBox.branch ?? preBox.tab
@@ -50,7 +49,8 @@ function insertPane(
   const isRow = typeof into === 'number' ? false : row.includes(into)
 
   if (isTileLeaf(target)) {
-    const leaf = leaves.find((it) => it === target)
+    const leaf =
+      leaves.find((it) => it === target) || leaves.find((notUsed) => true)
     if (leaf) {
       if (into === 'center') {
         const newChildren = leaf.children.slice()

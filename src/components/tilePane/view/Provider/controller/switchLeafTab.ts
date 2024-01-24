@@ -10,7 +10,6 @@ export function switchLeafTab(
   const newLeaves = leaves.slice()
   const leaf = newLeaves.find((l) => l === switchLeafTab.leaf)
   if (leaf && leaf.onTab != switchLeafTab.onTab) {
-    console.log('xxxxxxx', leaf.onTab, switchLeafTab.onTab)
     leaf.onTab = switchLeafTab.onTab
   }
   return { leaves: newLeaves, ...rest }

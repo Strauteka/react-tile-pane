@@ -34,7 +34,7 @@ export function useMovePane(): MovePane {
     [leaves, titleRects]
   )
 
-  return (name, position, props) => {
+  return (name, position) => {
     if (!position) {
       dispatch({ leafToCloseTab: { name } })
       return

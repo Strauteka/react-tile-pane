@@ -3,20 +3,24 @@ import { ContainerRefContext, MovingTabsContext, useMovePane } from '..'
 import { StretchBars, TabsBars, TilePanes } from './components'
 import { TileProviderContext } from 'components/tilePane/model'
 
-export interface TileContainerProps {
+export interface TileContainerProps<T> {
   context?: TileProviderContext
+  props?: T
   style?: React.CSSProperties
   className?: string
 }
 
-const TileContainerInner: React.FC<TileContainerProps> = ({
+const TileContainerInner: React.FC<TileContainerProps<unknown>> = ({
   context,
+  props,
   style = { width: '100%', height: '100%' },
   className,
 }) => {
-  const finalTileProviderContext: TileProviderContext = {
+  console.log('flushing custom props', props)
+  const finalContext: TileProviderContext = {
     context: context,
-    moveRef: useMovePane(),
+    moveRef: useMovePane()
+    ,
   }
   const targetRef = useContext(ContainerRefContext)
   const movingTabs = useContext(MovingTabsContext)
@@ -32,11 +36,11 @@ const TileContainerInner: React.FC<TileContainerProps> = ({
         }}
       >
         <TabsBars />
-        <TilePanes tileProviderContext={finalTileProviderContext} />
+        <TilePanes context={finalContext} props = {props} />
         <StretchBars />
       </div>
     )
-  }, [className, movingTabs.length, style, targetRef])
+  }, [className, movingTabs.length, style, targetRef, context, props])
 }
 
 export * from './utils'

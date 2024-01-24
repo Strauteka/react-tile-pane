@@ -4,22 +4,26 @@ import {
   PaneContext,
   TilePaneWithRect,
   TileProviderContext,
+  unfold,
 } from '../../../../../..'
 import { useChild, useStyle } from './hook'
+import { unfoldBearer } from './Bearer'
 
-export interface TilePaneProps {
-  tileProviderContext: TileProviderContext
-  pane: TilePaneWithRect
+export interface TilePaneProps<T> {
+  context: TileProviderContext
+  props: T
+  pane: TilePaneWithRect,
 }
 
-const TilePaneInner: React.FC<TilePaneProps> = ({
+const TilePaneInner: React.FC<TilePaneProps<unknown>> = ({
   pane,
-  tileProviderContext,
+  context,
+  props
 }) => {
   const { style, className } = useContext(PaneContext)
-  const child = useChild(pane.name)
+  const bearer = unfoldBearer(pane.name);
+  const child = useChild(bearer.paneName)
   const styled = useStyle(pane.rect)
-
   return useMemo(
     () => (
       <TileWrapper
@@ -29,28 +33,30 @@ const TilePaneInner: React.FC<TilePaneProps> = ({
           styled: styled,
           content: child,
         }}
-        tilePaneProps={{ pane: pane, tileProviderContext: tileProviderContext }}
+        tilePaneProps={{ pane: pane, context: context, props: props}}
+        childProps={bearer.props}
       />
     ),
-    [child, className, style, styled]
+    [child, className, style, styled, context, props]
   )
 }
 
-export interface TileWrapperProps {
-  tilePaneProps: TilePaneProps
+export interface TileWrapperProps<T> {
+  tilePaneProps: TilePaneProps<T>
   hooks: {
     className?: string
     style?: React.CSSProperties
     styled?: React.CSSProperties
     content: React.ReactNode | Constr<React.Component<any, any>> |  React.FC<any>
   }
+  childProps: T
 }
 
-export class TileWrapper extends React.Component<TileWrapperProps, {}> {
-  constructor(props: TileWrapperProps) {
+export class TileWrapper extends React.Component<TileWrapperProps<unknown>, {}> {
+  constructor(props: TileWrapperProps<unknown>) {
     super(props)
   }
-  shouldComponentUpdate(nextProps: TileWrapperProps, nextState: {}) {
+  shouldComponentUpdate(nextProps: TileWrapperProps<unknown>, nextState: {}) {
     const tabsMoving =
       (nextProps.tilePaneProps.pane.rect != null) !==
       (this.props.tilePaneProps.pane.rect != null)
@@ -67,7 +73,9 @@ export class TileWrapper extends React.Component<TileWrapperProps, {}> {
           this.props.hooks.content
         ) : this.props.hooks.content != null ? (
           React.createElement(this.props.hooks.content as any, {
-            tileProviderContext: this.props.tilePaneProps.tileProviderContext,
+            context: this.props.tilePaneProps.context,
+            props: this.props.tilePaneProps.props,
+            childProps: this.props.childProps
           })
         ) : (
           <></>

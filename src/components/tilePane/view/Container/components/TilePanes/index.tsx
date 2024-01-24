@@ -4,25 +4,21 @@ import { TilePane } from './components'
 import { TileProviderContext } from 'components/tilePane/model'
 
 const TilePanesInner: React.FC<{
-  tileProviderContext: TileProviderContext
-}> = (props: { tileProviderContext: TileProviderContext }) => {
+  context: TileProviderContext
+  props: unknown
+}> = (props: { context: TileProviderContext; props: unknown }) => {
   const panes = usePanes()
   return useMemo(
     () => (
       <>
-        {panes
-        .map((pane) => {
+        {panes.map((pane) => {
           return (
-            <TilePane
-              tileProviderContext={props.tileProviderContext}
-              pane={pane}
-              key={pane.name}
-            />
+            <TilePane context={props.context} pane={pane} key={pane.name} props={props.props} />
           )
         })}
       </>
     ),
-    [panes]
+    [panes, props]
   )
 }
 

@@ -13,8 +13,10 @@ import '../demo/basic/styles.css'
 
 import { section, createTilePanes } from '../sectionConfiguration/section'
 import { named } from 'App/sectionConfiguration/named'
+import {makeBearerString } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
+
 
 function PaneIcon(props: { name: string; title: string }) {
   const getLeaf = useGetLeaf()
@@ -39,7 +41,9 @@ function PaneIcon(props: { name: string; title: string }) {
         <DraggableTitle name={props.name}>{props.title}</DraggableTitle>
       </div>
       <div
-        onClick={() => move(props.name, isShowing ? null : [0, 0])}
+        onClick={() => {
+          move( makeBearerString(props.name,{test: 'yes'}), isShowing ? null : [0, 0])
+        }}
         style={{
           cursor: 'pointer',
           background: isShowing ? color.primary : color.secondary,
