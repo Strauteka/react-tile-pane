@@ -9,6 +9,7 @@ import React from 'react'
 import { styles, theme } from '../../demo/notDragable'
 import { CustomSection2 } from './CustomSection2'
 import { ContextProps, createTilePanes } from 'App/sectionConfiguration/section'
+import { scroolStyle } from '../reactNodeSection/ReactNodeSection'
 
 type CustomSectionState = {}
 type CustomSectionProps = { tileProviderContext: TileProviderContext }

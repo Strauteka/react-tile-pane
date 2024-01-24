@@ -102,6 +102,9 @@ export const LeftTabDemo: React.FC = () => {
           style={{
             width: '100%',
             height: '100%',
+
+          overflowY: 'hidden',// hide vertical
+          overflowX: 'hidden'
           }}
         >
           <TileContainer style={styles.container} />

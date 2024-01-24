@@ -1,9 +1,10 @@
-const style = {
+export const scroolStyle = {
   minWidth: '100px',
+  minHeight: '100px',
   width: '100%',
   height: '100%',
-  overflowY: 'scroll',
-  paddingRight: '17px',
+  overflow: 'auto',
+  // paddingRight: '17px',
   boxSizing: 'content-box',
 } as any
 
@@ -23,6 +24,6 @@ const body = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Primum
 
 `
 
-export const pineapple = x(<div style={style}>{'pineapple' + body}</div>)
-export const lemon = x(<div style={style}>{'lemon' + body}</div>)
-export const grape = x(<div style={style}>{'grape' + body}</div>)
+export const pineapple = x(<div style={scroolStyle}>{'pineapple' + body}</div>)
+export const lemon = x(<div style={scroolStyle}>{'lemon' + body}</div>)
+export const grape = x(<div style={scroolStyle}>{'grape' + body}</div>)

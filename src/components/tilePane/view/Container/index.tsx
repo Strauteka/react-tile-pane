@@ -16,7 +16,6 @@ const TileContainerInner: React.FC<TileContainerProps<unknown>> = ({
   style = { width: '100%', height: '100%' },
   className,
 }) => {
-  console.log('flushing custom props', props)
   const finalContext: TileProviderContext = {
     context: context,
     moveRef: useMovePane()

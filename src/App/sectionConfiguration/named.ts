@@ -1,4 +1,3 @@
-import { PaneName } from 'components'
 
 export interface SectionConfiguration {
   tabTitle: string
