@@ -25,12 +25,10 @@ Suspendisse rutrum eget purus non laoreet. Duis vitae quam vestibulum, congue ne
 Vivamus vestibulum ultrices arcu in vestibulum. Nunc porta bibendum risus, vitae bibendum felis lobortis id. In quis rhoncus orci. Nulla id ultricies purus. Cras ut nibh eget turpis rutrum interdum quis in elit. Proin mollis volutpat nisi id accumsan. Phasellus sodales nec tellus mollis commodo. Quisque sed sodales nunc. Proin vulputate risus varius aliquam posuere.`
 
 const style = {
-  //   minWidth: '200px',
   width: '100%',
   height: '100%',
   overflowY: 'auto',
   overflowX: 'auto',
-  boxSizing: 'content-box',
 } as any
 
 export const rootPane: TileBranchSubstance = {
@@ -44,14 +42,7 @@ export class CustomSection extends React.Component<
   constructor(props: ContextProps<CustomSectionProps>) {
     super(props)
   }
-  shouldComponentUpdate(
-    nextProps: ContextProps<CustomSectionProps>,
-    nextState: CustomSectionState
-  ) {
-    console.log('CustomSection shouldComponentUpdate', nextProps)
-    return true
-  }
-
+  
   render = () => {
     const nodes = {
       aaa: (
@@ -76,10 +67,9 @@ export class CustomSection extends React.Component<
         >
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'row',
               width: '100%',
               height: '100%',
+              
             }}
           >
             <TileContainer

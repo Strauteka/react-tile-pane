@@ -69,7 +69,6 @@ export const LeftTabDemo: React.FC = () => {
     children: [{ children: [] }],
   }
 
-  console.log('rebuild view')
   const localRoot = localStorage.getItem(localStorageKey)
   const root = localRoot
     ? (JSON.parse(localRoot) as TileBranchSubstance)
