@@ -2,9 +2,7 @@ import {
   StretchBarConfig,
   TabsBarConfig,
 } from 'components'
-import {  thickness } from './styles'
 
-export * from './styles'
 
 export const tabBarConfig: (
   icons: Record<string | number, string>,
@@ -16,7 +14,7 @@ export const tabBarConfig: (
       </>
     )
   },
-  thickness,
+  thickness: 0,
   position: 'top',
   preBox: {
     isRow: false,

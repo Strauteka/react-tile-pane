@@ -7,7 +7,7 @@ import {
   useGetRootNode,
 } from 'components'
 import React from 'react'
-import { styles, theme } from '../../demo/custom'
+import { theme } from '../../demo/custom'
 import { ContextProps, createTilePanes } from 'App/sectionConfiguration/section'
 import { makeBearerString } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
 import { named } from 'App/sectionConfiguration/named'
@@ -45,46 +45,25 @@ export const OpenSection: React.FC<any> = (props: {
   const leaf = getLeaf(props.props.result)
   const isShowing = !!leaf
   return (
-    <div style={style}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          // width: 60,
-          background: 'red',
-          fontSize: 25,
-          padding: 10,
-          color: '#ffffff',
-          gap: '1rem',
-        }}
-      >
-        Open {props.props.result} section!
-        <div
-          onClick={() => {
-            if (
-              props.context &&
-              props.context.context &&
-              props.context.context.context &&
-              props.context.context.context.moveRef
-            ) {
-              props.context.context.context.moveRef(
-                makeBearerString(props.props.result),
-                [0, 0]
-              )
-            } else {
-              console.log('Reference NOT FOUND!!')
-            }
-          }}
-          style={{
-            cursor: 'pointer',
-            background: 'green',
-            width: 14,
-            height: 14,
-            borderRadius: 99,
-          }}
-        />
-      </div>
+    <div
+      style={{ ...style, cursor: 'pointer', background: 'green' }}
+      onClick={() => {
+        if (
+          props.context &&
+          props.context.context &&
+          props.context.context.context &&
+          props.context.context.context.moveRef
+        ) {
+          props.context.context.context.moveRef(
+            makeBearerString(props.props.result),
+            [0, 0]
+          )
+        } else {
+          console.log('Reference NOT FOUND!!')
+        }
+      }}
+    >
+      Open {props.props.result} section!
     </div>
   )
 }
@@ -162,7 +141,7 @@ export class CustomSection2 extends React.Component<
           >
             <TileContainer
               context={this.props.context}
-              style={styles.container}
+              style={{ height: 'inherit', width: 'inherit' }}
               props={{
                 result: this.state.result,
                 call: (name: string) => {

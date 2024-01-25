@@ -6,17 +6,16 @@ import {
   useGetLeaf,
   useMovePane,
   useGetRootNode,
-  TileBranchSubstance
+  TileBranchSubstance,
 } from 'components'
 import { color, styles, theme } from '../demo/basic'
 import '../demo/basic/styles.css'
 
 import { section, createTilePanes } from '../sectionConfiguration/section'
 import { named } from 'App/sectionConfiguration/named'
-import {makeBearerString } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
+import { makeBearerString } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
-
 
 function PaneIcon(props: { name: string; title: string }) {
   const getLeaf = useGetLeaf()
@@ -42,7 +41,10 @@ function PaneIcon(props: { name: string; title: string }) {
       </div>
       <div
         onClick={() => {
-          move( makeBearerString(props.name,{test: 'yes'}), isShowing ? null : [0, 0])
+          move(
+            makeBearerString(props.name, { test: 'yes' }),
+            isShowing ? null : [0, 0]
+          )
         }}
         style={{
           cursor: 'pointer',
@@ -99,11 +101,10 @@ export const LeftTabDemo: React.FC = () => {
 
         <div
           style={{
-            width: '100%',
-            height: '100%',
-
-          overflowY: 'hidden',// hide vertical
-          overflowX: 'hidden'
+            width: 'inherit',
+            height: 'inherit',
+            overflowY: 'hidden', // hide vertical
+            overflowX: 'hidden',
           }}
         >
           <TileContainer style={styles.container} />

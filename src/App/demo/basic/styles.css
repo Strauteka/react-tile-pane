@@ -3,11 +3,11 @@
   background: #12171d;
   width: 4px;
   height: 4px;
-  /* transition: 233ms; */
-  /* transition-property: background; */
+  transition: 233ms; 
+   transition-property: background;
 }
 .left-stretch-bar:hover {
   background: #567091;
-  height: 6px;
-  width: 6px;
+  height: 5px;
+  width: 5px;
 }

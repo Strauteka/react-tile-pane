@@ -1,7 +1,7 @@
 import { PaneName, StretchBarConfig, TabsBarConfig } from 'components'
-import { color, flex, size, styles, thickness } from './styles'
+import { color, flex, size, styles, thickness } from '../basic/styles'
 
-export * from './styles'
+export * from '../basic/styles'
 
 export const tabBarConfig: (
   icons: Record<string | number, string>,
