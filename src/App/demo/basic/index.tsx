@@ -64,7 +64,7 @@ export const tabBarConfig: (
   thickness,
   position: 'top',
   preBox: {
-    isRow: false,
+    isRow: true,
     isReverse: false,
   },
 })

@@ -1,5 +1,4 @@
 import {
-  MovePane,
   TileBranchSubstance,
   TileContainer,
   TileProvider,
