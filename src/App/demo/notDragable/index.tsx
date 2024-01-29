@@ -7,6 +7,7 @@ export const tabBarConfig: (
   icons: Record<string | number, string>,
   defaultIcon: string
 ) => TabsBarConfig = (icons, defaultIcon) => ({
+
   render({ tabs, onTab, action }) {
     return (
       <>
@@ -44,7 +45,9 @@ export const tabBarConfig: (
       )
     }
   },
-  thickness,
+  thickness: thickness,
+  stretchBarThickness: 4,
+  borderThickness: 4,
   position: 'top',
   preBox: {
     isRow: false,

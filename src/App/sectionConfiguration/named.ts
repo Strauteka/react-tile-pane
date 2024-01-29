@@ -18,5 +18,5 @@ export const named: { [name: string]: SectionConfiguration } = {
   },
   grape: {
     tabTitle: '🍇',
-  },
+  }
 }

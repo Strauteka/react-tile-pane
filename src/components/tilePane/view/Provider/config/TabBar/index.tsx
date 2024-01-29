@@ -55,7 +55,9 @@ export type TabsBarConfig = {
   /**Accepts a CSS length attribute, which defaults to px if number is passed in
    * @example 20, '20px', '2vw'
    */
-  thickness: number | string
+  thickness: number
+  stretchBarThickness: number
+  borderThickness: number
   /**Where to position the TabsBar in the pane */
   position: TabsBarPosition
   /**How preBox in TabsBar look like?*/
@@ -68,7 +70,9 @@ export type TabsBarConfig = {
 export const DefaultTabBar = memo(TabBarInner)
 export const defaultTabsBarConfig: TabsBarConfig = {
   render: DefaultTabBar,
-  thickness: 24,
+  thickness: 40,
+  stretchBarThickness: 2,
+  borderThickness: 0,
   position: 'top',
   preBox: {
     isRow: true,

@@ -160,7 +160,7 @@ export class CustomSection2 extends React.Component<
   }
 }
 function AutoSaveLayout() {
-  const getRootNode = useGetRootNode()
-  localStorage.setItem('SomeOtherKey1', JSON.stringify(getRootNode()))
+  // const getRootNode = useGetRootNode()
+  // localStorage.setItem('SomeOtherKey1', JSON.stringify(getRootNode()))
   return <></>
 }

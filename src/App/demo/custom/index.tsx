@@ -15,6 +15,8 @@ export const tabBarConfig: (
     )
   },
   thickness: 0,
+  stretchBarThickness: 4,
+  borderThickness: 4,
   position: 'top',
   preBox: {
     isRow: false,

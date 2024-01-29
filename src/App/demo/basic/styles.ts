@@ -68,6 +68,8 @@ export const styles = createStyles({
     ...size.full,
     ...flex.columnRow,
     gap: '0.25rem',
+    overflowY: 'hidden',
+    overflowX: 'hidden',
   },
   tabTitle: {
     minHeight: thickness,

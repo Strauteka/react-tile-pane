@@ -9,7 +9,7 @@ import React from 'react'
 import { styles, theme } from '../../demo/notDragable'
 import { CustomSection2 } from './CustomSection2'
 import { ContextProps, createTilePanes } from 'App/sectionConfiguration/section'
-import { scroolStyle } from '../reactNodeSection/ReactNodeSection'
+import { makeBearerString } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
 
 type CustomSectionState = {}
 type CustomSectionProps = { tileProviderContext: TileProviderContext }
@@ -32,7 +32,10 @@ const style = {
 } as any
 
 export const rootPane: TileBranchSubstance = {
-  children: [{onTab: 2, children: ['aaa', 'bbb', 'kiwifruit'] }],
+  children: [ 
+    { children: [makeBearerString('aaa')] },
+    { onTab: 2, children: ['aaa', 'bbb', 'kiwifruit'] },
+  ],
 }
 
 export class CustomSection extends React.Component<
@@ -42,7 +45,7 @@ export class CustomSection extends React.Component<
   constructor(props: ContextProps<CustomSectionProps>) {
     super(props)
   }
-  
+
   render = () => {
     const nodes = {
       aaa: (
@@ -69,7 +72,6 @@ export class CustomSection extends React.Component<
             style={{
               width: '100%',
               height: '100%',
-              
             }}
           >
             <TileContainer
@@ -85,7 +87,7 @@ export class CustomSection extends React.Component<
   }
 }
 function AutoSaveLayout() {
-  const getRootNode = useGetRootNode()
-  localStorage.setItem('SomeOtherKeyxxx', JSON.stringify(getRootNode()))
+  // const getRootNode = useGetRootNode()
+  // localStorage.setItem('SomeOtherKeyxxx', JSON.stringify(getRootNode()))
   return <></>
 }

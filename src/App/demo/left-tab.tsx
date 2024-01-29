@@ -37,7 +37,11 @@ function PaneIcon(props: { name: string; title: string }) {
       }}
     >
       <div style={{ cursor: 'move' }}>
-        <DraggableTitle name={props.name}>{props.title}</DraggableTitle>
+        <DraggableTitle
+          name={makeBearerString(props.name, { dragable: 'yes' })}
+        >
+          {props.title}
+        </DraggableTitle>
       </div>
       <div
         onClick={() => {
@@ -76,8 +80,13 @@ export const LeftTabDemo: React.FC = () => {
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : rootPane
 
+  console.log('storage', root)
   return (
-    <TileProvider tilePanes={nodeList} rootNode={root} {...theme(icons)}>
+    <TileProvider
+      tilePanes={nodeList}
+      rootNode={root}
+      {...theme(icons)}
+    >
       <div
         style={{
           display: 'flex',

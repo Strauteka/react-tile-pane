@@ -10,28 +10,38 @@ export type PreBoxConfig = {
   /** **millisecond**, Control PreBox calculation frequency */
   throttle?: number
 }
-
+const transition = 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms'
+const border = '2px solid #00000099'
+const margin = '-4px'
 export const defaultPreBox: PreBoxConfig = {
   throttle: 66,
   style: ({ branch, leaf, tab }) => {
     if (branch)
       return {
         background: '#00000088',
-        transition: 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms',
+        transition: transition,
+        border: border,
+        margin: margin,
       }
     if (leaf)
       return {
         background: '#00000088',
-        transition: 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms',
+        transition: transition,
+        border: border,
+        margin: margin,
       }
     if (tab)
       return {
         background: '#00000088',
-        transition: 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms',
+        transition: transition,
+        border: border,
+        margin: margin,
       }
     return {
-      background: '#ffffff00',
-      transition: 'cubic-bezier(0.5, 0.1, 0.165, 1) 233ms',
+      background: '#ff000000',
+      transition: transition,
+      border: border,
+      margin: margin,
     }
   },
 }
