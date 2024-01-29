@@ -16,7 +16,7 @@ export function toCssLengthLocal(
   isEdge: boolean
 ) {
   return isEdge
-    ? `calc(${length * 100}% - ` + offset + 'px )'
+    ? `calc(${length * 100}% - ` + (offset + offset / 2) + 'px )'
     : `calc(${length * 100}% - ` + (offset + borderOffset) + 'px )'
 }
 

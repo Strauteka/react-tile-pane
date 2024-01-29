@@ -18,7 +18,7 @@ const TileContainerInner: React.FC<TileContainerProps<unknown>> = ({
 }) => {
   const finalContext: TileProviderContext = {
     context: context,
-    moveRef: useMovePane()
+    move: useMovePane()
     ,
   }
   const targetRef = useContext(ContainerRefContext)

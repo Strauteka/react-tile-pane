@@ -86,8 +86,8 @@ export class TileWrapper extends React.Component<
           ...this.props.hooks.style,
           ...this.props.hooks.styled,
           ...(this.props.tilePaneProps.selection.selection === this.props.id
-            ? { border: '2px solid #ff0000' }
-            : { border: '2px solid #000000' }),
+            ? { border: '3px solid #ff0000' }
+            : { border: '3px solid #000000' }),
         }}
         onClick={(event) => {
           // const { target: { value } } = event;

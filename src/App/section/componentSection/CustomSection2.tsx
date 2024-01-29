@@ -52,9 +52,9 @@ export const OpenSection: React.FC<any> = (props: {
           props.context &&
           props.context.context &&
           props.context.context.context &&
-          props.context.context.context.moveRef
+          props.context.context.context.move
         ) {
-          props.context.context.context.moveRef(
+          props.context.context.context.move(
             makeBearerString(props.props.result),
             [0, 0]
           )
