@@ -1,8 +1,8 @@
 import { DraggableTitle, PaneName, TabBarPropsWithAction } from 'components'
-import { unfoldBearer } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
 import React from 'react'
 import { color, flex, size, styles } from './styles'
 import { named } from 'App/sectionConfiguration/named'
+import { unfoldBearer } from '../../sectionConfiguration/Bearer'
 
 type TabBarState = { color: string }
 export class TabBar extends React.Component<

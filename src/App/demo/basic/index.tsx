@@ -1,12 +1,7 @@
 import {
-  DraggableTitle,
-  PaneName,
   StretchBarConfig,
-  TabBarPropsWithAction,
   TabsBarConfig,
 } from 'components'
-import { thickness } from './styles'
-import { unfoldBearer } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
 import React from 'react'
 import { TabBar } from './TabBar'
 

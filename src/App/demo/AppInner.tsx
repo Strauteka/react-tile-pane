@@ -8,16 +8,14 @@ import {
   useGetRootNode,
   TileBranchSubstance,
 } from 'components'
-import { color, styles, theme } from '../demo/basic'
+import { color, styles, theme } from './basic'
 import '../demo/basic/styles.css'
 
-import { section, createTilePanes } from '../sectionConfiguration/section'
 import { named } from 'App/sectionConfiguration/named'
-import {
-  makeBearerString,
-  unfoldBearer,
-} from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
+import { makeBearerString, unfoldBearer } from '../sectionConfiguration/Bearer'
+import { PaneProvider } from 'App/sectionConfiguration/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
+import { AppSelectionContext } from 'App/context/AppStateContext'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 
@@ -66,8 +64,9 @@ function PaneIcon(props: { name: string; title: string }) {
   )
 }
 
-export const LeftTabDemo: React.FC = () => {
-  const nodeList = createTilePanes(section)
+export const AppInner: React.FC = () => {
+  const [selection, setSelection] = useState('')
+  const value = { selection, setSelection }
   const icons = Object.entries(named).reduce(
     (c: { [name: string]: string }, v) => {
       c[v[0]] = v[1].tabTitle
@@ -84,34 +83,28 @@ export const LeftTabDemo: React.FC = () => {
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : rootPane
 
-  const paneProvider: React.FC<TilePaneProviderProps> = (
+  const middleManProvider: React.FC<TilePaneProviderProps> = (
     props: TilePaneProviderProps
   ) => {
-    const bearer = unfoldBearer(props.pane.name)
-    console.log('NAME', props.pane.name, bearer)
-    const section = nodeList.find((entry) => (entry.name === bearer.paneName))
-    const content = section?.child
     return (
-      <div style={{ ...props.styled, ...{ border: '3px solid #000000' } }}>
-        {React.isValidElement(content) ? (
-          content
-        ) : content != null ? (
-          React.createElement(content as any, {
-            context: props.context,
-          })
-        ) : (
-          <></>
-        )}
-      </div>
+      <PaneProvider
+        {...props}
+        styled={{
+          ...props.styled,
+        }}
+        paneProps={{
+          ...props.paneProps,
+        }}
+      />
     )
   }
 
   return (
+    <AppSelectionContext.Provider value={value}>
     <TileProvider
-      tilePanes={nodeList}
       rootNode={root}
       {...theme(icons)}
-      tilePaneProvider={{ paneProvider: paneProvider }}
+      tilePaneProvider={{ paneProvider: middleManProvider }}
     >
       <div
         style={{
@@ -148,6 +141,7 @@ export const LeftTabDemo: React.FC = () => {
       <AutoSaveLayout />
       <div />
     </TileProvider>
+    </AppSelectionContext.Provider >
   )
 }
 

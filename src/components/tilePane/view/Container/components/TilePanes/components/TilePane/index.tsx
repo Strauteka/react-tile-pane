@@ -1,17 +1,17 @@
 import React, { memo, useContext, useMemo } from 'react'
-import { PaneContext } from '../../../../../..'
-import { useChild, useStyle } from './hook'
-import { Bearer, unfoldBearer } from './Bearer'
-import {
-  TilePaneProps,
-  TilePaneProviderContext,
-} from 'components/tilePane/view/Provider/config/PaneProvider'
+import { useStyle } from './hook'
+import { TilePaneProviderContext } from 'components/tilePane/view/Provider/config/PaneProvider'
+import { TileProviderContext } from 'components/tilePane/model'
+import { TilePaneWithRect } from 'components/tilePane/util'
+
+export interface TilePaneProps<T> {
+  context: TileProviderContext
+  pane: TilePaneWithRect
+}
 
 const TilePaneInner: React.FC<TilePaneProps<unknown>> = ({
   pane,
-  context,
-  props,
-  selection,
+  context
 }) => {
   const TilePaneProviderConfig = useContext(TilePaneProviderContext)
   const styled = useStyle(pane.rect)
@@ -21,10 +21,9 @@ const TilePaneInner: React.FC<TilePaneProps<unknown>> = ({
         context={context}
         pane={pane}
         styled={styled}
-        selection={selection}
       />
     ),
-    [styled, context, props]
+    [styled, context]
   )
 }
 

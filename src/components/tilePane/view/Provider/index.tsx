@@ -4,11 +4,9 @@ import {
   PreBoxConfig,
   StretchBarConfig,
   TileBranchSubstance,
-  TilePane,
   TitleRectsProvider,
 } from '../..'
 import {
-  TitlePanesContext,
   ContainerRectContext,
   ContainerRefContext,
   MovingTabsContext,
@@ -24,12 +22,9 @@ import {
   defaultTabsBarConfig,
   StretchBarConfigContext,
   defaultStretchBar,
-  PaneContext,
 } from '.'
 import {
-  defaultPane,
   defaultPreBox,
-  PaneConfig,
   PreBoxConfigContext,
 } from './config'
 import { TilePaneProviderConfig, TilePaneProviderContext, defaultTilePaneProvider } from './config/PaneProvider'
@@ -37,23 +32,19 @@ import { TilePaneProviderConfig, TilePaneProviderContext, defaultTilePaneProvide
 export interface TileProviderProps {
   children?: React.ReactNode
   rootNode: TileBranchSubstance
-  tilePanes: TilePane[]
-  tilePaneProvider?: TilePaneProviderConfig
+  tilePaneProvider: TilePaneProviderConfig
   tabBar?: TabsBarConfig
   preBox?: PreBoxConfig
   stretchBar?: StretchBarConfig
-  pane?: PaneConfig
 }
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
   children,
   rootNode: rootNodeSub,
-  tilePanes,
   tilePaneProvider = {paneProvider: defaultTilePaneProvider},
   tabBar = defaultTabsBarConfig,
   stretchBar = defaultStretchBar,
   preBox = defaultPreBox,
-  pane = defaultPane,
 }: TileProviderProps) => {
   const [
     { branches, leaves, stretchBars, movingTabs },
@@ -68,13 +59,11 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   return (
     <ContainerRefContext.Provider value={targetRef}>
       <PreBoxConfigContext.Provider value={preBox}>
-        <TitlePanesContext.Provider value={tilePanes}>
         <TilePaneProviderContext.Provider value={tilePaneProvider}>
           <ContainerRectContext.Provider value={containerRect}>
             <TileBranchesContext.Provider value={branches}>
               <StretchBarConfigContext.Provider value={stretchBar}>
                 <TileLeavesContext.Provider value={leaves}>
-                  <PaneContext.Provider value={pane}>
                     <StretchBarsContext.Provider value={stretchBars}>
                       <TileDispatchContext.Provider value={tileStoreDispatch}>
                         <MovingTabsContext.Provider value={movingTabs}>
@@ -86,13 +75,11 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
                         </MovingTabsContext.Provider>
                       </TileDispatchContext.Provider>
                     </StretchBarsContext.Provider>
-                  </PaneContext.Provider>
                 </TileLeavesContext.Provider>
               </StretchBarConfigContext.Provider>
             </TileBranchesContext.Provider>
           </ContainerRectContext.Provider>
           </TilePaneProviderContext.Provider>
-        </TitlePanesContext.Provider>
       </PreBoxConfigContext.Provider>
     </ContainerRefContext.Provider>
   )

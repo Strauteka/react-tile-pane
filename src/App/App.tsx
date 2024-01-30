@@ -1,15 +1,15 @@
-import React from 'react'
-import { LeftTabDemo } from './demo'
+import React, { useState } from 'react'
+import { AppInner } from './demo'
+import { AppSelectionContext } from './context/AppStateContext'
 
 const App: React.FC = () => {
   return (
     <div
       style={{
         height: '100vh',
-  
       }}
     >
-      <LeftTabDemo />
+      <AppInner />
     </div>
   )
 }

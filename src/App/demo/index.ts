@@ -1,2 +1,2 @@
 
-export * from './left-tab'
+export * from './AppInner'
