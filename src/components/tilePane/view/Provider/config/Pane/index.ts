@@ -1,4 +1,5 @@
-import { createContext, CSSProperties } from 'react'
+
+import { createContext, CSSProperties} from 'react'
 
 export interface PaneConfig {
   style?: CSSProperties

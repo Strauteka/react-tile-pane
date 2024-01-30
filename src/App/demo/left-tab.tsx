@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   DraggableTitle,
   TileContainer,
@@ -13,7 +13,11 @@ import '../demo/basic/styles.css'
 
 import { section, createTilePanes } from '../sectionConfiguration/section'
 import { named } from 'App/sectionConfiguration/named'
-import { makeBearerString } from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
+import {
+  makeBearerString,
+  unfoldBearer,
+} from 'components/tilePane/view/Container/components/TilePanes/components/TilePane/Bearer'
+import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 
@@ -80,12 +84,34 @@ export const LeftTabDemo: React.FC = () => {
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : rootPane
 
-  console.log('storage', root)
+  const paneProvider: React.FC<TilePaneProviderProps> = (
+    props: TilePaneProviderProps
+  ) => {
+    const bearer = unfoldBearer(props.pane.name)
+    console.log('NAME', props.pane.name, bearer)
+    const section = nodeList.find((entry) => (entry.name === bearer.paneName))
+    const content = section?.child
+    return (
+      <div style={{ ...props.styled, ...{ border: '3px solid #000000' } }}>
+        {React.isValidElement(content) ? (
+          content
+        ) : content != null ? (
+          React.createElement(content as any, {
+            context: props.context,
+          })
+        ) : (
+          <></>
+        )}
+      </div>
+    )
+  }
+
   return (
     <TileProvider
       tilePanes={nodeList}
       rootNode={root}
       {...theme(icons)}
+      tilePaneProvider={{ paneProvider: paneProvider }}
     >
       <div
         style={{

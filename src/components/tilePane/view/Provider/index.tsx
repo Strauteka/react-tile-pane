@@ -32,11 +32,13 @@ import {
   PaneConfig,
   PreBoxConfigContext,
 } from './config'
+import { TilePaneProviderConfig, TilePaneProviderContext, defaultTilePaneProvider } from './config/PaneProvider'
 
 export interface TileProviderProps {
   children?: React.ReactNode
   rootNode: TileBranchSubstance
   tilePanes: TilePane[]
+  tilePaneProvider?: TilePaneProviderConfig
   tabBar?: TabsBarConfig
   preBox?: PreBoxConfig
   stretchBar?: StretchBarConfig
@@ -47,6 +49,7 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   children,
   rootNode: rootNodeSub,
   tilePanes,
+  tilePaneProvider = {paneProvider: defaultTilePaneProvider},
   tabBar = defaultTabsBarConfig,
   stretchBar = defaultStretchBar,
   preBox = defaultPreBox,
@@ -66,6 +69,7 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
     <ContainerRefContext.Provider value={targetRef}>
       <PreBoxConfigContext.Provider value={preBox}>
         <TitlePanesContext.Provider value={tilePanes}>
+        <TilePaneProviderContext.Provider value={tilePaneProvider}>
           <ContainerRectContext.Provider value={containerRect}>
             <TileBranchesContext.Provider value={branches}>
               <StretchBarConfigContext.Provider value={stretchBar}>
@@ -87,6 +91,7 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
               </StretchBarConfigContext.Provider>
             </TileBranchesContext.Provider>
           </ContainerRectContext.Provider>
+          </TilePaneProviderContext.Provider>
         </TitlePanesContext.Provider>
       </PreBoxConfigContext.Provider>
     </ContainerRefContext.Provider>

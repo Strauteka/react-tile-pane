@@ -16,10 +16,10 @@ const TileContainerInner: React.FC<TileContainerProps<unknown>> = ({
   style = { width: '100%', height: '100%' },
   className,
 }) => {
+
   const finalContext: TileProviderContext = {
     context: context,
-    move: useMovePane()
-    ,
+    move: useMovePane(),
   }
   const targetRef = useContext(ContainerRefContext)
   const movingTabs = useContext(MovingTabsContext)

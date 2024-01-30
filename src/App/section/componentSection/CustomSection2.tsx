@@ -141,7 +141,7 @@ export class CustomSection2 extends React.Component<
           >
             <TileContainer
               context={this.props.context}
-              style={{ height: 'inherit', width: 'inherit' }}
+              // style={{ height: 'inherit', width: 'inherit' }}
               props={{
                 result: this.state.result,
                 call: (name: string) => {
