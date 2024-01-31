@@ -104,7 +104,7 @@ export const AppInner: React.FC = () => {
     <TileProvider
       rootNode={root}
       {...theme(icons)}
-      tilePaneProvider={{ paneProvider: middleManProvider }}
+      tilePaneProvider={{ paneProvider: PaneProvider }}
     >
       <div
         style={{

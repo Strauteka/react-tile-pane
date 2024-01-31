@@ -43,7 +43,7 @@ export class TabBar extends React.Component<
           color: this.state.color,
           display: 'flex',
           flexDirection: 'column',
-          minWidth: '80px',
+          minWidth: '5em',
         }}
         name={tab}
         key={tab}
@@ -66,7 +66,7 @@ export class TabBar extends React.Component<
             background:
               i === this.props.onTab ? color.primary : color.secondaryL,
             width: '100%',
-            height: 6,
+            height: '0.375em',
           }}
         />
       </DraggableTitle>

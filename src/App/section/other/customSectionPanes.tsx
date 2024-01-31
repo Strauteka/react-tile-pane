@@ -82,7 +82,7 @@ export const functionalTestX: React.FC<any> = (props: {
 
 export const aaa = (
   <div style={style}>
-    <div style={{ width: '500px' }}>{'test1' + body}</div>
+    <div style={{ width: '31.25em' }}>{'test1' + body}</div>
   </div>
 )
 export const bbb = <div style={style}>{'test2' + body}</div>

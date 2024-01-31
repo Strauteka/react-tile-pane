@@ -8,26 +8,19 @@ import {
   toQuadrant,
 } from '../../../../../../..'
 
-// `${length * 100}%`dafd
-export function toCssLengthLocal(
-  length: number,
-  offset: number,
-  borderOffset: number,
-  isEdge: boolean
-) {
-  return isEdge
-    ? `calc(${length * 100}% - ` + (offset + offset / 2) + 'px )'
-    : `calc(${length * 100}% - ` + (offset + borderOffset) + 'px )'
+function toCssLengthLocal(length: number, removeSize: number, isEdge: boolean) {
+  const localRemoveSize = isEdge ? 0 : removeSize
+  return `calc(${length * 100}% - ${localRemoveSize}em)`
 }
 
-export function toCssCalcLengthLocal(
-  percent: number,
-  offset: number,
-  offset2: number,
+function toCssCalcLengthLocal(
+  length: number,
+  removeSize: number,
+  removeSize2: number,
   isEdge: boolean
 ) {
-  const localOffset = isEdge ? offset : offset + offset2
-  return `calc(${toCssLength(percent)} - ${localOffset}px)`
+  const localRemoveSize = isEdge ? removeSize : removeSize + removeSize2
+  return `calc(${toCssLength(length)} - ${localRemoveSize}em)`
 }
 
 export function useStyle(rect: TileNodeRect | null): CSSProperties {
@@ -38,14 +31,13 @@ export function useStyle(rect: TileNodeRect | null): CSSProperties {
     () => completeUnit(tabBar.thickness),
     [tabBar.thickness]
   )
-
-  const result = rect
+  return rect
     ? {
         position: 'absolute',
         height: isVertical
           ? toCssCalcLengthLocal(
               rect.height,
-              tabBar.thickness + tabBar.borderThickness,
+              tabBar.thickness,
               tabBar.stretchBarThickness,
               rect.top + rect.height === 1
             )
@@ -54,7 +46,6 @@ export function useStyle(rect: TileNodeRect | null): CSSProperties {
           ? toCssLengthLocal(
               rect.width,
               tabBar.stretchBarThickness,
-              tabBar.borderThickness,
               rect.left + rect.width === 1
             )
           : toCssCalcLength(rect.width, thickness, '-'),
@@ -70,5 +61,4 @@ export function useStyle(rect: TileNodeRect | null): CSSProperties {
     : {
         display: 'none',
       }
-  return result as CSSProperties
 }

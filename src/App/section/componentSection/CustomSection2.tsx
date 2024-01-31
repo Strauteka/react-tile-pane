@@ -9,7 +9,6 @@ import { theme } from '../../demo/custom'
 import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 import { PaneProvider } from 'App/sectionConfiguration/paneProvider'
-import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 type CustomSection2State = { result: string }
 type CustomSection2Props = {
   tileProviderContext: TileProviderContext
@@ -45,16 +44,6 @@ export class CustomSection2 extends React.Component<
       ? (JSON.parse(localRoot) as TileBranchSubstance)
       : rootPane
 
-    const middleManProvider: React.FC<TilePaneProviderProps> = (
-      props: TilePaneProviderProps
-    ) => {
-      return (
-        <PaneProvider
-          {...props}
-          styled={{ ...props.styled, ...{ border: '3px solid #000000' } }}
-        />
-      )
-    }
     return (
       <>
         <TileProvider
@@ -64,7 +53,7 @@ export class CustomSection2 extends React.Component<
             SubSection2: 'SubSection2',
             SubSection3: 'SubSection3',
           })}
-          tilePaneProvider={{ paneProvider: middleManProvider }}
+          tilePaneProvider={{ paneProvider: PaneProvider }}
         >
           <div
             style={{

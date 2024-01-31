@@ -2,8 +2,9 @@ import {
   StretchBarConfig,
   TabsBarConfig,
 } from 'components'
-import React from 'react'
+import React, { useContext } from 'react'
 import { TabBar } from './TabBar'
+import { AppSelectionContext } from 'App/context/AppStateContext'
 
 export * from './styles'
 
@@ -67,9 +68,9 @@ export const tabBarConfig: (
     //   )
     // }
   },
-  thickness: 40,
-  stretchBarThickness: 4,
-  borderThickness: 6,
+  thickness: 2.5,
+  stretchBarThickness: 0.25,
+  borderThickness: 0.25,
   position: 'top',
   preBox: {
     isRow: true,

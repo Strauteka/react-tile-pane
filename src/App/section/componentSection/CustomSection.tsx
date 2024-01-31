@@ -30,26 +30,36 @@ export class CustomSection extends React.Component<
     console.log('constructor123124124')
   }
 
+  middleManProvider: React.FC<TilePaneProviderProps> = (
+    props: TilePaneProviderProps
+  ) => {
+    return (
+      <PaneProvider
+        {...props}
+        styled={{
+          ...props.styled,
+        }}
+        paneProps={{
+          ...props.paneProps,
+        }}
+      />
+    )
+  }
+
+
   render = () => {
     const localRoot = localStorage.getItem('SomeOtherKeyxxx')
     const root = localRoot
       ? (JSON.parse(localRoot) as TileBranchSubstance)
       : rootPane
 
-    const middleManProvider: React.FC<TilePaneProviderProps> = (
-      props: TilePaneProviderProps
-    ) => {
-      return (
-        <PaneProvider {...props}
-        styled={{ ...props.styled, ...{ border: '3px solid #000000' } }}/>
-      )
-    }
+   
     return (
       <>
         <TileProvider
           rootNode={root}
           {...theme({ aaa: 'test1', bbb: 'test2', custom: 'test3' })}
-          tilePaneProvider={{ paneProvider: middleManProvider }}
+          tilePaneProvider={{ paneProvider: this.middleManProvider }}
         >
           <div
             style={{

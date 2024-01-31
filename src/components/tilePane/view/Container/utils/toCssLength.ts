@@ -18,4 +18,4 @@ export const toQuadrant = (position: TabsBarPosition) => [
 ]
 
 export const completeUnit = (len: number | string) =>
-  typeof len === 'number' ? `${len}px` : len
+  typeof len === 'number' ? `${len}em` : len
