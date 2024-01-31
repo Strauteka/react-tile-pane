@@ -14,8 +14,7 @@ const App: React.FC = () => {
         value={{
           appState: appState,
           setAppState: (paneName: string, state: any) => {
-            console.log('settingState', paneName, state)
-            setAppState({ ...appState, paneName: state })
+            setAppState({ ...appState, [paneName]: state })
           },
         }}
       >

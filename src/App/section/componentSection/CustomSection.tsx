@@ -12,7 +12,7 @@ type CustomSectionProps = {}
 export const rootPane: TileBranchSubstance = {
   children: [
     { children: [makeBearerString('aaa')] },
-    { onTab: 2, children: ['aaa', 'bbb', 'custom'] },
+    { onTab: 2, children: [makeBearerString('aaa'), makeBearerString('bbb'), makeBearerString('custom')] },
   ],
 }
 
@@ -45,7 +45,6 @@ export class CustomSection extends React.Component<
       : rootPane
 
     return (
-      <>
         <TileProvider
           rootNode={root}
           {...theme({ aaa: 'test1', bbb: 'test2', custom: 'test3' })}
@@ -55,7 +54,7 @@ export class CustomSection extends React.Component<
           <AutoSaveLayout />
           <div />
         </TileProvider>
-      </>
+
     )
   }
 }

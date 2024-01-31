@@ -1,5 +1,5 @@
 import { AppStateContext } from 'App/context/AppStateContext'
-import { makeBearerString } from 'App/sectionConfiguration/Bearer'
+import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 import { named } from 'App/sectionConfiguration/named'
 import { useGetLeaf } from 'components'
 import { useContext } from 'react'
@@ -21,8 +21,8 @@ Suspendisse rutrum eget purus non laoreet. Duis vitae quam vestibulum, congue ne
 
 Vivamus vestibulum ultrices arcu in vestibulum. Nunc porta bibendum risus, vitae bibendum felis lobortis id. In quis rhoncus orci. Nulla id ultricies purus. Cras ut nibh eget turpis rutrum interdum quis in elit. Proin mollis volutpat nisi id accumsan. Phasellus sodales nec tellus mollis commodo. Quisque sed sodales nunc. Proin vulputate risus varius aliquam posuere.`
 
-export const OpenSection: React.FC<any> = (props: {}) => {
-  console.log
+export const OpenSection: React.FC<any> = (props: SectionContext<{}>) => {
+
   const getLeaf = useGetLeaf()
   // const leaf = getLeaf(props.props.result)
   // const isShowing = !!leaf
@@ -45,7 +45,7 @@ export const OpenSection: React.FC<any> = (props: {}) => {
         // }
       }}
     >
-      Open {} section!
+      Open { JSON.stringify(props.parent)} section!
     </div>
   )
 }
@@ -56,14 +56,13 @@ export const functionalTestBounce: React.FC<any> = (props: {
   return <div style={style}>{123214}</div>
 }
 
-export const functionalTestX: React.FC<any> = (props: {
-  props: { call: (name: string) => {}; result: string }
-}) => {
+export const functionalTestX: React.FC<any> = (props: SectionContext<{}>
+) => {
   const { setAppState } = useContext(AppStateContext)
   const fuits = Object.entries(named).map((entry, idx) => {
     return (
       <div key={idx}>
-        <input type="radio" value={entry[0]} name="fruit" /> {entry[1].tabTitle}
+        <input type="radio" value={entry[0]} name={props.paneName} /> {entry[1].tabTitle}
       </div>
     )
   })
@@ -73,7 +72,8 @@ export const functionalTestX: React.FC<any> = (props: {
       style={style}
       onChange={(ev) => {
         // props.props.call((ev.target as HTMLInputElement).value)
-        setAppState('aaaa', {
+        console.log('setState', props.paneName)
+        setAppState(props.paneName, {
           selectedValue: (ev.target as HTMLInputElement).value,
         })
         console.log('click', (ev.target as HTMLInputElement).value)

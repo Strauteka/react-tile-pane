@@ -1,3 +1,4 @@
+import { Bearer } from "./Bearer"
 
 
 export interface Constr<T> {
@@ -5,6 +6,7 @@ export interface Constr<T> {
   }
   
 export interface SectionContext<T> {
-    instruction: unknown
-    sectionProps: T
+    paneName: string,
+    bearer: Bearer<T>
+    parent: {}
   }

@@ -3,16 +3,23 @@ import { section as sections } from './Section'
 import { unfoldBearer } from './Bearer'
 import React, { useContext } from 'react'
 import { AppSelectionContext } from 'App/context/AppSelectionContext'
-import { named } from './named'
-import { Constr } from './SectionContext'
+import { SectionConfiguration, named } from './named'
+import { Constr, SectionContext } from './SectionContext'
 import { TilePaneWithRect } from 'components'
+import { AppStateContext } from 'App/context/AppStateContext'
 
 export const PaneProvider: React.FC<TilePaneProviderProps> = (
   props: TilePaneProviderProps
 ) => {
   const bearer = unfoldBearer(props.pane.name)
-  const sectionConfig = named[bearer.paneName] || { isSelection: false }
+  const sectionConfig: SectionConfiguration = {
+    ...{ isSelection: true, isParentPropsPersistent: false },
+    ...named[bearer.paneName],
+  }
   const { selection, setSelection } = useContext(AppSelectionContext)
+  const { appState, setAppState } = useContext(AppStateContext)
+  const parentData = appState[selection]
+
   const content = Object.entries(sections)
     .map((entry) => ({ key: entry[0], value: entry[1] }))
     .find((entry) => entry.key === bearer.paneName)?.value
@@ -36,12 +43,23 @@ export const PaneProvider: React.FC<TilePaneProviderProps> = (
           }
         : {})}
     >
-      <TileWrapper content={content} pane={props.pane}></TileWrapper>
+      <TileWrapper
+        sectionConfiguration={sectionConfig}
+        sectionContext={{
+          paneName: props.pane.name,
+          bearer: bearer,
+          parent: parentData,
+        }}
+        pane={props.pane}
+        content={content}
+      ></TileWrapper>
     </div>
   )
 }
 
 export interface TileWrapperProps<T> {
+  sectionConfiguration: SectionConfiguration
+  sectionContext: SectionContext<T>
   pane: TilePaneWithRect
   content: React.ReactNode | Constr<React.Component<any, any>> | React.FC<any>
 }
@@ -52,21 +70,23 @@ export class TileWrapper extends React.Component<
   constructor(props: TileWrapperProps<unknown>) {
     super(props)
   }
-  //   shouldComponentUpdate(nextProps: TileWrapperProps<unknown>, nextState: {}) {
-  //     const tabsMoving =
-  //       (nextProps.tilePaneProps.pane.rect != null) !==
-  //       (this.props.tilePaneProps.pane.rect != null)
-  //     return tabsMoving || nextProps.tilePaneProps.pane.rect != null
-  //   }
   shouldComponentUpdate(nextProps: TileWrapperProps<unknown>, nextState: {}) {
-    return true
+    if (
+      !nextProps.sectionConfiguration.isParentPropsPersistent &&
+      nextProps.sectionContext.parent == null
+    ) {
+      nextProps.sectionContext.parent = this.props.sectionContext.parent
+    }
+    const tabsMoving =
+      (nextProps.pane.rect != null) !== (this.props.pane.rect != null)
+    return tabsMoving || nextProps.pane.rect != null
   }
 
   render = () => {
     return React.isValidElement(this.props.content) ? (
       this.props.content
     ) : this.props.content != null ? (
-      React.createElement(this.props.content as any, {})
+      React.createElement(this.props.content as any, this.props.sectionContext)
     ) : (
       <></>
     )

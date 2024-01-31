@@ -1,6 +1,6 @@
-
 export interface SectionConfiguration {
-  isSelection: boolean,
+  isSelection?: boolean //default true
+  isParentPropsPersistent?: boolean //default false
   tabTitle: string
 }
 
@@ -46,8 +46,11 @@ export const named: { [name: string]: SectionConfiguration } = {
     tabTitle: 'SubSection2',
   },
   SubSection3: {
-    isSelection: true,
+    isParentPropsPersistent: false,
     tabTitle: 'SubSection3',
   },
-
+  custom: {
+    isSelection: false,
+    tabTitle: 'custom',
+  },
 }
