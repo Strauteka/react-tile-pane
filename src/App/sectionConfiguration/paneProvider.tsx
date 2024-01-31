@@ -1,11 +1,11 @@
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 import { section as sections } from './Section'
 import { unfoldBearer } from './Bearer'
-import React, { CSSProperties, useContext } from 'react'
-import { AppSelectionContext } from 'App/context/AppStateContext'
+import React, { useContext } from 'react'
+import { AppSelectionContext } from 'App/context/AppSelectionContext'
 import { named } from './named'
 import { Constr } from './SectionContext'
-import { TilePaneWithRect, TileProviderContext } from 'components'
+import { TilePaneWithRect } from 'components'
 
 export const PaneProvider: React.FC<TilePaneProviderProps> = (
   props: TilePaneProviderProps
@@ -27,24 +27,21 @@ export const PaneProvider: React.FC<TilePaneProviderProps> = (
         ...(sectionConfig.isSelection ? border : {}),
         boxSizing: 'border-box',
       }}
-      onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (sectionConfig.isSelection) {
-          setSelection(props.pane.name)
-        }
-      }}
-      {...props.paneProps}
+      {...(sectionConfig.isSelection && selection !== props.pane.name
+        ? {
+            onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+              console.log('clicked', bearer.paneName, props.pane.name)
+              setSelection(props.pane.name)
+            },
+          }
+        : {})}
     >
-      <TileWrapper
-        content={content}
-        tilePaneProps={props.context}
-        pane={props.pane}
-      ></TileWrapper>
+      <TileWrapper content={content} pane={props.pane}></TileWrapper>
     </div>
   )
 }
 
 export interface TileWrapperProps<T> {
-  tilePaneProps: TileProviderContext
   pane: TilePaneWithRect
   content: React.ReactNode | Constr<React.Component<any, any>> | React.FC<any>
 }
@@ -69,9 +66,7 @@ export class TileWrapper extends React.Component<
     return React.isValidElement(this.props.content) ? (
       this.props.content
     ) : this.props.content != null ? (
-      React.createElement(this.props.content as any, {
-        context: this.props.tilePaneProps.context,
-      })
+      React.createElement(this.props.content as any, {})
     ) : (
       <></>
     )

@@ -15,7 +15,7 @@ import { named } from 'App/sectionConfiguration/named'
 import { makeBearerString, unfoldBearer } from '../sectionConfiguration/Bearer'
 import { PaneProvider } from 'App/sectionConfiguration/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
-import { AppSelectionContext } from 'App/context/AppStateContext'
+import { AppSelectionContext } from 'App/context/AppSelectionContext'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 
@@ -64,6 +64,19 @@ function PaneIcon(props: { name: string; title: string }) {
   )
 }
 
+const middleManProvider: React.FC<TilePaneProviderProps> = (
+  props: TilePaneProviderProps
+) => {
+  return (
+    <PaneProvider
+      {...props}
+      styled={{
+        ...props.styled,
+      }}
+    />
+  )
+}
+
 export const AppInner: React.FC = () => {
   const [selection, setSelection] = useState('')
   const value = { selection, setSelection }
@@ -83,65 +96,49 @@ export const AppInner: React.FC = () => {
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : rootPane
 
-  const middleManProvider: React.FC<TilePaneProviderProps> = (
-    props: TilePaneProviderProps
-  ) => {
-    return (
-      <PaneProvider
-        {...props}
-        styled={{
-          ...props.styled,
-        }}
-        paneProps={{
-          ...props.paneProps,
-        }}
-      />
-    )
-  }
-
   return (
     <AppSelectionContext.Provider value={value}>
-    <TileProvider
-      rootNode={root}
-      {...theme(icons)}
-      tilePaneProvider={{ paneProvider: PaneProvider }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          height: '100%',
-        }}
+      <TileProvider
+        rootNode={root}
+        {...theme(icons)}
+        tilePaneProvider={{ paneProvider: middleManProvider }}
       >
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            background: color.backL,
+            flexDirection: 'row',
+            width: '100%',
+            height: '100%',
           }}
         >
-          {Object.entries(icons).map((name) => (
-            <PaneIcon key={name[0]} name={name[0]} title={name[1]} />
-          ))}
-          {/* <CreateSection nodeList={nodeList}></CreateSection> */}
-        </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              background: color.backL,
+            }}
+          >
+            {Object.entries(icons).map((name) => (
+              <PaneIcon key={name[0]} name={name[0]} title={name[1]} />
+            ))}
+            {/* <CreateSection nodeList={nodeList}></CreateSection> */}
+          </div>
 
-        <div
-          style={{
-            width: 'inherit',
-            height: 'inherit',
-            overflowY: 'hidden', // hide vertical
-            overflowX: 'hidden',
-          }}
-        >
-          <TileContainer style={styles.container} />
+          <div
+            style={{
+              width: 'inherit',
+              height: 'inherit',
+              overflowY: 'hidden', // hide vertical
+              overflowX: 'hidden',
+            }}
+          >
+            <TileContainer />
+          </div>
         </div>
-      </div>
-      <AutoSaveLayout />
-      <div />
-    </TileProvider>
-    </AppSelectionContext.Provider >
+        <AutoSaveLayout />
+        <div />
+      </TileProvider>
+    </AppSelectionContext.Provider>
   )
 }
 

@@ -1,28 +1,18 @@
-import React, { memo, useMemo, useState } from 'react'
+import React, { memo, useMemo } from 'react'
 import { usePanes } from './hook'
 import { TilePane } from './components'
-import { TileProviderContext } from 'components/tilePane/model'
 
-const TilePanesInner: React.FC<{
-  context: TileProviderContext
-}> = (props: { context: TileProviderContext }) => {
-
+const TilePanesInner: React.FC = () => {
   const panes = usePanes()
   return useMemo(
     () => (
       <>
         {panes.map((pane) => {
-          return (
-            <TilePane
-              context={props.context}
-              pane={pane}
-              key={pane.name}
-            />
-          )
+          return <TilePane pane={pane} key={pane.name} />
         })}
       </>
     ),
-    [panes, props]
+    [panes]
   )
 }
 

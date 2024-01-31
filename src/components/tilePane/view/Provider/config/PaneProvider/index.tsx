@@ -1,4 +1,4 @@
-import { TileProviderContext } from 'components/tilePane/model'
+
 import { TilePaneWithRect } from 'components/tilePane/util'
 import { createContext } from 'react'
 import React from 'react'
@@ -7,8 +7,6 @@ import React from 'react'
 export type TilePaneProviderProps = {
   pane: TilePaneWithRect
   styled: React.CSSProperties
-  context: TileProviderContext
-  paneProps?: {}
 }
 
 export const defaultTilePaneProvider: React.FC<TilePaneProviderProps> = (

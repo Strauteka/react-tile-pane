@@ -1,15 +1,26 @@
 import React, { useState } from 'react'
 import { AppInner } from './demo'
-import { AppSelectionContext } from './context/AppStateContext'
+import { AppStateContext } from './context/AppStateContext'
 
 const App: React.FC = () => {
+  const [appState, setAppState] = useState({})
   return (
     <div
       style={{
         height: '100vh',
       }}
     >
-      <AppInner />
+      <AppStateContext.Provider
+        value={{
+          appState: appState,
+          setAppState: (paneName: string, state: any) => {
+            console.log('settingState', paneName, state)
+            setAppState({ ...appState, paneName: state })
+          },
+        }}
+      >
+        <AppInner />
+      </AppStateContext.Provider>
     </div>
   )
 }

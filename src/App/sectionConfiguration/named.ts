@@ -27,27 +27,27 @@ export const named: { [name: string]: SectionConfiguration } = {
   },
   aaa: {
     isSelection: true,
-    tabTitle: '🍇',
+    tabTitle: 'aaa',
   },
   bbb: {
     isSelection: true,
-    tabTitle: '🍇',
+    tabTitle: 'bbb',
   },
   ccc: {
-    isSelection: true,
-    tabTitle: '🍇',
+    isSelection: false,
+    tabTitle: 'ccc',
   },
   SubSection1: {
     isSelection: true,
-    tabTitle: '🍇',
+    tabTitle: 'SubSection1',
   },
   SubSection2: {
     isSelection: true,
-    tabTitle: '🍇',
+    tabTitle: 'SubSection2',
   },
   SubSection3: {
     isSelection: true,
-    tabTitle: '🍇',
+    tabTitle: 'SubSection3',
   },
 
 }

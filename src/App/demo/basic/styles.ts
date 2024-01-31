@@ -54,10 +54,6 @@ export const flex = createStyles({
 })
 
 export const styles = createStyles({
-  container: {
-    height: 'inherit',
-    width: 'inherit',
-  },
   tabBar: {
     background: color.backL,
     ...size.full,

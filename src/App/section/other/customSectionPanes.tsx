@@ -1,6 +1,8 @@
+import { AppStateContext } from 'App/context/AppStateContext'
 import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { named } from 'App/sectionConfiguration/named'
-import { TileProviderContext, useGetLeaf } from 'components'
+import { useGetLeaf } from 'components'
+import { useContext } from 'react'
 
 const style = {
   width: '100%',
@@ -19,10 +21,8 @@ Suspendisse rutrum eget purus non laoreet. Duis vitae quam vestibulum, congue ne
 
 Vivamus vestibulum ultrices arcu in vestibulum. Nunc porta bibendum risus, vitae bibendum felis lobortis id. In quis rhoncus orci. Nulla id ultricies purus. Cras ut nibh eget turpis rutrum interdum quis in elit. Proin mollis volutpat nisi id accumsan. Phasellus sodales nec tellus mollis commodo. Quisque sed sodales nunc. Proin vulputate risus varius aliquam posuere.`
 
-export const OpenSection: React.FC<any> = (props: {
-  context: TileProviderContext
-  props: { call: (name: string) => {}; result: string }
-}) => {
+export const OpenSection: React.FC<any> = (props: {}) => {
+  console.log
   const getLeaf = useGetLeaf()
   // const leaf = getLeaf(props.props.result)
   // const isShowing = !!leaf
@@ -59,6 +59,7 @@ export const functionalTestBounce: React.FC<any> = (props: {
 export const functionalTestX: React.FC<any> = (props: {
   props: { call: (name: string) => {}; result: string }
 }) => {
+  const { setAppState } = useContext(AppStateContext)
   const fuits = Object.entries(named).map((entry, idx) => {
     return (
       <div key={idx}>
@@ -71,7 +72,10 @@ export const functionalTestX: React.FC<any> = (props: {
     <div
       style={style}
       onChange={(ev) => {
-        props.props.call((ev.target as HTMLInputElement).value)
+        // props.props.call((ev.target as HTMLInputElement).value)
+        setAppState('aaaa', {
+          selectedValue: (ev.target as HTMLInputElement).value,
+        })
         console.log('click', (ev.target as HTMLInputElement).value)
       }}
     >

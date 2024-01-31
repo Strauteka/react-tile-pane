@@ -2,9 +2,7 @@ import {
   StretchBarConfig,
   TabsBarConfig,
 } from 'components'
-import React, { useContext } from 'react'
 import { TabBar } from './TabBar'
-import { AppSelectionContext } from 'App/context/AppStateContext'
 
 export * from './styles'
 

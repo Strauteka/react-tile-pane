@@ -1,23 +1,17 @@
 import React, { memo, useContext, useMemo } from 'react'
-import { ContainerRefContext, MovingTabsContext, useMovePane } from '..'
+import { ContainerRefContext, MovingTabsContext } from '..'
 import { StretchBars, TabsBars, TilePanes } from './components'
-import { TileProviderContext } from 'components/tilePane/model'
 
 export interface TileContainerProps {
-  context?: TileProviderContext
   style?: React.CSSProperties
   className?: string
 }
 
 const TileContainerInner: React.FC<TileContainerProps> = ({
-  context,
   style = { width: '100%', height: '100%' },
   className,
 }) => {
 
-  const finalContext: TileProviderContext = {
-    context: context,
-  }
   const targetRef = useContext(ContainerRefContext)
   const movingTabs = useContext(MovingTabsContext)
   return useMemo(() => {
@@ -32,11 +26,11 @@ const TileContainerInner: React.FC<TileContainerProps> = ({
         }}
       >
         <TabsBars />
-        <TilePanes context={finalContext}/>
+        <TilePanes/>
         <StretchBars />
       </div>
     )
-  }, [className, movingTabs.length, style, targetRef, context])
+  }, [className, movingTabs.length, style, targetRef])
 }
 
 export * from './utils'

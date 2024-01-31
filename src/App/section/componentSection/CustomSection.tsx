@@ -1,9 +1,4 @@
-import {
-  TileBranchSubstance,
-  TileContainer,
-  TileProvider,
-  TileProviderContext,
-} from 'components'
+import { TileBranchSubstance, TileContainer, TileProvider } from 'components'
 import React from 'react'
 import { styles, theme } from '../../demo/notDragable'
 import { makeBearerString } from 'App/sectionConfiguration/Bearer'
@@ -12,7 +7,7 @@ import { PaneProvider } from 'App/sectionConfiguration/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 
 type CustomSectionState = {}
-type CustomSectionProps = { tileProviderContext: TileProviderContext }
+type CustomSectionProps = {}
 
 export const rootPane: TileBranchSubstance = {
   children: [
@@ -39,13 +34,9 @@ export class CustomSection extends React.Component<
         styled={{
           ...props.styled,
         }}
-        paneProps={{
-          ...props.paneProps,
-        }}
       />
     )
   }
-
 
   render = () => {
     const localRoot = localStorage.getItem('SomeOtherKeyxxx')
@@ -53,7 +44,6 @@ export class CustomSection extends React.Component<
       ? (JSON.parse(localRoot) as TileBranchSubstance)
       : rootPane
 
-   
     return (
       <>
         <TileProvider
@@ -61,17 +51,7 @@ export class CustomSection extends React.Component<
           {...theme({ aaa: 'test1', bbb: 'test2', custom: 'test3' })}
           tilePaneProvider={{ paneProvider: this.middleManProvider }}
         >
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          >
-            <TileContainer
-              context={this.props.context}
-              style={styles.container}
-            />
-          </div>
+          <TileContainer />
           <AutoSaveLayout />
           <div />
         </TileProvider>
