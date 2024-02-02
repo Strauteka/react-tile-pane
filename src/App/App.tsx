@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { AppInner } from './demo'
 import { AppStateContext } from './context/AppStateContext'
+import { AppInner } from './AppInner'
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState({})

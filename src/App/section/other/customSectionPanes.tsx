@@ -1,9 +1,10 @@
-
-import { AppStateContext } from 'App/context/AppStateContext'
+import { AppScopeStateContext, useAppScopeState } from 'App/context/AppScopeStateContext'
+import { useAppState, useScopedMovePane } from 'App/context/AppStateContext'
 import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 import { named } from 'App/sectionConfiguration/named'
-import { conextName, context } from 'App/store/global'
+import { context } from 'App/store/global'
+import { MovePane } from 'components'
 import { useContext } from 'react'
 
 const style = {
@@ -24,31 +25,21 @@ Suspendisse rutrum eget purus non laoreet. Duis vitae quam vestibulum, congue ne
 Vivamus vestibulum ultrices arcu in vestibulum. Nunc porta bibendum risus, vitae bibendum felis lobortis id. In quis rhoncus orci. Nulla id ultricies purus. Cras ut nibh eget turpis rutrum interdum quis in elit. Proin mollis volutpat nisi id accumsan. Phasellus sodales nec tellus mollis commodo. Quisque sed sodales nunc. Proin vulputate risus varius aliquam posuere.`
 
 export const OpenSection: React.FC<any> = (props: SectionContext<{}>) => {
+  const { appScopeState } = useAppScopeState()
+  const movePane: MovePane = useScopedMovePane(appScopeState.scopeName)
   return (
     <div
       style={{ ...style, cursor: 'pointer', background: 'green' }}
       onClick={() => {
-        if((props?.parent as any)?.selectedValue) {
-          context[conextName.main](makeBearerString((props.parent as any).selectedValue), [0,0])
+        if ((props?.parent as any)?.selectedValue) {
+          movePane(
+            makeBearerString((props.parent as any).selectedValue),
+            [0.0, 0.5]
+          )
         }
- 
-        // movePane()
-        // if (
-        //   props.context &&
-        //   props.context.context &&
-        //   props.context.context.context &&
-        //   props.context.context.context.move
-        // ) {
-        //   props.context.context.context.move(
-        //     makeBearerString(props.props.result),
-        //     [0, 0]
-        //   )
-        // } else {
-        //   console.log('Reference NOT FOUND!!')
-        // }
       }}
     >
-      Open { JSON.stringify(props.parent)} section!
+      Open {JSON.stringify(props.parent)} section!
     </div>
   )
 }
@@ -59,13 +50,13 @@ export const functionalTestBounce: React.FC<any> = (props: {
   return <div style={style}>{123214}</div>
 }
 
-export const functionalTestX: React.FC<any> = (props: SectionContext<{}>
-) => {
-  const { setAppState } = useContext(AppStateContext)
+export const functionalTestX: React.FC<any> = (props: SectionContext<{}>) => {
+  const { setAppState } = useAppState()
   const fuits = Object.entries(named).map((entry, idx) => {
     return (
       <div key={idx}>
-        <input type="radio" value={entry[0]} name={props.paneName} /> {entry[1].tabTitle}
+        <input type="radio" value={entry[0]} name={props.pane.name} />{' '}
+        {entry[1].tabTitle}
       </div>
     )
   })
@@ -75,8 +66,8 @@ export const functionalTestX: React.FC<any> = (props: SectionContext<{}>
       style={style}
       onChange={(ev) => {
         // props.props.call((ev.target as HTMLInputElement).value)
-        console.log('setState', props.paneName)
-        setAppState(props.paneName, {
+        console.log('setState', props.pane.name)
+        setAppState(props.pane.name, {
           selectedValue: (ev.target as HTMLInputElement).value,
         })
         console.log('click', (ev.target as HTMLInputElement).value)

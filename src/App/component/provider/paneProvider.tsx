@@ -1,13 +1,15 @@
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
-import { section as sections } from './Section'
-import { unfoldBearer } from './Bearer'
-import React, { useContext } from 'react'
-import { AppSelectionContext } from 'App/context/AppSelectionContext'
-import { named } from './named'
-import { Constr, SectionContext } from './SectionContext'
+import { section as sections } from '../../sectionConfiguration/Section'
+import { unfoldBearer } from '../../sectionConfiguration/Bearer'
+import React from 'react'
+import {
+  useSelection,
+} from 'App/context/AppSelectionContext'
+import { named } from '../../sectionConfiguration/named'
+import { Constr, SectionContext } from '../../sectionConfiguration/SectionContext'
 import { TilePaneWithRect } from 'components'
-import { AppStateContext } from 'App/context/AppStateContext'
-import { SectionConfiguration } from './SectionConfiguration'
+import { useAppState } from 'App/context/AppStateContext'
+import { SectionConfiguration } from '../../sectionConfiguration/SectionConfiguration'
 
 export const PaneProvider: React.FC<TilePaneProviderProps> = (
   props: TilePaneProviderProps
@@ -17,8 +19,8 @@ export const PaneProvider: React.FC<TilePaneProviderProps> = (
     ...{ isSelection: true, isParentPropsPersistent: false },
     ...named[bearer.paneName],
   }
-  const { selection, setSelection } = useContext(AppSelectionContext)
-  const { appState, setAppState } = useContext(AppStateContext)
+  const { selection, setSelection } = useSelection()
+  const { appState } = useAppState()
   const parentData = appState[selection]
 
   const content = Object.entries(sections)
@@ -48,8 +50,7 @@ export const PaneProvider: React.FC<TilePaneProviderProps> = (
       <TileWrapper
         sectionConfiguration={sectionConfig}
         sectionContext={{
-          paneName: props.pane.name,
-          bearer: bearer,
+          pane: props.pane,
           parent: parentData,
         }}
         pane={props.pane}

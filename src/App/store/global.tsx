@@ -1,13 +1,12 @@
-import { useMovePane } from 'components'
+import { MovePane, useMovePane } from 'components'
 
-export const context: { [name: string]: any } = {}
+export const context: { [name: string]: { movePane: MovePane } } = {}
 
-export const conextName = {
+export const contextName = {
   main: 'main',
 }
 
 export function ContextStore(props: { name: string }) {
-    console.log('setting context', props.name)
-  context[props.name] = useMovePane();
+  context[props.name] = { ...context[props.name], movePane: useMovePane() }
   return <></>
 }

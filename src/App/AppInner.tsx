@@ -10,14 +10,14 @@ import {
 } from 'components'
 
 import { named } from 'App/sectionConfiguration/named'
-import { makeBearerString } from '../sectionConfiguration/Bearer'
-import { PaneProvider } from 'App/sectionConfiguration/paneProvider'
+import { makeBearerString } from './sectionConfiguration/Bearer'
+import { PaneProvider } from 'App/component/provider/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 import { AppSelectionContext } from 'App/context/AppSelectionContext'
-import { color } from './notDragable'
 import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
 import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
-import { ContextStore, conextName, context } from 'App/store/global'
+import { ContextStore, contextName, context } from 'App/store/global'
+import { color } from 'App/component/tabBar/basic/styles'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 
@@ -137,7 +137,7 @@ export const AppInner: React.FC = () => {
           </div>
         </div>
         <AutoSaveLayout />
-        <ContextStore name={conextName.main} />
+        <ContextStore name={contextName.main} />
         <div />
       </TileProvider>
     </AppSelectionContext.Provider>

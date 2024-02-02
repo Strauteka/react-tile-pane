@@ -2,7 +2,7 @@ import { TileBranchSubstance, TileContainer, TileProvider } from 'components'
 import React from 'react'
 import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
-import { PaneProvider } from 'App/sectionConfiguration/paneProvider'
+import { PaneProvider } from 'App/component/provider/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
 import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
@@ -54,20 +54,19 @@ export class CustomSection2 extends React.Component<
       : this.rootPane
 
     return (
-        <TileProvider
-          rootNode={root}
-          tabBar={tabBarBuilder(
-            { named, isDraggable: false, noBar: true },
-            { thickness: 0 }
-          )}
-          stretchBar={StretchBar}
-          tilePaneProvider={{ paneProvider: this.middleManProvider }}
-        >
-          <TileContainer />
-          <AutoSaveLayout />
-          <div />
-        </TileProvider>
-
+      <TileProvider
+        rootNode={root}
+        tabBar={tabBarBuilder(
+          { named, isDraggable: false, noBar: true },
+          { thickness: 0 }
+        )}
+        stretchBar={StretchBar}
+        tilePaneProvider={{ paneProvider: this.middleManProvider }}
+      >
+        <TileContainer />
+        <AutoSaveLayout />
+        <div />
+      </TileProvider>
     )
   }
 }
