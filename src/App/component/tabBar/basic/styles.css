@@ -1,13 +1,13 @@
 .left-stretch-bar {
   cursor: ew-resize;
-  background: #12171d;
+  background: #1a69c9;
   width: 0.25em;
   height: 0.25em;
   transition: 233ms; 
    transition-property: background;
 }
 .left-stretch-bar:hover {
-  background: #567091;
+  background: #7da9df;
   height: 0.35em;
   width: 0.35em;
 }

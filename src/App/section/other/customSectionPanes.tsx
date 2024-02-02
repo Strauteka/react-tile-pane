@@ -1,7 +1,9 @@
+
 import { AppStateContext } from 'App/context/AppStateContext'
+import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 import { named } from 'App/sectionConfiguration/named'
-import { useGetLeaf } from 'components'
+import { conextName, context } from 'App/store/global'
 import { useContext } from 'react'
 
 const style = {
@@ -22,14 +24,15 @@ Suspendisse rutrum eget purus non laoreet. Duis vitae quam vestibulum, congue ne
 Vivamus vestibulum ultrices arcu in vestibulum. Nunc porta bibendum risus, vitae bibendum felis lobortis id. In quis rhoncus orci. Nulla id ultricies purus. Cras ut nibh eget turpis rutrum interdum quis in elit. Proin mollis volutpat nisi id accumsan. Phasellus sodales nec tellus mollis commodo. Quisque sed sodales nunc. Proin vulputate risus varius aliquam posuere.`
 
 export const OpenSection: React.FC<any> = (props: SectionContext<{}>) => {
-
-  const getLeaf = useGetLeaf()
-  // const leaf = getLeaf(props.props.result)
-  // const isShowing = !!leaf
   return (
     <div
       style={{ ...style, cursor: 'pointer', background: 'green' }}
       onClick={() => {
+        if((props?.parent as any)?.selectedValue) {
+          context[conextName.main](makeBearerString((props.parent as any).selectedValue), [0,0])
+        }
+ 
+        // movePane()
         // if (
         //   props.context &&
         //   props.context.context &&

@@ -1,8 +1,4 @@
-export interface SectionConfiguration {
-  isSelection?: boolean //default true
-  isParentPropsPersistent?: boolean //default false
-  tabTitle: string
-}
+import { SectionConfiguration } from './SectionConfiguration'
 
 export const named: { [name: string]: SectionConfiguration } = {
   customSection: {
@@ -33,10 +29,6 @@ export const named: { [name: string]: SectionConfiguration } = {
     isSelection: true,
     tabTitle: 'bbb',
   },
-  ccc: {
-    isSelection: false,
-    tabTitle: 'ccc',
-  },
   SubSection1: {
     isSelection: true,
     tabTitle: 'SubSection1',
@@ -54,3 +46,7 @@ export const named: { [name: string]: SectionConfiguration } = {
     tabTitle: 'custom',
   },
 }
+
+const namedKeys =  typeof  named
+
+namedKeys

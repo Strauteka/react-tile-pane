@@ -23,15 +23,16 @@ import {
   StretchBarConfigContext,
   defaultStretchBar,
 } from '.'
+import { defaultPreBox, PreBoxConfigContext } from './config'
 import {
-  defaultPreBox,
-  PreBoxConfigContext,
-} from './config'
-import { TilePaneProviderConfig, TilePaneProviderContext, defaultTilePaneProvider } from './config/PaneProvider'
+  TilePaneProviderConfig,
+  TilePaneProviderContext,
+  defaultTilePaneProvider,
+} from './config/PaneProvider'
 
 export interface TileProviderProps {
   children?: React.ReactNode
-  rootNode: TileBranchSubstance
+  rootNode?: TileBranchSubstance
   tilePaneProvider: TilePaneProviderConfig
   tabBar?: TabsBarConfig
   preBox?: PreBoxConfig
@@ -40,19 +41,19 @@ export interface TileProviderProps {
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
   children,
-  rootNode: rootNodeSub,
-  tilePaneProvider = {paneProvider: defaultTilePaneProvider},
+  rootNode = {
+    children: [{ children: [] }],
+  },
+  tilePaneProvider = { paneProvider: defaultTilePaneProvider },
   tabBar = defaultTabsBarConfig,
   stretchBar = defaultStretchBar,
   preBox = defaultPreBox,
 }: TileProviderProps) => {
-  const [
-    { branches, leaves, stretchBars, movingTabs },
-    tileStoreDispatch,
-  ] = useReducer<TileStoreReducer>(tileStoreReducer, {
-    movingTabs: [],
-    ...initRootNode(rootNodeSub),
-  })
+  const [{ branches, leaves, stretchBars, movingTabs }, tileStoreDispatch] =
+    useReducer<TileStoreReducer>(tileStoreReducer, {
+      movingTabs: [],
+      ...initRootNode(rootNode),
+    })
 
   const childrenMemo = useMemo(() => children, [children])
   const [targetRef, containerRect] = useMeasure({ scroll: true })
@@ -64,22 +65,22 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
             <TileBranchesContext.Provider value={branches}>
               <StretchBarConfigContext.Provider value={stretchBar}>
                 <TileLeavesContext.Provider value={leaves}>
-                    <StretchBarsContext.Provider value={stretchBars}>
-                      <TileDispatchContext.Provider value={tileStoreDispatch}>
-                        <MovingTabsContext.Provider value={movingTabs}>
-                          <TabsBarContext.Provider value={tabBar}>
-                            <TitleRectsProvider>
-                              {childrenMemo}
-                            </TitleRectsProvider>
-                          </TabsBarContext.Provider>
-                        </MovingTabsContext.Provider>
-                      </TileDispatchContext.Provider>
-                    </StretchBarsContext.Provider>
+                  <StretchBarsContext.Provider value={stretchBars}>
+                    <TileDispatchContext.Provider value={tileStoreDispatch}>
+                      <MovingTabsContext.Provider value={movingTabs}>
+                        <TabsBarContext.Provider value={tabBar}>
+                          <TitleRectsProvider>
+                            {childrenMemo}
+                          </TitleRectsProvider>
+                        </TabsBarContext.Provider>
+                      </MovingTabsContext.Provider>
+                    </TileDispatchContext.Provider>
+                  </StretchBarsContext.Provider>
                 </TileLeavesContext.Provider>
               </StretchBarConfigContext.Provider>
             </TileBranchesContext.Provider>
           </ContainerRectContext.Provider>
-          </TilePaneProviderContext.Provider>
+        </TilePaneProviderContext.Provider>
       </PreBoxConfigContext.Provider>
     </ContainerRefContext.Provider>
   )

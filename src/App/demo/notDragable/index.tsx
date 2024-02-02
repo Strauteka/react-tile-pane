@@ -1,7 +1,7 @@
 import { PaneName, StretchBarConfig, TabsBarConfig } from 'components'
-import { color, flex, size, styles, thickness } from '../basic/styles'
+import { color, flex, size, styles, thickness } from '../../component/tabBar/basic/styles'
 
-export * from '../basic/styles'
+export * from '../../component/tabBar/basic/styles'
 
 export const tabBarConfig: (
   icons: Record<string | number, string>,
@@ -21,7 +21,6 @@ export const tabBarConfig: (
         <div
           style={{
             ...(i === onTab ? styles.tabTitleOn : styles.tabTitle),
-            color: '#ffffff',
             display: 'flex',
             flexDirection: 'column',
           }}
@@ -34,13 +33,6 @@ export const tabBarConfig: (
           <div style={{ ...flex.center, ...size.full }}>
             {icons[tab] ?? defaultIcon}
           </div>
-          <div
-            style={{
-              background: i === onTab ? color.primary : color.secondaryL,
-              width: '100%',
-              height: 6,
-            }}
-          />
         </div>
       )
     }
@@ -62,7 +54,7 @@ export const stretchBar: StretchBarConfig = {
 
 export const theme = (
   icons: Record<string | number, string>,
-  defaultIcon = '⭐'
+  defaultIcon = 'no-title'
 ) => ({
   tabBar: tabBarConfig(icons, defaultIcon),
   stretchBar,

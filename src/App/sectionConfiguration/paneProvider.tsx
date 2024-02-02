@@ -3,10 +3,11 @@ import { section as sections } from './Section'
 import { unfoldBearer } from './Bearer'
 import React, { useContext } from 'react'
 import { AppSelectionContext } from 'App/context/AppSelectionContext'
-import { SectionConfiguration, named } from './named'
+import { named } from './named'
 import { Constr, SectionContext } from './SectionContext'
 import { TilePaneWithRect } from 'components'
 import { AppStateContext } from 'App/context/AppStateContext'
+import { SectionConfiguration } from './SectionConfiguration'
 
 export const PaneProvider: React.FC<TilePaneProviderProps> = (
   props: TilePaneProviderProps
@@ -23,9 +24,10 @@ export const PaneProvider: React.FC<TilePaneProviderProps> = (
   const content = Object.entries(sections)
     .map((entry) => ({ key: entry[0], value: entry[1] }))
     .find((entry) => entry.key === bearer.paneName)?.value
+
   const border =
     selection === props.pane.name
-      ? { border: '0.25em solid #ff0000' }
+      ? { border: '0.25em solid #9dc6f8' }
       : { border: '0.25em solid #000000' }
   return (
     <div

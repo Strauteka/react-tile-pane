@@ -7,6 +7,7 @@ function createStyles<T extends Record<string, React.CSSProperties>>(
 }
 
 export const thickness = 2.5
+export const stretchBarThickness = 0.25
 
 export const color = {
   backL: '#1C242D',
@@ -68,21 +69,23 @@ export const styles = createStyles({
     overflowX: 'hidden',
   },
   tabTitle: {
+    color: '#ffffff',
     minHeight: thickness + 'em',
     minWidth: thickness + 'em',
     ...flex.between,
     background: color.secondaryLL,
     marginBottom: 0.375,
-    cursor: 'move',
+    cursor: 'grab',
     userSelect: 'none',
   },
   tabTitleOn: {
+    color: '#ffffff',
     minHeight: thickness + 'em',
-    minwidth: thickness + 'em',
+    minWidth: thickness + 'em',
     ...flex.between,
     background: color.secondaryL,
     marginBottom: 0.375,
-    cursor: 'move',
+    cursor: 'grab',
     userSelect: 'none',
   },
   pane: {
@@ -92,7 +95,7 @@ export const styles = createStyles({
   },
   closeButton: {
     // height: thickness + 'em',
-    width:  '1.2em',
+    width: '1.2em',
     color: color.secondary,
     fontSize: 35,
     cursor: 'pointer',

@@ -20,7 +20,7 @@ export type Vector2 = [number, number]
  * move(names.apple, null)  // close the `apple` pane
  * move(names.apple, [0.99, 0.01])  // move `apple` pane to upper right corner
  */
-export type MovePane = (name: PaneName, position?: Vector2 | null, props?: unknown) => void
+export type MovePane = (name: PaneName, position?: Vector2 | null) => void
 
 export function useMovePane(): MovePane {
   const dispatch = useContext(TileDispatchContext)
@@ -39,7 +39,6 @@ export function useMovePane(): MovePane {
       dispatch({ leafToCloseTab: { name } })
       return
     }
-
     const paneWithPreBox = calcPreBox(
       branches,
       leaves,

@@ -24,7 +24,6 @@ export const section: {
   grape: grape,
   aaa:  aaa,
   bbb: bbb,
-  ccc: CustomSection,
   custom: CustomSection2,
   SubSection1: functionalTestBounce,
   SubSection2: functionalTestX,

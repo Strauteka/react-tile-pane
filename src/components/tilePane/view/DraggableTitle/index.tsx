@@ -20,12 +20,12 @@ export type DraggableTitleProps = {
   children?: React.ReactNode | ((isMoving: boolean) => React.ReactNode)
   style?: CSSProperties | ((isMoving: boolean) => CSSProperties)
   className?: string | ((isMoving: boolean) => string)
-  dragConfig?: DragConfig
+  drag?: DragConfig
 } & React.DOMAttributes<HTMLDivElement> &
   Partial<Pick<GestureHandlers, 'onDrag' | 'onDragEnd' | 'onDragStart'>>
 
 const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
-  const { name, dragConfig } = props
+  const { name, drag } = props
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
   const pane = useContext(LeafContext)
@@ -34,7 +34,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
     name,
     pane,
     props,
-    dragConfig
+    drag
   )
 
   const { style, className, children, rest } = useFn(props, isDragging)

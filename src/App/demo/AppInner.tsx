@@ -8,14 +8,16 @@ import {
   useGetRootNode,
   TileBranchSubstance,
 } from 'components'
-import { color, styles, theme } from './basic'
-import '../demo/basic/styles.css'
 
 import { named } from 'App/sectionConfiguration/named'
-import { makeBearerString, unfoldBearer } from '../sectionConfiguration/Bearer'
+import { makeBearerString } from '../sectionConfiguration/Bearer'
 import { PaneProvider } from 'App/sectionConfiguration/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 import { AppSelectionContext } from 'App/context/AppSelectionContext'
+import { color } from './notDragable'
+import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
+import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
+import { ContextStore, conextName, context } from 'App/store/global'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 
@@ -30,7 +32,6 @@ function PaneIcon(props: { name: string; title: string }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        // width: 60,
         background: color.backL,
         fontSize: 25,
         padding: 10,
@@ -100,7 +101,8 @@ export const AppInner: React.FC = () => {
     <AppSelectionContext.Provider value={value}>
       <TileProvider
         rootNode={root}
-        {...theme(icons)}
+        tabBar={tabBarBuilder({ named, isDraggable: true })}
+        stretchBar={StretchBar}
         tilePaneProvider={{ paneProvider: middleManProvider }}
       >
         <div
@@ -121,14 +123,13 @@ export const AppInner: React.FC = () => {
             {Object.entries(icons).map((name) => (
               <PaneIcon key={name[0]} name={name[0]} title={name[1]} />
             ))}
-            {/* <CreateSection nodeList={nodeList}></CreateSection> */}
           </div>
 
           <div
             style={{
               width: 'inherit',
               height: 'inherit',
-              overflowY: 'hidden', // hide vertical
+              overflowY: 'hidden',
               overflowX: 'hidden',
             }}
           >
@@ -136,6 +137,7 @@ export const AppInner: React.FC = () => {
           </div>
         </div>
         <AutoSaveLayout />
+        <ContextStore name={conextName.main} />
         <div />
       </TileProvider>
     </AppSelectionContext.Provider>
