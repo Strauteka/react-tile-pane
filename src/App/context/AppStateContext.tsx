@@ -17,5 +17,8 @@ export const useAppState = (): AppState => {
 }
 
 export const useScopedMovePane = (scopeName?: PaneName): MovePane => {
-  return (scopeName? context[scopeName]?.movePane : useMovePane()) || context[contextName.main].movePane
+  return (
+    (scopeName ? context[scopeName]?.movePane : useMovePane()) ||
+    context[contextName.main]?.movePane
+  )
 }
