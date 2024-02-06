@@ -1,25 +1,61 @@
 import React, { useState } from 'react'
-import { AppStateContext } from './context/AppStateContext'
+import { AppStateContext, AppStateType } from './context/AppStateContext'
 import { AppInner } from './AppInner'
+import {
+  EditFormStateContext,
+  EditFormType,
+  selectionDefault,
+  selectionDefaultValue,
+} from './context/EditFormStateContext'
+import { AppSelectionContext } from './context/AppSelectionContext'
+import { PaneName } from 'components'
+import { unfoldBearer } from './sectionConfiguration/Bearer'
+
+// 0n initial build, rect panels registers edit state,
+// So multiple fire on setEditFormState and actual edditFormState lags behind
+const instantMapOfEditState: { [x: string]: EditFormType } = {}
+const instantMapOfAppState: { [x: string]: AppStateType } = {}
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState({})
+  const [selection, setSelection] = useState(selectionDefault)
+  const selectionValue = { selection, setSelection }
+  const [edditFormState, setEditFormState] = useState({
+    [selectionDefault]: selectionDefaultValue,
+  })
   return (
     <div
       style={{
         height: '100vh',
       }}
     >
-      <AppStateContext.Provider
-        value={{
-          appState: appState,
-          setAppState: (paneName: string, state: any) => {
-            setAppState({ ...appState, [paneName]: state })
-          },
-        }}
-      >
-        <AppInner />
-      </AppStateContext.Provider>
+      <AppSelectionContext.Provider value={selectionValue}>
+        <EditFormStateContext.Provider
+          value={{
+            editFormState: edditFormState,
+            setEditFormState(paneName: PaneName, state: EditFormType) {
+              instantMapOfEditState[paneName] = state
+              setEditFormState({
+                ...instantMapOfEditState,
+              })
+            },
+          }}
+        >
+          <AppStateContext.Provider
+            value={{
+              appState: appState,
+              setAppState: (paneName: string, state: AppStateType) => {
+                instantMapOfAppState[paneName] = state
+                setAppState({
+                  ...instantMapOfAppState,
+                })
+              },
+            }}
+          >
+            <AppInner />
+          </AppStateContext.Provider>
+        </EditFormStateContext.Provider>
+      </AppSelectionContext.Provider>
     </div>
   )
 }

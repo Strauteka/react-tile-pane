@@ -1,11 +1,12 @@
-import { AppScopeStateContext, useAppScopeState } from 'App/context/AppScopeStateContext'
+import { useAppScopeState } from 'App/context/AppScopeStateContext'
 import { useAppState, useScopedMovePane } from 'App/context/AppStateContext'
-import { makeBearerString } from 'App/sectionConfiguration/Bearer'
+import { useEditFormState } from 'App/context/EditFormStateContext'
+import { makeBearerString, unfoldBearer } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 import { named } from 'App/sectionConfiguration/named'
-import { context } from 'App/store/global'
+import { contextName } from 'App/store/global'
 import { MovePane } from 'components'
-import { useContext } from 'react'
+import { useEffect } from 'react'
 
 const style = {
   width: '100%',
@@ -26,7 +27,8 @@ Vivamus vestibulum ultrices arcu in vestibulum. Nunc porta bibendum risus, vitae
 
 export const OpenSection: React.FC<any> = (props: SectionContext<{}>) => {
   const { appScopeState } = useAppScopeState()
-  const movePane: MovePane = useScopedMovePane(appScopeState.scopeName)
+  // const movePane: MovePane = useScopedMovePane(appScopeState.scopeName)
+  const movePane: MovePane = useScopedMovePane(contextName.main)
   return (
     <div
       style={{ ...style, cursor: 'pointer', background: 'green' }}
@@ -60,17 +62,48 @@ export const functionalTestX: React.FC<any> = (props: SectionContext<{}>) => {
       </div>
     )
   })
+  const { setEditFormState } = useEditFormState()
+  //same as component did mount!
+  useEffect(() => {
+    setEditFormState(props.pane.name, {
+      render: (
+        <div
+          onClick={() => {
+            console.log('aasad')
+          }}
+          style={{ height: '100%', backgroundColor: 'green' }}
+        >
+          NONSELECTION
+        </div>
+      ),
+    })
+  }, [props.pane.name])
 
   return (
     <div
       style={style}
       onChange={(ev) => {
-        // props.props.call((ev.target as HTMLInputElement).value)
         console.log('setState', props.pane.name)
+        const value = (ev.target as HTMLInputElement).value
         setAppState(props.pane.name, {
-          selectedValue: (ev.target as HTMLInputElement).value,
+          selectedValue: value,
         })
-        console.log('click', (ev.target as HTMLInputElement).value)
+        setEditFormState(props.pane.name, {
+          render: (
+            <div
+              onClick={() => {
+                console.log('aasad')
+              }}
+              style={{
+                //marginBlockStart: '0em',// chrome adds
+                height: '100%',
+                backgroundColor: value.length > 5 ? 'blue' : 'red',
+              }}
+            >
+              Hello there {value}
+            </div>
+          ),
+        })
       }}
     >
       {fuits}

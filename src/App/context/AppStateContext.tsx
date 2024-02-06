@@ -2,14 +2,18 @@ import { context, contextName } from 'App/store/global'
 import { MovePane, PaneName, useMovePane } from 'components'
 import { createContext, useContext } from 'react'
 
+export interface AppStateType {
+  [key: string]: any
+}
+
 export type AppState = {
-  appState: { [name: string]: {} }
-  setAppState: (paneName: string, state: {}) => void
+  appState: { [name: PaneName]: {} }
+  setAppState: (paneName: PaneName, state: AppStateType) => void
 }
 
 export const AppStateContext = createContext<AppState>({
   appState: {},
-  setAppState: (paneName: string, state: {}) => {},
+  setAppState: (paneName: PaneName, state: AppStateType) => {},
 })
 
 export const useAppState = (): AppState => {

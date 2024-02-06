@@ -45,6 +45,15 @@ export const named: { [name: string]: SectionConfiguration } = {
     isSelection: false,
     tabTitle: 'custom',
   },
+  editForm: {
+    isSelection: false,
+    tabTitle: 'Edit Form',
+  },
+  editFormSection: {
+    isSelection: true,
+    tabTitle: 'Edit Form Section',
+  },
+  
 }
 
 const namedKeys =  typeof  named

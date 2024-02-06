@@ -6,10 +6,16 @@ import {
   grape,
 } from 'App/section/reactNodeSection/ReactNodeSection'
 import { Constr, SectionContext } from './SectionContext'
-import { functionalTestX,  OpenSection, functionalTestBounce, bbb, aaa  } from 'App/section/other/customSectionPanes'
+import {
+  functionalTestX,
+  OpenSection,
+  functionalTestBounce,
+  bbb,
+  aaa,
+} from 'App/section/other/customSectionPanes'
 import { CustomSection2 } from 'App/section/componentSection/CustomSection2'
-
-
+import { editFormProvider } from 'App/component/provider/EditFormProvider'
+import { editFormSection } from 'App/section/functionalSection/editFormSection'
 
 export const section: {
   [name: string]:
@@ -22,12 +28,12 @@ export const section: {
   pineapple: pineapple,
   lemon: lemon,
   grape: grape,
-  aaa:  aaa,
+  aaa: aaa,
   bbb: bbb,
   custom: CustomSection2,
   SubSection1: functionalTestBounce,
   SubSection2: functionalTestX,
-  SubSection3: OpenSection
+  SubSection3: OpenSection,
+  editForm: editFormProvider,
+  editFormSection: editFormSection
 }
-
-

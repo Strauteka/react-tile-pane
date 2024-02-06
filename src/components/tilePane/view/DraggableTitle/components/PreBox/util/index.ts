@@ -38,14 +38,14 @@ export function calcPreBox(
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
       if (pane.isRow) {
-        if (y - top < height * branchProportion)
+        if (y - top <= height * branchProportion)
           return { branch: { target: pane, into: 'top' } }
-        if (top + height - y < height * branchProportion)
+        if (top + height - y <= height * branchProportion)
           return { branch: { target: pane, into: 'bottom' } }
       } else {
-        if (x - left < width * branchProportion)
+        if (x - left <= width * branchProportion)
           return { branch: { target: pane, into: 'left' } }
-        if (left + width - x < width * branchProportion)
+        if (left + width - x <= width * branchProportion)
           return { branch: { target: pane, into: 'right' } }
       }
 
@@ -54,18 +54,19 @@ export function calcPreBox(
   for (const pane of leaves) {
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
-      if (x - left < width * leafProportion)
+      if (x - left <= width * leafProportion)
         return { leaf: { target: pane, into: 'left' } }
-      if (left + width - x < width * leafProportion)
+      if (left + width - x <= width * leafProportion)
         return { leaf: { target: pane, into: 'right' } }
-      if (y - top < height * leafProportion)
+      if (y - top <= height * leafProportion)
         return { leaf: { target: pane, into: 'top' } }
-      if (top + height - y < height * leafProportion)
+      if (top + height - y <= height * leafProportion)
         return { leaf: { target: pane, into: 'bottom' } }
       return { leaf: { target: pane, into: 'center' } }
     }
   }
-
+  console.log('Could not find pane!')
+  leaves.forEach(entry => { console.log('leaf', entry)})
   const leaveBranch = leaves.find(notUsed => true);
   if(leaveBranch){
     return  { leaf: { target: leaveBranch, into: 'center' } }

@@ -1,4 +1,9 @@
-import { TileBranchSubstance, TileContainer, TileProvider, useGetRootNode } from 'components'
+import {
+  TileBranchSubstance,
+  TileContainer,
+  TileProvider,
+  useGetRootNode,
+} from 'components'
 import React from 'react'
 import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
@@ -49,6 +54,15 @@ export class CustomSection extends React.Component<
     ],
   }
 
+  shouldComponentUpdate(
+    nextProps: Readonly<SectionContext<CustomSectionProps>>,
+    nextState: Readonly<CustomSectionState>,
+    nextContext: any
+  ): boolean {
+    console.log('shouldComponentUpdate', this.constructor.name)
+    return true
+  }
+
   render = () => {
     const localRoot = localStorage.getItem('SomeOtherKeyxxx')
     const root = localRoot
@@ -58,8 +72,8 @@ export class CustomSection extends React.Component<
     return (
       <ScopedTileProvider
         paneName={this.props.pane.name}
-        rootNode={ this.rootPane}
-        tabBar={tabBarBuilder({named, isDraggable: false})}
+        rootNode={this.rootPane}
+        tabBar={tabBarBuilder({ named, isDraggable: false })}
         stretchBar={StretchBar}
         tilePaneProvider={{ paneProvider: this.middleManProvider }}
       >
