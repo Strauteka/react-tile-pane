@@ -25,7 +25,6 @@ export function stopMovingTab(
 ): TileStore {
   const newMovingTabs = removeInArray(movingTabs, (it) => (it.name = pane))
   if (preBox) {
-    console.log('adding', pane, characteristic)
     const { rootNode } = rest
     insertPane(pane, preBox, rest, characteristic)
     const nodes = unfold(rootNode)
@@ -42,7 +41,6 @@ function insertPane(
   nodes: Pick<TileStore, 'branches' | 'leaves'>,
   characteristic?: TileCharacteristic
 ) {
-  console.log('insertingPane!!!', pane, preBox)
   // const { targetNode: node, into } = preBox
   const node = preBox.leaf ?? preBox.branch ?? preBox.tab
   if (!node) return
@@ -53,27 +51,22 @@ function insertPane(
   const isRow = typeof into === 'number' ? false : row.includes(into)
 
   if (isTileLeaf(target)) {
-    console.log('addingxx33', pane, characteristic)
     const leaf =
       leaves.find((it) => it === target) || leaves.find((notUsed) => true)
     if (leaf) {
-      console.log('123456111', pane, characteristic)
       if (into === 'center') {
-        console.log('23333', pane, characteristic)
         const newChildren = leaf.children.slice()
         newChildren.push(pane)
         leaf.setChildren(newChildren)
         // leaf.setCharacteristic(characteristic)
         leaf.onTab = leaf.children.length - 1
       } else if (preBox.tab) {
-        console.log('42123', pane, characteristic)
         const newChildren = leaf.children.slice()
         const index = preBox.tab.into + (preBox.tab.hasNext ? 1 : 0)
         newChildren.splice(index, 0, pane)
         leaf.setChildren(newChildren)
         leaf.onTab = index
       } else {
-        console.log('122333', pane, preBox, characteristic)
         isBrother
           ? segment(target, pane, isNext, characteristic)
           : fission(target, pane, isNext, isRow, characteristic)
@@ -94,7 +87,6 @@ function segment(
   isNext: boolean,
   characteristic?: TileCharacteristic
 ) {
-  console.log('using segment!')
   const { parent } = node
   if (!parent) return
   const grow = node.grow / 2

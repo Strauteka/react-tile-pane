@@ -29,6 +29,7 @@ export const tileStoreReducer: TileStoreReducer = (
     reset,
   }
 ) => {
+  
   if (leafToSwitchTab) return switchLeafTab(state, leafToSwitchTab)
   if (leafToCloseTab) return startMovingTab(state, leafToCloseTab, true)
   if (tabToStartMoving) return startMovingTab(state, tabToStartMoving)
