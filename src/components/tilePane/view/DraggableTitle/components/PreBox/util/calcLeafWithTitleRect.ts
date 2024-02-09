@@ -9,9 +9,11 @@ export interface LeafWithTitleRect {
 
 export function calcLeafWithTitleRect(
   titleRects: Record<PaneName, TileNodeRect>,
-  leaves: TileLeaf[]
+  leaves: TileLeaf[],
+  
 ): LeafWithTitleRect[] {
   const leafWithTitleRects: LeafWithTitleRect[] = []
+
   leaves.forEach((leaf) => {
     leaf.children.forEach((title, index) => {
       const rect = titleRects[title]

@@ -1,9 +1,4 @@
-import {
-  TileBranchSubstance,
-  TileContainer,
-  TileProvider,
-  useGetRootNode,
-} from 'components'
+import { TileBranchSubstance, TileContainer, useGetRootNode } from 'components'
 import React from 'react'
 import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
@@ -41,8 +36,28 @@ export class CustomSection extends React.Component<
   }
 
   rootPane: TileBranchSubstance = {
+    characteristic: {
+      movable: {
+        center: false,
+        left: false,
+        right: false,
+        top: false,
+        bottom: false,
+      },
+    },
     children: [
-      { children: [makeBearerString('aaa')] },
+      {
+        characteristic: {
+          movable: {
+            center: false,
+            left: false,
+            right: false,
+            top: false,
+            bottom: false,
+          },
+        },
+        children: [makeBearerString('aaa')],
+      },
       {
         onTab: 2,
         children: [
@@ -73,7 +88,7 @@ export class CustomSection extends React.Component<
       <ScopedTileProvider
         paneName={this.props.pane.name}
         rootNode={this.rootPane}
-        tabBar={tabBarBuilder({ named, isDraggable: false })}
+        tabBar={tabBarBuilder({ named, isDraggable: true })}
         stretchBar={StretchBar}
         tilePaneProvider={{ paneProvider: this.middleManProvider }}
       >

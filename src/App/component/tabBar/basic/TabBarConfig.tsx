@@ -32,11 +32,15 @@ export const tabBarBuilder = (
   return {
     ...{
       render: ({ leaf, tabs, onTab, action }) => {
+        // console.log('CALLRENDER',leaf, tabs, onTab, action)
         return (
           <TabBar
             leaf={leaf}
             onTab={onTab}
             tabs={tabs}
+            moving={tabs.filter(entry => {
+              return !leaf.children.find(tabLeft => tabLeft===entry)
+            })}
             action={action}
             {...tabProps}
           ></TabBar>

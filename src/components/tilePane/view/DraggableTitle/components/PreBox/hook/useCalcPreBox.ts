@@ -18,10 +18,7 @@ export function useCalcPreBox(position: Vector2, throttle?: number) {
   const { preBox: preBoxInTabBar } = useContext(TabsBarContext)
   const titleRects = useContext(TitleRectsContext)
 
-  const leafWithTitleRects = useMemo(
-    () => calcLeafWithTitleRect(titleRects, leaves),
-    [leaves, titleRects]
-  )
+  const leafWithTitleRects = calcLeafWithTitleRect(titleRects, leaves)
 
   const innerPosition = useMemo(
     () => absolute2Relative(containerRect, ...position),
@@ -47,5 +44,5 @@ export function useCalcPreBox(position: Vector2, throttle?: number) {
       preBoxInTabBar,
     ]
   )
-  return { paneWithPreBox, leafWithTitleRects }
+  return { paneWithPreBox, leafWithTitleRects}
 }

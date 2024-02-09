@@ -5,12 +5,15 @@ import {
   TabsBarContext,
   TitleRectsContext,
   TileDispatchContext,
+  MovingTabsContext,
 } from '../..'
 import { PaneName } from '../../../../util'
 import {
   calcLeafWithTitleRect,
   calcPreBox,
 } from '../../../DraggableTitle/components/PreBox/util'
+
+import { TileCharacteristic } from 'components/tilePane/model'
 
 export type Vector2 = [number, number]
 
@@ -20,7 +23,7 @@ export type Vector2 = [number, number]
  * move(names.apple, null)  // close the `apple` pane
  * move(names.apple, [0.99, 0.01])  // move `apple` pane to upper right corner
  */
-export type MovePane = (name: PaneName, position?: Vector2 | null) => void
+export type MovePane = (name: PaneName, position?: Vector2 | null, characteristic?: TileCharacteristic) => void
 
 export function useMovePane(): MovePane {
   const dispatch = useContext(TileDispatchContext)
@@ -28,13 +31,12 @@ export function useMovePane(): MovePane {
   const leaves = useContext(TileLeavesContext)
   const { preBox: preBoxInTabBar } = useContext(TabsBarContext)
   const titleRects = useContext(TitleRectsContext)
-
   const leafWithTitleRects = useMemo(
     () => calcLeafWithTitleRect(titleRects, leaves),
     [leaves, titleRects]
   )
 
-  return (name, position) => {
+  return (name, position, characteristic) => {
     if (!position) {
       dispatch({ leafToCloseTab: { name } })
       return
@@ -47,6 +49,6 @@ export function useMovePane(): MovePane {
       preBoxInTabBar
     )
     dispatch({ tabToStartMoving: { name } })
-    dispatch({ tabToStopMoving: { pane: name, preBox: paneWithPreBox } })
+    dispatch({ tabToStopMoving: { pane: name, preBox: paneWithPreBox , characteristic} })
   }
 }

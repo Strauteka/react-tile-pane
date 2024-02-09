@@ -20,10 +20,14 @@ export interface Bearer<T> {
   props?: T
 }
 
-export const makeBearer = <T>(paneName: PaneName, props?: T): Bearer<T> => {
+export const makeBearer = <T>(
+  paneName: PaneName,
+  key?: string,
+  props?: T
+): Bearer<T> => {
   return {
     paneName: paneName,
-    key: makeId(8),
+    key: key || makeId(8),
     props: props,
   }
 }
@@ -36,8 +40,12 @@ const fromBase64 = (str: string): string => {
   return Buffer.from(str, 'base64').toString('binary')
 }
 
-export const makeBearerString = <T>(paneName: PaneName, props?: T): string => {
-  return toBase64(JSON.stringify(makeBearer(paneName, props)))
+export const makeBearerString = <T>(
+  paneName: PaneName,
+  key?: string,
+  props?: T
+): string => {
+  return toBase64(JSON.stringify(makeBearer(paneName, key, props)))
 }
 
 export const foldBearer = <T>(bearer: Bearer<T>): string => {

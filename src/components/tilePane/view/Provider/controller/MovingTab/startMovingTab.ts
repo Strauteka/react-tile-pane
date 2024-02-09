@@ -21,8 +21,14 @@ export function startMovingTab(
   const tabIndex = leaf?.children.findIndex((it) => it === name) ?? 0
   if (leaf) {
     const newChildren = removeInArray(leaf.children, name)
-    leaf.onTab = 0
+    leaf.onTab =
+      leaf.onTab != tabIndex
+        ? tabIndex < leaf.onTab
+          ? leaf.onTab - 1
+          : leaf.onTab
+        : newChildren.length - 1
     leaf.setChildren(newChildren)
+
     if (newChildren.length === 0) {
       removeNode(branches, leaf)
     }

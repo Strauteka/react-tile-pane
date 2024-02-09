@@ -7,13 +7,13 @@ import {
   useMovePane,
   useGetRootNode,
   TileBranchSubstance,
+  TileCharacteristic,
 } from 'components'
 
 import { named } from 'App/sectionConfiguration/named'
 import { makeBearerString } from './sectionConfiguration/Bearer'
 import { PaneProvider } from 'App/component/provider/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
-import { AppSelectionContext } from 'App/context/AppSelectionContext'
 import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
 import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
 import { ContextStore, contextName } from 'App/store/global'
@@ -22,10 +22,33 @@ import { color } from 'App/component/tabBar/basic/styles'
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 
 function PaneIcon(props: { name: string; title: string }) {
+  const bearer = makeBearerString(
+    props.name,
+    props.name === 'editForm' ? props.name : undefined,
+    {}
+  )
   const getLeaf = useGetLeaf()
   const move = useMovePane()
-  const leaf = getLeaf(props.name)
+  const leaf = getLeaf(bearer)
   const isShowing = !!leaf
+
+  const cordinatas: [number, number] =
+    props.name === 'editForm' ? [0.9999, 0.5] : [0, 0]
+
+  const characteristic: TileCharacteristic =
+    props.name === 'editForm'
+      ? {
+          movable: {
+            left: true,
+            right: false,
+            top: false,
+            bottom: false,
+            center: false,
+          },
+        }
+      : {
+          movable: {},
+        }
   return (
     <div
       style={{
@@ -37,21 +60,17 @@ function PaneIcon(props: { name: string; title: string }) {
         padding: 10,
         color: '#ffffff',
         gap: '1rem',
+        width: '250px'
       }}
     >
       <div style={{ cursor: 'move' }}>
-        <DraggableTitle
-          name={makeBearerString(props.name, { dragable: 'yes' })}
-        >
-          {props.title}
-        </DraggableTitle>
+        <DraggableTitle name={props.name}>{props.title}</DraggableTitle>
       </div>
       <div
         onClick={() => {
-          move(
-            makeBearerString(props.name, { test: 'yes' }),
-            isShowing ? null : [0, 0]
-          )
+          // if (!isShowing) {
+          move(bearer, isShowing ? null : cordinatas, characteristic)
+          // }
         }}
         style={{
           cursor: 'pointer',
@@ -87,7 +106,15 @@ export const AppInner: React.FC = () => {
     {}
   )
   const rootPane: TileBranchSubstance = {
-    children: [{ children: [] }],
+    characteristic: { movable: { top: false, bottom: false } },
+    children: [
+      {
+        characteristic: {
+          movable: { top: false, bottom: false},
+        },
+        children: [],
+      },
+    ],
   }
 
   const localRoot = localStorage.getItem(localStorageKey)
@@ -133,7 +160,7 @@ export const AppInner: React.FC = () => {
           <TileContainer />
         </div>
       </div>
-      <AutoSaveLayout />
+      {/* <AutoSaveLayout /> */}
       <ContextStore name={contextName.main} />
       <div />
     </TileProvider>

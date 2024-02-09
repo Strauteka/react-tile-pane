@@ -12,7 +12,9 @@ export type CustomTabBarProps = {
 }
 
 type TabBarProps = TabBarPropsWithAction &
-  CustomTabBarProps
+  CustomTabBarProps & {
+    moving: string[]
+  }
 
 export class TabBar extends React.Component<TabBarProps, TabBarState> {
   private ref: React.RefObject<HTMLInputElement>
@@ -35,7 +37,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
     return true
   }
 
-  content = (tab: PaneName) => {
+  content = (tab: PaneName, i: number) => {
     const bearer = unfoldBearer(tab)
     return (
       <div style={{ ...flex.center, ...size.full }}>
@@ -50,9 +52,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
       style: {
         ...(i === this.props.onTab ? styles.tabTitleOn : styles.tabTitle),
         color: this.state.color,
-        display: 'flex',
-        flexDirection: 'column',
-        minWidth: '5em',
+        minWidth: '6em',
         ...(this.props.isDraggable ? {} : { cursor: 'pointer' }),
       } as CSSProperties,
       onClick: () => {
@@ -72,19 +72,20 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
         drag={{ filterTaps: true, tapsThreshold: 10 }}
         {...tagProps}
       >
-        {this.content(tab)}
+        {this.content(tab, i)}
       </DraggableTitle>
     ) : (
-      <div {...tagProps}>{this.content(tab)}</div>
+      <div {...tagProps}>{this.content(tab, i)}</div>
     )
   }
 
   render = () => {
+    const tabBars = this.props.tabs.map(this.tabBar)
     return (
       !!!this.props.noBar && (
         <div style={styles.tabBar}>
           <div ref={this.ref} style={styles.tabAlign}>
-            {this.props.tabs.map(this.tabBar)}
+            {tabBars}
           </div>
           {this.props.onTab !== -1 && (this.props.isDraggable || false) && (
             <div

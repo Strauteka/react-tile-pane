@@ -1,6 +1,7 @@
 import { increasingID, isTileLeaf, PaneName } from '../..'
 import {
   TileBranchSubstance,
+  TileCharacteristic,
   TileLeafSubstance,
   TileNodeConstructor,
   TileNodeRect,
@@ -52,12 +53,12 @@ export function calcChildRects(
   }
 }
 
-
 export interface TileNode {
-     readonly id: string;
-     readonly parent: TileBranch | null;
-     grow: number;
-     rect: TileNodeRect;
+  readonly id: string
+  readonly parent: TileBranch | null
+  grow: number
+  rect: TileNodeRect,
+  characteristic: TileCharacteristic
 }
 
 export class TileNode {
@@ -70,7 +71,8 @@ export class TileNode {
       left: 0,
       width: 1,
       height: 1,
-    }
+    },
+    public characteristic: TileCharacteristic,
   ) {}
 }
 
@@ -82,11 +84,15 @@ export class TileLeaf extends TileNode {
   ) {
     super(...rest)
   }
-  
+
   public setChildren(children: PaneName[]) {
     this.children = children.filter(
       (child, i) => children.findIndex((it) => it === child) === i
     )
+  }
+
+  public setCharacteristic(characteristic?: TileCharacteristic) {
+    this.characteristic = characteristic || this.characteristic
   }
 
   public dehydrate = (): TileLeafSubstance => {
@@ -96,6 +102,7 @@ export class TileLeaf extends TileNode {
       onTab: this.onTab,
       children: this.children,
       grow: this.grow,
+      characteristic: this.characteristic,
     }
   }
 }
@@ -111,9 +118,7 @@ export class TileBranch extends TileNode {
     this.setChildren(children)
   }
 
-  public setChildren(
-    children: (TileBranchSubstance | TileLeafSubstance)[]
-  ) {
+  public setChildren(children: (TileBranchSubstance | TileLeafSubstance)[]) {
     const grows = calcChildGrows(children)
     const rect = calcChildRects(this, grows)
     this.children = children
@@ -126,12 +131,22 @@ export class TileBranch extends TileNode {
               it.id,
               this,
               grows[i],
-              rect[i]
+              rect[i],
+              it.characteristic || {},
             )
-          : new TileBranch(it.isRow, it.children, it.id, this, grows[i], rect[i])
+          : new TileBranch(
+           
+              it.isRow,
+              it.children,
+              it.id,
+              this,
+              grows[i],
+              rect[i],
+              it.characteristic || {},
+            )
       )
   }
-  
+
   public dehydrate(): TileBranchSubstance {
     const childrenDehydrated = this.children.map((it) =>
       isTileLeaf(it) ? it.dehydrate() : it.dehydrate()
@@ -142,6 +157,7 @@ export class TileBranch extends TileNode {
       children: childrenDehydrated,
       isRow: this.isRow,
       grow: this.grow,
+      characteristic: this.characteristic,
     }
   }
 }

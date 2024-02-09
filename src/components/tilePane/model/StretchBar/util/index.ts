@@ -21,7 +21,7 @@ export function move(this: StretchBarEntity, distance: number): boolean {
 }
 
 function isValidGrow(growA: number, growB: number): boolean {
-  if (growA < 0.1 || growB < 0.1) return false
+  if (growA < 0.04 || growB < 0.04) return false
   const growSum = growA + growB
   if (growA > growSum || growB > growSum) return false
   return true

@@ -64,7 +64,7 @@ export const styles = createStyles({
     background: color.backL,
     ...size.full,
     ...flex.columnRow,
-    gap: '0.25rem',
+    // gap: '0.25rem',
     overflowY: 'hidden',
     overflowX: 'hidden',
   },

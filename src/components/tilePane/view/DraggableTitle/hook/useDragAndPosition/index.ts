@@ -31,12 +31,21 @@ export function useDragAndPosition(
       onDragStart: (e) => {
         hook?.onDragStart?.(e)
         dispatch({ tabToStartMoving: { name, leaf } })
+        //dragable position glitch react18 in useMeasure  
+        //todo: check better solution
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'))
+        }, 500)
       },
       onDragEnd: (e) => {
         dispatch({
           tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current },
         })
         hook?.onDragEnd?.(e)
+          //dragable position glitch  react18 in useMeasure 
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'))
+          }, 500)
       },
     },
     { drag }

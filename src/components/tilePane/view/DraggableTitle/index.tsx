@@ -24,7 +24,7 @@ export type DraggableTitleProps = {
 } & React.DOMAttributes<HTMLDivElement> &
   Partial<Pick<GestureHandlers, 'onDrag' | 'onDragEnd' | 'onDragStart'>>
 
-const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
+const DraggableTitleInner: React.FC<DraggableTitleProps> = (props, aFn) => {
   const { name, drag } = props
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
@@ -39,13 +39,11 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
 
   const { style, className, children, rest } = useFn(props, isDragging)
 
-  const [targetRef, rect] = useMeasure({ scroll: true })
+  const [targetRef, rect] = useMeasure({scroll: true})
   const setTitleRects = useContext(SetTitleRectsContext)
-
-  const { left, height, top, width } = rect
   useEffect(() => {
-    setTitleRects({ name, rect: { left, height, top, width } })
-  }, [height, left, name, rect, setTitleRects, top, width])
+    setTitleRects({ name: props.name, rect: { ...rect } })
+  }, [ props, rect, setTitleRects])
 
   const styled = useMemo(
     () =>
@@ -63,22 +61,20 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
         : style) as React.CSSProperties,
     [position, style]
   )
-  return useMemo(
-    () => (
-      <>
-        {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
-        <div
-          {...bind()}
-          {...rest}
-          ref={targetRef}
-          style={{ ...styled, touchAction: 'none' }}
-          className={className}
-        >
-          {children}
-        </div>
-      </>
-    ),
-    [bind, children, className, position, rest, styled, targetRef]
+  return (
+    <>
+      {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
+      <div
+        key={props.name}
+        {...bind()}
+        {...rest}
+        ref={targetRef}
+        style={{ ...styled, touchAction: 'none' }}
+        className={className}
+      >
+        {children}
+      </div>
+    </>
   )
 }
 

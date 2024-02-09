@@ -22,10 +22,8 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   const { throttle, style, className, child } = useContext(PreBoxConfigContext)
   const { preBox: preBoxInTabBar } = useContext(TabsBarContext)
 
-  const { paneWithPreBox, leafWithTitleRects } = useCalcPreBox(
-    position,
-    throttle
-  )
+  const { paneWithPreBox, leafWithTitleRects} =
+    useCalcPreBox(position, throttle)
   paneWithPreBoxRef.current = paneWithPreBox
 
   return useMemo(() => {
@@ -46,7 +44,6 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
       ) ?? calcBoxPosition(paneWithPreBox, containerRect)
     const children =
       typeof child === 'function' ? child(paneWithPreBox ?? {}) : child
-
     return (
       <div
         className={classNamed}

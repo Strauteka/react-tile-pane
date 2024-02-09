@@ -39,7 +39,11 @@ export const TitleRectsProvider: React.FC<React.PropsWithChildren> = ({
   return useMemo(
     () => (
       <TitleRectsContext.Provider value={titleRects}>
-        <SetTitleRectsContext.Provider value={setTitleRects}>
+        <SetTitleRectsContext.Provider
+          value={(record: DispatchTitleRectsReducer) => {
+            setTitleRects(record)
+          }}
+        >
           {children}
         </SetTitleRectsContext.Provider>
       </TitleRectsContext.Provider>

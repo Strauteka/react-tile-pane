@@ -4,6 +4,7 @@ import { PaneWithPreBox } from '../../../typings'
 import { proportion } from '..'
 import { LeafWithTitleRect } from '.'
 import { TabsBarConfig } from '../../../..'
+import { MovingTab } from 'components/tilePane/util'
 
 export function calcBoxPosition(
   paneWithPreBox: PaneWithPreBox | undefined,
@@ -77,7 +78,6 @@ export function calcTitleBoxPosition(
   const { children } = target
   const currentTitle = children[into]
   const current = leafWithTitleRects.find((it) => it.title === currentTitle)
-
   if (current) {
     const { top, left, height, width } = current.rect
     const isEnd = config?.isReverse ? !isNext : isNext
