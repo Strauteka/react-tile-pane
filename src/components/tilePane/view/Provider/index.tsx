@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useReducer } from 'react'
+import React, { memo, useEffect, useMemo, useReducer, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import {
   PreBoxConfig,
@@ -31,6 +31,7 @@ import {
 } from './config/PaneProvider'
 
 export interface TileProviderProps {
+  uniq: string
   children?: React.ReactNode
   rootNode?: TileBranchSubstance
   tilePaneProvider: TilePaneProviderConfig
@@ -40,6 +41,7 @@ export interface TileProviderProps {
 }
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
+  uniq,
   children,
   rootNode = {
     children: [{ children: [] }],
@@ -49,11 +51,21 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   stretchBar = defaultStretchBar,
   preBox = defaultPreBox,
 }: TileProviderProps) => {
-  const [{ branches, leaves, stretchBars, movingTabs }, tileStoreDispatch] =
-    useReducer<TileStoreReducer>(tileStoreReducer, {
+  
+  const [rootNodeMaterilized, setRootNodeMaterilized] = useState(() => ({
+    movingTabs: [],
+    ...initRootNode(rootNode),
+  }))
+
+  useEffect(() => {
+    setRootNodeMaterilized({
       movingTabs: [],
       ...initRootNode(rootNode),
     })
+  }, [rootNode])
+
+  const [{ branches, leaves, stretchBars, movingTabs }, tileStoreDispatch] =
+    useReducer<TileStoreReducer>(tileStoreReducer, rootNodeMaterilized)
 
   const childrenMemo = useMemo(() => children, [children])
   const [targetRef, containerRect] = useMeasure({ scroll: true })

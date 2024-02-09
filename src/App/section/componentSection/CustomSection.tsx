@@ -86,6 +86,7 @@ export class CustomSection extends React.Component<
 
     return (
       <ScopedTileProvider
+        uniq={'a'}
         paneName={this.props.pane.name}
         rootNode={this.rootPane}
         tabBar={tabBarBuilder({ named, isDraggable: true })}

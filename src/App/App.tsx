@@ -9,14 +9,13 @@ import {
 } from './context/EditFormStateContext'
 import { AppSelectionContext } from './context/AppSelectionContext'
 import { PaneName } from 'components'
-import { unfoldBearer } from './sectionConfiguration/Bearer'
 
 // 0n initial build, rect panels registers edit state,
 // So multiple fire on setEditFormState and actual edditFormState lags behind
 const instantMapOfEditState: { [x: string]: EditFormType } = {}
 const instantMapOfAppState: { [x: string]: AppStateType } = {}
 
-const App: React.FC = () => {
+const Apps: React.FC = () => {
   const [appState, setAppState] = useState({})
   const [selection, setSelection] = useState(selectionDefault)
   const selectionValue = { selection, setSelection }
@@ -60,4 +59,4 @@ const App: React.FC = () => {
   )
 }
 
-export default App
+export default Apps

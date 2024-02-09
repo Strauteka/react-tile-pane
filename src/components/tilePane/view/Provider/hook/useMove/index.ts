@@ -48,6 +48,7 @@ export function useMovePane(): MovePane {
       position,
       preBoxInTabBar
     )
+    console.log('AAAaaa', paneWithPreBox)
     dispatch({ tabToStartMoving: { name } })
     dispatch({ tabToStopMoving: { pane: name, preBox: paneWithPreBox , characteristic} })
   }

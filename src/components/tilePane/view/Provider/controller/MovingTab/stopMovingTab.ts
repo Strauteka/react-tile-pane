@@ -45,36 +45,43 @@ function insertPane(
   const node = preBox.leaf ?? preBox.branch ?? preBox.tab
   if (!node) return
   const { target, into } = node
+  console.log('insertPane! TARGET', target, into)
   const { leaves, branches } = nodes
   const isNext = typeof into === 'number' ? false : next.includes(into)
   const isBrother = typeof into === 'number' ? false : isSegment(target, into)
   const isRow = typeof into === 'number' ? false : row.includes(into)
-
+  console.log('insertPane!', pane, preBox)
   if (isTileLeaf(target)) {
     const leaf =
       leaves.find((it) => it === target) || leaves.find((notUsed) => true)
     if (leaf) {
+      console.log('insertPane!')
       if (into === 'center') {
+        console.log('insertPane!')
         const newChildren = leaf.children.slice()
         newChildren.push(pane)
         leaf.setChildren(newChildren)
         // leaf.setCharacteristic(characteristic)
         leaf.onTab = leaf.children.length - 1
       } else if (preBox.tab) {
+        console.log('insertPane! 3')
         const newChildren = leaf.children.slice()
         const index = preBox.tab.into + (preBox.tab.hasNext ? 1 : 0)
         newChildren.splice(index, 0, pane)
         leaf.setChildren(newChildren)
         leaf.onTab = index
       } else {
+        console.log('insertPane! isBrother')
         isBrother
           ? segment(target, pane, isNext, characteristic)
           : fission(target, pane, isNext, isRow, characteristic)
       }
     }
   } else {
+    console.log('insertPane! 2')
     const branch = branches.find((it) => it === target)
     if (branch) {
+      console.log('insertPane! 2123')
       fission(target, pane, isNext, isRow, characteristic)
     }
   }
@@ -116,10 +123,12 @@ function fission(
   characteristic?: TileCharacteristic
 ) {
   const { parent, grow } = node
+
+  console.log('insertPane! fission',parent, grow)
   if (!parent) {
     const newLeaf: TileLeafSubstance = {
       characteristic,
-      grow,
+      grow: grow,
       children: [pane],
     }
     const oldLeaf: TileBranchSubstance | TileLeafSubstance = isTileLeaf(node)

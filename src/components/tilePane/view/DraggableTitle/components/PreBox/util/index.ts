@@ -20,7 +20,6 @@ export function calcPreBox(
 ): PaneWithPreBox | undefined {
   if (!innerPosition) return
   const [x, y] = innerPosition
-  
 
   for (const { leaf, rect: titleRect, index } of leafWithTitleRects) {
     if (isInPane(titleRect, innerPosition)) {
@@ -39,6 +38,7 @@ export function calcPreBox(
   }
 
   for (const pane of branches) {
+    console.log('branches', pane)
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
       if (pane.isRow) {
@@ -66,7 +66,9 @@ export function calcPreBox(
       }
     }
   }
+  console.log('ToLeaves')
   for (const pane of leaves) {
+    console.log('leaves', pane)
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
       if (
@@ -93,6 +95,7 @@ export function calcPreBox(
         return { leaf: { target: pane, into: 'center' } }
     }
   }
+  console.log('notMatch!!!')
   const leaf = leaves
     .map((pane) => {
       return {

@@ -1,5 +1,8 @@
 import { TileLeaf, TileNodeRect } from '../..'
 
+export type PaneNameBuilder = {
+  builder: () => PaneName
+}
 export type PaneName = string
 
 export type MovingTab = {

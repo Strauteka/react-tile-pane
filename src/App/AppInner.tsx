@@ -60,7 +60,7 @@ function PaneIcon(props: { name: string; title: string }) {
         padding: 10,
         color: '#ffffff',
         gap: '1rem',
-        width: '250px'
+        width: '250px',
       }}
     >
       <div style={{ cursor: 'move' }}>
@@ -106,11 +106,10 @@ export const AppInner: React.FC = () => {
     {}
   )
   const rootPane: TileBranchSubstance = {
-    characteristic: { movable: { top: false, bottom: false } },
     children: [
       {
         characteristic: {
-          movable: { top: false, bottom: false},
+          movable: { top: false, bottom: false },
         },
         children: [],
       },
@@ -124,6 +123,7 @@ export const AppInner: React.FC = () => {
 
   return (
     <TileProvider
+      uniq={'xxx'}
       rootNode={root}
       tabBar={tabBarBuilder({ named, isDraggable: true })}
       stretchBar={StretchBar}
