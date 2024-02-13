@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { TabsBarContext, TileDispatchContext } from '../../../../..'
 import { PaneName, TileLeaf } from '../../../../../..'
-import { useStyle } from './hook'
+import { useTabBarStyle } from './hook'
 export interface TabBarProps {
   leaf: TileLeaf
   onTab: number
@@ -56,7 +56,7 @@ const TabsBarInner: React.FC<TabBarMoreProps> = (props) => {
     [closeTab, switchTab]
   )
   const { render: Render } = tabBar
-  const style = useStyle(leaf.rect, isHidden)
+  const style = useTabBarStyle(props, isHidden)
   return useMemo(
     () => (
       <LeafContext.Provider value={leaf}>

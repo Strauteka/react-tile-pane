@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import useMeasure from 'react-use-measure'
 import { LeafContext, SetTitleRectsContext } from '..'
-import { PaneName } from '../..'
+import { PaneName, TileCharacteristic } from '../..'
 import { PreBox } from './components'
 import { useDragAndPosition } from './hook'
 import { PaneWithPreBox } from './typings'
@@ -17,6 +17,7 @@ import { orFn } from './util'
 
 export type DraggableTitleProps = {
   name: PaneName
+  characteristic?: TileCharacteristic
   children?: React.ReactNode | ((isMoving: boolean) => React.ReactNode)
   style?: CSSProperties | ((isMoving: boolean) => CSSProperties)
   className?: string | ((isMoving: boolean) => string)
@@ -25,7 +26,7 @@ export type DraggableTitleProps = {
   Partial<Pick<GestureHandlers, 'onDrag' | 'onDragEnd' | 'onDragStart'>>
 
 const DraggableTitleInner: React.FC<DraggableTitleProps> = (props, aFn) => {
-  const { name, drag } = props
+  const { name, drag, characteristic } = props
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
   const pane = useContext(LeafContext)
@@ -34,16 +35,17 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props, aFn) => {
     name,
     pane,
     props,
-    drag
+    drag,
+    characteristic
   )
 
   const { style, className, children, rest } = useFn(props, isDragging)
 
-  const [targetRef, rect] = useMeasure({scroll: true})
+  const [targetRef, rect] = useMeasure({ scroll: true })
   const setTitleRects = useContext(SetTitleRectsContext)
   useEffect(() => {
     setTitleRects({ name: props.name, rect: { ...rect } })
-  }, [ props, rect, setTitleRects])
+  }, [props, rect, setTitleRects])
 
   const styled = useMemo(
     () =>
@@ -63,7 +65,15 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props, aFn) => {
   )
   return (
     <>
-      {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
+      {position && (
+        <PreBox
+          {...{
+            paneWithPreBoxRef,
+            position,
+            characteristic: props.characteristic,
+          }}
+        />
+      )}
       <div
         key={props.name}
         {...bind()}

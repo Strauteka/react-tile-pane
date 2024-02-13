@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { DragConfig, GestureHandlers, useGesture } from '@use-gesture/react'
 import { TileDispatchContext } from '../../..'
-import { PaneName, TileLeaf } from '../../../..'
+import { PaneName, TileCharacteristic, TileLeaf } from '../../../..'
 import { PaneWithPreBox } from '../../typings'
 
 export function useDragAndPosition(
@@ -11,7 +11,8 @@ export function useDragAndPosition(
   hook: Partial<
     Pick<GestureHandlers, 'onDrag' | 'onDragEnd' | 'onDragStart'>
   > = {},
-  drag: DragConfig = { threshold: 10, filterTaps: true }
+  drag: DragConfig = { threshold: 10, filterTaps: true },
+  characteristic?: TileCharacteristic
 ) {
   const dispatch = useContext(TileDispatchContext)
   const [position, setPosition] = useState<[number, number]>()
@@ -39,7 +40,7 @@ export function useDragAndPosition(
       },
       onDragEnd: (e) => {
         dispatch({
-          tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current },
+          tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current, characteristic: characteristic },
         })
         hook?.onDragEnd?.(e)
           //dragable position glitch  react18 in useMeasure 

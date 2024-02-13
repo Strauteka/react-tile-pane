@@ -1,12 +1,11 @@
 export const scroolStyle = {
   minWidth: '6.25em',
   minHeight: '6.25em',
-  width: 'calc(100% - 1.25em)',
-  height: 'calc(100% - 1.25em)',
+  width: 'calc(100% - 0.2em)',
+  height: 'calc(100% - 0.2em)',
   overflow: 'auto',
   boxSizing: 'content-box',
-
-  padding: '0.625em 0.625em 0.625em 0.625em'
+  padding: '0.2em'
 } as any
 
 const x = (element: any) => {

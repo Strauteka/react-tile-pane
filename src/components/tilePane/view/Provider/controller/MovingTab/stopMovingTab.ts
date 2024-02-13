@@ -18,17 +18,17 @@ export type TabToStopMoving = {
   pane: PaneName
   preBox?: PaneWithPreBox
   characteristic?: TileCharacteristic
-  grow?: number
 }
 
 export function stopMovingTab(
   { movingTabs, ...rest }: TileStore,
-  { pane, preBox, characteristic, grow }: TabToStopMoving
+  { pane, preBox, characteristic }: TabToStopMoving
 ): TileStore {
+  console.log('characteristic', characteristic)
   const newMovingTabs = removeInArray(movingTabs, (it) => (it.name = pane))
   if (preBox) {
     const { rootNode } = rest
-    insertPane(pane, preBox, rest, characteristic, grow)
+    insertPane(pane, preBox, rest, characteristic)
     const nodes = unfold(rootNode)
     return { movingTabs: newMovingTabs, rootNode, ...nodes }
   } else return { movingTabs: newMovingTabs, ...rest }
@@ -41,18 +41,19 @@ function insertPane(
   pane: PaneName,
   preBox: PaneWithPreBox,
   nodes: Pick<TileStore, 'branches' | 'leaves'>,
-  characteristic?: TileCharacteristic,
-  grow?: number
+  characteristic?: TileCharacteristic
 ) {
   // const { targetNode: node, into } = preBox
   const node = preBox.leaf ?? preBox.branch ?? preBox.tab
+  console.log('node', node)
   if (!node) return
   const { target, into } = node
   const { leaves, branches } = nodes
   const isNext = typeof into === 'number' ? false : next.includes(into)
   const isBrother = typeof into === 'number' ? false : isSegment(target, into)
   const isRow = typeof into === 'number' ? false : row.includes(into)
-  if (isTileLeaf(target)) {
+  if (!(target instanceof TileBranch)) {
+    console.log('isTileLeaf', target)
     const leaf =
       leaves.find((it) => it === target) || leaves.find((notUsed) => true)
     if (leaf) {
@@ -70,14 +71,15 @@ function insertPane(
         leaf.onTab = index
       } else {
         isBrother
-          ? segment(branches, target, pane, isNext, characteristic, grow)
-          : fission(target, pane, isNext, isRow, characteristic, grow)
+          ? segment(branches, target, pane, isNext, characteristic)
+          : fission(target, pane, isNext, isRow, characteristic)
       }
     }
   } else {
     const branch = branches.find((it) => it === target)
+    console.log('branch', branch)
     if (branch) {
-      fission(target, pane, isNext, isRow, characteristic, grow)
+      fission(target, pane, isNext, isRow, characteristic)
     }
   }
 }
@@ -88,12 +90,12 @@ function segment(
   node: TileBranch | TileLeaf,
   pane: PaneName,
   isNext: boolean,
-  characteristic?: TileCharacteristic,
-  grows?: number
+  characteristic?: TileCharacteristic
 ) {
+  console.log('segment', characteristic)
   const { parent } = node
   if (!parent) return
-  const grow = grows || node.grow / 2
+  const grow = characteristic?.grow || node.grow / 2
   const leaf: TileLeafSubstance = { characteristic, grow, children: [pane] }
   node.grow = grow
   const indexInParent = parent.children.findIndex((it) => it === node)
@@ -125,14 +127,15 @@ function fission(
   pane: PaneName,
   isNext: boolean,
   isRow: boolean,
-  characteristic?: TileCharacteristic,
-  grows?: number
+  characteristic?: TileCharacteristic
 ) {
+  console.log('fission', characteristic)
   const { parent, grow } = node
   if (!parent) {
+    const newLeafGrow = characteristic?.grow ?? 1
     const newLeaf: TileLeafSubstance = {
       characteristic,
-      grow: grows,
+      grow: newLeafGrow,
       children: [pane],
     }
     const oldLeaf: TileBranchSubstance | TileLeafSubstance = isTileLeaf(node)
@@ -140,16 +143,22 @@ function fission(
       : node.dehydrate()
     //if leaf already has this pane
     if (substanceHasPane(oldLeaf, pane)) return
-    //adding only to leaf
-    if (!isTileLeaf(node)) {
+    if (node instanceof TileBranch) {
       node.isRow = isRow
-      const parentChildrenCount = node.children.length <= 1
-      if (parentChildrenCount) {
-        node.setChildren([
-          ...(isNext
-            ? [...node.children, newLeaf]
-            : [newLeaf, ...node.children]),
-        ])
+      const childrenCount = node.children.length <= 1
+      if (childrenCount) {
+        const childs = isNext
+          ? [...node.children, newLeaf]
+          : [newLeaf, ...node.children]
+        if (newLeafGrow != 1 && childs.length == 1) {
+          node.setChildren(
+            isNext
+              ? [{ grow: 1 - newLeafGrow, children: [] }, newLeaf]
+              : [newLeaf, ...node.children]
+          )
+        } else {
+          node.setChildren(childs)
+        }
       } else {
         node.setChildren(isNext ? [oldLeaf, newLeaf] : [newLeaf, oldLeaf])
       }

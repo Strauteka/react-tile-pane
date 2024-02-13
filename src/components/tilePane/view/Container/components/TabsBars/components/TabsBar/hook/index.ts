@@ -1,19 +1,27 @@
 import { CSSProperties, useContext, useMemo } from 'react'
 import {
   completeUnit,
+  TabBarMoreProps,
   TabsBarContext,
   TileNodeRect,
   toCssLength,
   toQuadrant,
 } from '../../../../../../..'
-export function useStyle(
-  rect: TileNodeRect,
+export function useTabBarStyle(
+  tabBarProps: TabBarMoreProps,
   isHidden?: boolean
 ): CSSProperties {
-  const table = useContext(TabsBarContext)
-  const { position } = table
+  const rect = tabBarProps.leaf.rect
+  const tabBar = useContext(TabsBarContext)
+  const { position } = tabBar
   const [isVertical, isAfter] = useMemo(() => toQuadrant(position), [position])
-  const thickness = useMemo(() => completeUnit(table.thickness), [table])
+  const thickness = useMemo(() => {
+    const localThickness =
+      (tabBar.thicknessOverride
+        ? tabBar.thicknessOverride(tabBarProps)
+        : undefined) ?? tabBar.thickness
+    return completeUnit(localThickness)
+  }, [tabBar.thickness, tabBar.thicknessOverride])
   return {
     visibility: isHidden ? 'hidden' : undefined,
     position: 'absolute',

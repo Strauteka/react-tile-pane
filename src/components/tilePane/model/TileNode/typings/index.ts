@@ -1,17 +1,17 @@
 import { TileBranch } from '..'
-import { PaneName } from '../../..'
+import { Into, PaneName } from '../../..'
 
 export type TileNodeID = string
 
 export interface TileCharacteristic {
+  into?: Into
+  grow?: number
   movable?: {
     center?: boolean
     right?: boolean
     left?: boolean
     top?: boolean
     bottom?: boolean
-
-   
   }
 }
 

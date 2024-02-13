@@ -67,7 +67,7 @@ export function calcBoxPosition(
   }
 }
 
-const thickness = 0.01
+const thickness = 0.0005
 export function calcTitleBoxPosition(
   paneWithPreBox: PaneWithPreBox | undefined,
   leafWithTitleRects: LeafWithTitleRect[],

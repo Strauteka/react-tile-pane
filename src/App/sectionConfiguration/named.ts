@@ -48,14 +48,24 @@ export const named: { [name: string]: SectionConfiguration } = {
   editForm: {
     isSelection: false,
     tabTitle: 'Edit Form',
+    characteristic: {
+      into: 'right',
+      grow: 0.25,
+      movable: {
+        bottom: false,
+        top: false,
+        left: false,
+        right: false,
+        center: false,
+      },
+    },
   },
   editFormSection: {
     isSelection: true,
     tabTitle: 'Edit Form Section',
   },
-  
 }
 
-const namedKeys =  typeof  named
+const namedKeys = typeof named
 
 namedKeys

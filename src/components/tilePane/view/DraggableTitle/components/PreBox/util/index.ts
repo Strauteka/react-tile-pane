@@ -2,6 +2,7 @@ import {
   MovingTab,
   TabsBarConfig,
   TileBranch,
+  TileCharacteristic,
   TileLeaf,
   TileNodeRect,
   udefinedOrDefault,
@@ -17,11 +18,11 @@ export function calcPreBox(
   leafWithTitleRects: LeafWithTitleRect[],
   innerPosition: [number, number],
   config: TabsBarConfig['preBox'],
-  into?: Into
+  characteristic: TileCharacteristic
 ): PaneWithPreBox | undefined {
   if (!innerPosition) return
   const [x, y] = innerPosition
-
+  console.log('')
   for (const { leaf, rect: titleRect, index } of leafWithTitleRects) {
     if (isInPane(titleRect, innerPosition)) {
       const isEnd = config?.isRow
@@ -38,10 +39,10 @@ export function calcPreBox(
     }
   }
 
-  if (into) {
+  if (characteristic.into) {
     const branch = branches.find((branch) => branch.parent == null)
     if (branch) {
-      return { branch: { target: branch, into: into } }
+      return { branch: { target: branch, into: characteristic.into } }
     }
   }
 

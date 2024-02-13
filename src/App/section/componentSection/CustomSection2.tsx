@@ -55,7 +55,6 @@ export class CustomSection2 extends React.Component<
 
     return (
       <TileProvider
-        uniq={'b'}
         rootNode={root}
         tabBar={tabBarBuilder(
           { named, isDraggable: false, noBar: true },

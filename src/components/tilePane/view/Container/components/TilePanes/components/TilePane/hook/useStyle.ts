@@ -2,7 +2,7 @@ import { CSSProperties, useContext, useMemo } from 'react'
 import {
   completeUnit,
   TabsBarContext,
-  TileNodeRect,
+  TilePaneWithRect,
   toCssCalcLength,
   toCssLength,
   toQuadrant,
@@ -23,21 +23,35 @@ function toCssCalcLengthLocal(
   return `calc(${toCssLength(length)} - ${localRemoveSize}em)`
 }
 
-export function useStyle(rect: TileNodeRect | null): CSSProperties {
+export function usePaneStyle(tileRect: TilePaneWithRect | null): CSSProperties {
+  const rect = tileRect?.rect
   const tabBar = useContext(TabsBarContext)
   const { position } = tabBar
   const [isVertical, isAfter] = useMemo(() => toQuadrant(position), [position])
-  const thickness = useMemo(
-    () => completeUnit(tabBar.thickness),
-    [tabBar.thickness]
-  )
+
+  const ThicknessNumber = useMemo(() => {
+    return (
+      (tabBar.thicknessOverride
+        ? tabBar.thicknessOverride(tileRect)
+        : undefined) ?? tabBar.thickness
+    )
+  }, [tabBar.thickness, tabBar.thicknessOverride])
+
+  const thickness = useMemo(() => {
+    const localThickness =
+      (tabBar.thicknessOverride
+        ? tabBar.thicknessOverride(tileRect)
+        : undefined) ?? tabBar.thickness
+    return completeUnit(localThickness)
+  }, [ThicknessNumber])
+
   return rect
     ? {
         position: 'absolute',
         height: isVertical
           ? toCssCalcLengthLocal(
               rect.height,
-              tabBar.thickness,
+              ThicknessNumber,
               tabBar.stretchBarThickness,
               rect.top + rect.height === 1
             )

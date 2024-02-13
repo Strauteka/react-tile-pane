@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react'
 import { usePanes } from './hook'
-import { TilePane } from './components'
+import { TilePaneStyled } from './components'
 
 const TilePanesInner: React.FC = () => {
   const panes = usePanes()
@@ -8,7 +8,7 @@ const TilePanesInner: React.FC = () => {
     () => (
       <>
         {panes.map((pane) => {
-          return <TilePane pane={pane} key={pane.name} />
+          return <TilePaneStyled pane={pane} key={pane.name} />
         })}
       </>
     ),

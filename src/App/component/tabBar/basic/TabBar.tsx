@@ -47,6 +47,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
   }
 
   tabBar = (tab: PaneName, i: number) => {
+    const bearer = unfoldBearer(tab)
     const tagProps = {
       key: tab,
       style: {
@@ -69,6 +70,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
       <DraggableTitle
         name={tab}
         drag={{ filterTaps: true, tapsThreshold: 10 }}
+        characteristic={this.props.named[bearer.paneName]?.characteristic}
         {...tagProps}
       >
         {this.content(tab, i)}

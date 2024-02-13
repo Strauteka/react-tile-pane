@@ -10,8 +10,13 @@ import {
 } from '../../../..'
 import { useThrottleFn } from '../../../hook'
 import { calcLeafWithTitleRect, calcPreBox } from '../util'
+import { TileCharacteristic } from 'components/tilePane/model'
 
-export function useCalcPreBox(position: Vector2, throttle?: number) {
+export function useCalcPreBox(
+  position: Vector2,
+  throttle?: number,
+  characteristic?: TileCharacteristic
+) {
   const containerRect = useContext(ContainerRectContext)
   const branches = useContext(TileBranchesContext)
   const leaves = useContext(TileLeavesContext)
@@ -33,7 +38,8 @@ export function useCalcPreBox(position: Vector2, throttle?: number) {
         leaves,
         leafWithTitleRects,
         innerPosition,
-        preBoxInTabBar
+        preBoxInTabBar,
+        characteristic ?? {}
       ),
     [
       branches,
@@ -44,5 +50,5 @@ export function useCalcPreBox(position: Vector2, throttle?: number) {
       preBoxInTabBar,
     ]
   )
-  return { paneWithPreBox, leafWithTitleRects}
+  return { paneWithPreBox, leafWithTitleRects }
 }

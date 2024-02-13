@@ -1,5 +1,5 @@
 import React, { memo, useContext, useMemo } from 'react'
-import { useStyle } from './hook'
+import { usePaneStyle } from './hook'
 import { TilePaneProviderContext } from 'components/tilePane/view/Provider/config/PaneProvider'
 
 import { TilePaneWithRect } from 'components/tilePane/util'
@@ -12,7 +12,7 @@ const TilePaneInner: React.FC<TilePaneProps> = ({
   pane
 }) => {
   const TilePaneProviderConfig = useContext(TilePaneProviderContext)
-  const styled = useStyle(pane.rect)
+  const styled = usePaneStyle(pane)
   return useMemo(
     () => (
       <TilePaneProviderConfig.paneProvider
@@ -24,4 +24,4 @@ const TilePaneInner: React.FC<TilePaneProps> = ({
   )
 }
 
-export const TilePane = memo(TilePaneInner)
+export const TilePaneStyled = memo(TilePaneInner)

@@ -31,7 +31,6 @@ import {
 } from './config/PaneProvider'
 
 export interface TileProviderProps {
-  uniq: string
   children?: React.ReactNode
   rootNode?: TileBranchSubstance
   tilePaneProvider: TilePaneProviderConfig
@@ -41,7 +40,6 @@ export interface TileProviderProps {
 }
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
-  uniq,
   children,
   rootNode = {
     children: [{ children: [] }],
@@ -53,9 +51,10 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
 }: TileProviderProps) => {
   const [rootNodeMaterilized, setRootNodeMaterilized] = useState(() => {
     return {
-    movingTabs: [],
-    ...initRootNode(rootNode),
-  }})
+      movingTabs: [],
+      ...initRootNode(rootNode),
+    }
+  })
 
   useEffect(() => {
     setRootNodeMaterilized({
@@ -69,6 +68,8 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
 
   const childrenMemo = useMemo(() => children, [children])
   const [targetRef, containerRect] = useMeasure({ scroll: true })
+  console.log('branches', branches)
+  console.log('leaves', leaves)
   return (
     <ContainerRefContext.Provider value={targetRef}>
       <PreBoxConfigContext.Provider value={preBox}>

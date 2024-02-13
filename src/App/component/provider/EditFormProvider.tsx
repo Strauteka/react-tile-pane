@@ -13,7 +13,7 @@ export const editFormProvider: React.FC<SectionContext<{}>> = (
       {selectedPaneEditForm?.render ? (
         selectedPaneEditForm.render
       ) : (
-        <>Some default noFORM?</>
+        <div style={{ padding: '0.2em' }}>Some default noFORM?</div>
       )}
     </>
   )
