@@ -29,21 +29,17 @@ export function usePaneStyle(tileRect: TilePaneWithRect | null): CSSProperties {
   const { position } = tabBar
   const [isVertical, isAfter] = useMemo(() => toQuadrant(position), [position])
 
-  const ThicknessNumber = useMemo(() => {
+  const thicknessNumber = useMemo(() => {
     return (
       (tabBar.thicknessOverride
-        ? tabBar.thicknessOverride(tileRect)
+        ? tabBar.thicknessOverride(tileRect?.leaf)
         : undefined) ?? tabBar.thickness
     )
-  }, [tabBar.thickness, tabBar.thicknessOverride])
+  }, [tabBar.thickness, tabBar.thicknessOverride, tileRect?.leaf])
 
   const thickness = useMemo(() => {
-    const localThickness =
-      (tabBar.thicknessOverride
-        ? tabBar.thicknessOverride(tileRect)
-        : undefined) ?? tabBar.thickness
-    return completeUnit(localThickness)
-  }, [ThicknessNumber])
+    return completeUnit(thicknessNumber)
+  }, [thicknessNumber])
 
   return rect
     ? {
@@ -51,7 +47,7 @@ export function usePaneStyle(tileRect: TilePaneWithRect | null): CSSProperties {
         height: isVertical
           ? toCssCalcLengthLocal(
               rect.height,
-              ThicknessNumber,
+              thicknessNumber,
               tabBar.stretchBarThickness,
               rect.top + rect.height === 1
             )

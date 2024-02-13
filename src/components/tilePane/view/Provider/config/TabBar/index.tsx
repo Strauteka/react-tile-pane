@@ -2,6 +2,7 @@ import React, { createContext, memo, useMemo } from 'react'
 import { TabBarAction, TabBarMoreProps, TabBarProps } from '../../..'
 import { DraggableTitle, useMovingChecker } from '../../../DraggableTitle'
 import { TilePaneWithRect } from 'components/tilePane/util/typings'
+import { TileLeaf } from 'components/tilePane/model'
 
 export type TabBarPropsWithAction = TabBarProps & { action: TabBarAction }
 
@@ -57,7 +58,7 @@ export type TabsBarConfig = {
    * @example 20, '20px', '2vw'
    */
   thickness: number
-  thicknessOverride?: (entity: TilePaneWithRect | TabBarMoreProps | null) => number | undefined
+  thicknessOverride?: (tileLeaf?: TileLeaf) => number | undefined
   stretchBarThickness: number
   /**Where to position the TabsBar in the pane */
   position: TabsBarPosition

@@ -3,7 +3,9 @@ import { PaneName } from 'components'
 import { createContext, useContext } from 'react'
 
 export const selectionDefault = makeBearerString('selectionDefault')
-export const selectionDefaultValue: EditFormType = { render: <></> }
+export const selectionDefaultValue: EditFormType = {
+  render: <>Initial FORM!</>,
+}
 
 export interface EditFormType {
   render: React.ReactNode

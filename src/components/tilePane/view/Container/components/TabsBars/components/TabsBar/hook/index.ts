@@ -10,26 +10,34 @@ import {
 export function useTabBarStyle(
   tabBarProps: TabBarMoreProps,
   isHidden?: boolean
-): CSSProperties {
+): { styled: CSSProperties; thickness: number } {
   const rect = tabBarProps.leaf.rect
   const tabBar = useContext(TabsBarContext)
   const { position } = tabBar
   const [isVertical, isAfter] = useMemo(() => toQuadrant(position), [position])
-  const thickness = useMemo(() => {
-    const localThickness =
+  const thicknessNumber = useMemo(() => {
+    return (
       (tabBar.thicknessOverride
-        ? tabBar.thicknessOverride(tabBarProps)
+        ? tabBar.thicknessOverride(tabBarProps.leaf)
         : undefined) ?? tabBar.thickness
-    return completeUnit(localThickness)
-  }, [tabBar.thickness, tabBar.thicknessOverride])
+    )
+  }, [tabBar.thickness, tabBar.thicknessOverride, tabBarProps.leaf])
+
+  const thickness = useMemo(() => {
+    return completeUnit(thicknessNumber)
+  }, [thicknessNumber])
+
   return {
-    visibility: isHidden ? 'hidden' : undefined,
-    position: 'absolute',
-    width: isVertical ? toCssLength(rect.width) : thickness,
-    height: isVertical ? thickness : toCssLength(rect.height),
-    top: isAfter ? undefined : toCssLength(rect.top),
-    bottom: isAfter ? toCssLength(1 - rect.top - rect.height) : undefined,
-    left: isAfter ? undefined : toCssLength(rect.left),
-    right: isAfter ? toCssLength(1 - rect.left - rect.width) : undefined,
+    styled: {
+      visibility: isHidden ? 'hidden' : undefined,
+      position: 'absolute',
+      width: isVertical ? toCssLength(rect.width) : thickness,
+      height: isVertical ? thickness : toCssLength(rect.height),
+      top: isAfter ? undefined : toCssLength(rect.top),
+      bottom: isAfter ? toCssLength(1 - rect.top - rect.height) : undefined,
+      left: isAfter ? undefined : toCssLength(rect.left),
+      right: isAfter ? toCssLength(1 - rect.left - rect.width) : undefined,
+    },
+    thickness: thicknessNumber,
   }
 }

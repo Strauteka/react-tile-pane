@@ -8,7 +8,6 @@ type TabBarState = { color: string }
 export type CustomTabBarProps = {
   named: { [name: string]: SectionConfiguration }
   isDraggable?: boolean
-  noBar?: boolean
 }
 
 type TabBarProps = TabBarPropsWithAction &
@@ -83,21 +82,19 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
   render = () => {
     const tabBars = this.props.tabs.map(this.tabBar)
     return (
-      !!!this.props.noBar && (
-        <div style={styles.tabBar}>
-          <div ref={this.ref} style={{...styles.tabAlign, margin: '0.25em'}}>
-            {tabBars}
-          </div>
-          {this.props.onTab !== -1 && (this.props.isDraggable || false) && (
-            <div
-              onClick={() => this.props.action.closeTab(this.props.onTab)}
-              style={styles.closeButton}
-            >
-              ×
-            </div>
-          )}
+      <div style={styles.tabBar}>
+        <div ref={this.ref} style={{ ...styles.tabAlign, margin: '0.25em' }}>
+          {tabBars}
         </div>
-      )
+        {this.props.onTab !== -1 && (this.props.isDraggable || false) && (
+          <div
+            onClick={() => this.props.action.closeTab(this.props.onTab)}
+            style={styles.closeButton}
+          >
+            ×
+          </div>
+        )}
+      </div>
     )
   }
 }

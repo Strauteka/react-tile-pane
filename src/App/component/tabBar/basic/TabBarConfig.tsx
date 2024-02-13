@@ -1,9 +1,8 @@
 import {
-  TabBarMoreProps,
   TabBarPropsWithAction,
   TabsBarConfig,
   TabsBarPosition,
-  TilePaneWithRect,
+  TileLeaf,
 } from 'components'
 import { CustomTabBarProps, TabBar } from './TabBar'
 import { stretchBarThickness, thickness } from './styles'
@@ -35,13 +34,6 @@ export const tabBarBuilder = (
   return {
     ...{
       render: ({ leaf, tabs, onTab, action }) => {
-        const tab = tabs[onTab]
-        const bearer = unfoldBearer(tab)
-
-        if (bearer.paneName === 'editForm') {
-          return <></>
-        }
-
         return (
           <TabBar
             leaf={leaf}
@@ -56,34 +48,6 @@ export const tabBarBuilder = (
         )
       },
       thickness,
-      thicknessOverride: (
-        entity: TilePaneWithRect | TabBarMoreProps | null
-      ) => {
-        const notNullentity = entity ?? {}
-        if (
-          notNullentity.hasOwnProperty('name') &&
-          notNullentity.hasOwnProperty('rect')
-        ) {
-          const tilePaneWithRect = notNullentity as TilePaneWithRect
-          const bearer = unfoldBearer(tilePaneWithRect.name)
-          if (bearer.paneName === 'editForm') {
-            return 0
-          }
-        }
-
-        if (
-          notNullentity.hasOwnProperty('onTab') &&
-          notNullentity.hasOwnProperty('tabs')
-        ) {
-          const tabBar = notNullentity as TabBarMoreProps
-          const tab = tabBar.tabs[tabBar.onTab]
-          const bearer = unfoldBearer(tab)
-
-          if (bearer.paneName === 'editForm') {
-            return 0
-          }
-        }
-      },
       stretchBarThickness,
       position: 'top',
       preBox: {

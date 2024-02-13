@@ -50,24 +50,23 @@ const TabsBarInner: React.FC<TabBarMoreProps> = (props) => {
       }),
     [dispatch, leaf]
   )
-  const action: TabBarAction = useMemo(
-    () => {
-      return ({ switchTab, closeTab })},
-    [closeTab, switchTab]
-  )
+  const action: TabBarAction = useMemo(() => {
+    return { switchTab, closeTab }
+  }, [closeTab, switchTab])
   const { render: Render } = tabBar
-  const style = useTabBarStyle(props, isHidden)
+  const { styled, thickness } = useTabBarStyle(props, isHidden)
   return useMemo(
     () => (
       <LeafContext.Provider value={leaf}>
-        <div style={style}>
-          <Render action={action} {...props} />
-        </div>
+        {thickness != 0 && (
+          <div style={styled}>
+            <Render action={action} {...props} />
+          </div>
+        )}
       </LeafContext.Provider>
     ),
-    [Render, action, leaf, props, style]
+    [Render, action, leaf, props, styled]
   )
-  
 }
 
 export const TabsBar = memo(TabsBarInner)

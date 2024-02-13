@@ -16,6 +16,7 @@ export function usePanes() {
         ...leaf.children.map((name, i) => ({
           name,
           rect: leaf.onTab === i ? leaf.rect : null,
+          leaf: leaf
         }))
       )
     })

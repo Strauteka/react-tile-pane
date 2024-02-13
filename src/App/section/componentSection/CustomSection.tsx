@@ -1,6 +1,6 @@
-import { TileBranchSubstance, TileContainer, useGetRootNode } from 'components'
+import { TileBranchSubstance, TileContainer, TileLeaf, useGetRootNode } from 'components'
 import React from 'react'
-import { makeBearerString } from 'App/sectionConfiguration/Bearer'
+import { makeBearerString, unfoldBearer } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
@@ -56,7 +56,7 @@ export class CustomSection extends React.Component<
             bottom: false,
           },
         },
-        children: [makeBearerString('aaa')],
+        children: [makeBearerString('grape')],
       },
       {
         onTab: 2,
@@ -88,7 +88,15 @@ export class CustomSection extends React.Component<
       <ScopedTileProvider
         paneName={this.props.pane.name}
         rootNode={this.rootPane}
-        tabBar={tabBarBuilder({ named, isDraggable: true })}
+        tabBar={tabBarBuilder({ named, isDraggable: true },{
+          thicknessOverride: (leaf?: TileLeaf) => {
+            if (leaf) {
+              const bearer = unfoldBearer(leaf.children[leaf.onTab])
+              if (bearer.paneName === 'grape') {
+                return 0
+              }
+            }
+          }})}
         stretchBar={StretchBar}
         tilePaneProvider={{ paneProvider: this.middleManProvider }}
       >

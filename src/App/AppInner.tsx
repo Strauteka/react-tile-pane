@@ -8,10 +8,11 @@ import {
   useGetRootNode,
   TileBranchSubstance,
   TileCharacteristic,
+  TileLeaf,
 } from 'components'
 
 import { named } from 'App/sectionConfiguration/named'
-import { makeBearerString } from './sectionConfiguration/Bearer'
+import { makeBearerString, unfoldBearer } from './sectionConfiguration/Bearer'
 import { PaneProvider } from 'App/component/provider/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
@@ -111,7 +112,19 @@ export const AppInner: React.FC = () => {
   return (
     <TileProvider
       rootNode={root}
-      tabBar={tabBarBuilder({ named, isDraggable: true })}
+      tabBar={tabBarBuilder(
+        { named, isDraggable: true },
+        {
+          thicknessOverride: (leaf?: TileLeaf) => {
+            if (leaf) {
+              const bearer = unfoldBearer(leaf.children[leaf.onTab])
+              if (bearer.paneName === 'editForm') {
+                return 0
+              }
+            }
+          },
+        }
+      )}
       stretchBar={StretchBar}
       tilePaneProvider={{ paneProvider: middleManProvider }}
     >

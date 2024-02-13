@@ -57,7 +57,7 @@ export class CustomSection2 extends React.Component<
       <TileProvider
         rootNode={root}
         tabBar={tabBarBuilder(
-          { named, isDraggable: false, noBar: true },
+          { named, isDraggable: false },
           { thickness: 0 }
         )}
         stretchBar={StretchBar}
