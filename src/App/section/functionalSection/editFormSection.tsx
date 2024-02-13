@@ -32,15 +32,13 @@ export const editFormSection: React.FC<SectionContext<{}>> = (
     { id: 2, name: 'Anna', surname: 'Forest', age: 72 },
   ]
 
-
-
   const { setEditFormState } = useEditFormState()
   const personRadio = persons.map((entry, idx) => {
     const editStateObject = { getState: undefined }
     const getEditState = () => {
       return editStateObject
     }
-    console.log('rebuildState', 123)
+    
     return (
       <div key={entry.id}>
         <input

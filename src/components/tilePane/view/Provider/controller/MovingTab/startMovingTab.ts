@@ -28,7 +28,6 @@ export function startMovingTab(
           : leaf.onTab
         : newChildren.length - 1
     leaf.setChildren(newChildren)
-
     if (newChildren.length === 0) {
       removeNode(branches, leaf)
     }
@@ -45,7 +44,7 @@ export function startMovingTab(
   }
 }
 
-function removeNode(branches: TileBranch[], node: TileLeaf | TileBranch) {
+export function removeNode(branches: TileBranch[], node: TileLeaf | TileBranch) {
   const parent = branches.find((it) => it === node.parent)
   if (parent) {
     const newChildren = removeInArray(

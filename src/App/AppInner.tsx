@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   DraggableTitle,
   TileContainer,
@@ -32,11 +32,9 @@ function PaneIcon(props: { name: string; title: string }) {
   const leaf = getLeaf(bearer)
   const isShowing = !!leaf
 
-  const cordinatas: [number, number] =
-    props.name === 'editForm' ? [0.9999, 0.5] : [0, 0]
 
   const characteristic: TileCharacteristic =
-    props.name === 'editForm'
+    props.name === 'editForms'
       ? {
           movable: {
             left: true,
@@ -69,7 +67,13 @@ function PaneIcon(props: { name: string; title: string }) {
       <div
         onClick={() => {
           // if (!isShowing) {
-          move(bearer, isShowing ? null : cordinatas, characteristic)
+          move(
+            bearer,
+            isShowing ? null : [0, 0],
+            characteristic,
+            props.name === 'editForm' ? 'right' : undefined,
+            props.name === 'editForm' ? 0.25 : undefined
+          )
           // }
         }}
         style={{
@@ -109,7 +113,7 @@ export const AppInner: React.FC = () => {
     children: [
       {
         characteristic: {
-          movable: { top: false, bottom: false },
+          // movable: { top: false, bottom: false },
         },
         children: [],
       },
@@ -160,7 +164,7 @@ export const AppInner: React.FC = () => {
           <TileContainer />
         </div>
       </div>
-      {/* <AutoSaveLayout /> */}
+      <AutoSaveLayout />
       <ContextStore name={contextName.main} />
       <div />
     </TileProvider>

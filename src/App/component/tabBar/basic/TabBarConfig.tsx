@@ -30,9 +30,9 @@ export const tabBarBuilder = (
   override?: Partial<TabsBarConfig>
 ): TabsBarConfig => {
   return {
+
     ...{
       render: ({ leaf, tabs, onTab, action }) => {
-        // console.log('CALLRENDER',leaf, tabs, onTab, action)
         return (
           <TabBar
             leaf={leaf}

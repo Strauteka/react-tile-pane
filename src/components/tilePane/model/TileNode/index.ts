@@ -57,7 +57,7 @@ export interface TileNode {
   readonly id: string
   readonly parent: TileBranch | null
   grow: number
-  rect: TileNodeRect,
+  rect: TileNodeRect
   characteristic: TileCharacteristic
 }
 
@@ -72,7 +72,7 @@ export class TileNode {
       width: 1,
       height: 1,
     },
-    public characteristic: TileCharacteristic,
+    public characteristic: TileCharacteristic
   ) {}
 }
 
@@ -86,9 +86,10 @@ export class TileLeaf extends TileNode {
   }
 
   public setChildren(children: PaneName[]) {
-    this.children = children.filter(
-      (child, i) => children.findIndex((it) => it === child) === i
-    )
+    this.children = children
+    // .filter(
+    //   (child, i) => children.findIndex((it) => it === child) === i
+    // )
   }
 
   public setCharacteristic(characteristic?: TileCharacteristic) {
@@ -122,9 +123,9 @@ export class TileBranch extends TileNode {
     const grows = calcChildGrows(children)
     const rect = calcChildRects(this, grows)
     this.children = children
-      .filter((child, i) => children.findIndex((it) => it === child) === i)
-      .map((it, i) =>
-        isTileLeaf(it)
+      // .filter((child, i) => children.findIndex((it) => it === child) === i)
+      .map((it, i) => {
+        const bobo = isTileLeaf(it)
           ? new TileLeaf(
               it.onTab,
               it.children instanceof Array ? it.children : [it.children],
@@ -132,19 +133,19 @@ export class TileBranch extends TileNode {
               this,
               grows[i],
               rect[i],
-              it.characteristic || {},
+              it.characteristic || {}
             )
           : new TileBranch(
-           
               it.isRow,
               it.children,
               it.id,
               this,
               grows[i],
               rect[i],
-              it.characteristic || {},
+              it.characteristic || {}
             )
-      )
+        return bobo
+      })
   }
 
   public dehydrate(): TileBranchSubstance {

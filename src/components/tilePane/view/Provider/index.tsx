@@ -51,18 +51,18 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   stretchBar = defaultStretchBar,
   preBox = defaultPreBox,
 }: TileProviderProps) => {
-  
-  const [rootNodeMaterilized, setRootNodeMaterilized] = useState(() => ({
+  const [rootNodeMaterilized, setRootNodeMaterilized] = useState(() => {
+    return {
     movingTabs: [],
     ...initRootNode(rootNode),
-  }))
+  }})
 
   useEffect(() => {
     setRootNodeMaterilized({
       movingTabs: [],
       ...initRootNode(rootNode),
     })
-  }, [rootNode])
+  }, [])
 
   const [{ branches, leaves, stretchBars, movingTabs }, tileStoreDispatch] =
     useReducer<TileStoreReducer>(tileStoreReducer, rootNodeMaterilized)

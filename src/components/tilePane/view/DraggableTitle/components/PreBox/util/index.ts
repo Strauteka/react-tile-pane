@@ -6,7 +6,7 @@ import {
   TileNodeRect,
   udefinedOrDefault,
 } from '../../../../..'
-import { PaneWithPreBox } from '../../../typings'
+import { Into, PaneWithPreBox } from '../../../typings'
 import { LeafWithTitleRect } from './calcLeafWithTitleRect'
 
 const branchProportion = 0.05
@@ -16,7 +16,8 @@ export function calcPreBox(
   leaves: TileLeaf[],
   leafWithTitleRects: LeafWithTitleRect[],
   innerPosition: [number, number],
-  config: TabsBarConfig['preBox']
+  config: TabsBarConfig['preBox'],
+  into?: Into
 ): PaneWithPreBox | undefined {
   if (!innerPosition) return
   const [x, y] = innerPosition
@@ -37,8 +38,14 @@ export function calcPreBox(
     }
   }
 
+  if (into) {
+    const branch = branches.find((branch) => branch.parent == null)
+    if (branch) {
+      return { branch: { target: branch, into: into } }
+    }
+  }
+
   for (const pane of branches) {
-    console.log('branches', pane)
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
       if (pane.isRow) {
@@ -66,9 +73,7 @@ export function calcPreBox(
       }
     }
   }
-  console.log('ToLeaves')
   for (const pane of leaves) {
-    console.log('leaves', pane)
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
       if (
@@ -95,7 +100,7 @@ export function calcPreBox(
         return { leaf: { target: pane, into: 'center' } }
     }
   }
-  console.log('notMatch!!!')
+
   const leaf = leaves
     .map((pane) => {
       return {

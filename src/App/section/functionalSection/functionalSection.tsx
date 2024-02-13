@@ -26,13 +26,10 @@ export const functionalTest: React.FC<SectionContext<{}>> = (
       render: (
         <div
           onClick={() => {
-            setCount(count + 1,)
-        
+            setCount(count + 1)
           }}
         >
-          <div>
-          initial state of {props.pane.name}
-          </div>
+          <div>initial state of {props.pane.name}</div>
           {count}
         </div>
       ),
@@ -40,11 +37,13 @@ export const functionalTest: React.FC<SectionContext<{}>> = (
   }, [props.pane.name, count])
 
   return x(
-    <div   onClick={() => {
-      setCount(count + 1,)
-  
-    }} style={style}>
-      {'kiwifruit Simple FunctionalComponentTEst!:' +  count }
+    <div
+      onClick={() => {
+        setCount(count + 1)
+      }}
+      style={style}
+    >
+      {'kiwifruit Simple FunctionalComponentTEst!:' + count}
     </div>
   )
 }

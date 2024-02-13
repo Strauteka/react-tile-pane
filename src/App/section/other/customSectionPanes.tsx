@@ -69,7 +69,7 @@ export const functionalTestX: React.FC<any> = (props: SectionContext<{}>) => {
       render: (
         <div
           onClick={() => {
-            console.log('aasad')
+            console.log('clicked1')
           }}
           style={{ height: '100%', backgroundColor: 'green' }}
         >
@@ -92,7 +92,7 @@ export const functionalTestX: React.FC<any> = (props: SectionContext<{}>) => {
           render: (
             <div
               onClick={() => {
-                console.log('aasad')
+                console.log('clicked2')
               }}
               style={{
                 //marginBlockStart: '0em',// chrome adds

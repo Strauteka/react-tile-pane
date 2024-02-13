@@ -40,7 +40,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
   content = (tab: PaneName, i: number) => {
     const bearer = unfoldBearer(tab)
     return (
-      <div style={{ ...flex.center, ...size.full }}>
+      <div style={{ ...flex.center, ...size.full, margin: '0.5em' }}>
         {this.props.named[bearer.paneName]?.tabTitle ?? 'no-title'}
       </div>
     )
@@ -52,7 +52,6 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
       style: {
         ...(i === this.props.onTab ? styles.tabTitleOn : styles.tabTitle),
         color: this.state.color,
-        minWidth: '6em',
         ...(this.props.isDraggable ? {} : { cursor: 'pointer' }),
       } as CSSProperties,
       onClick: () => {
@@ -84,7 +83,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
     return (
       !!!this.props.noBar && (
         <div style={styles.tabBar}>
-          <div ref={this.ref} style={styles.tabAlign}>
+          <div ref={this.ref} style={{...styles.tabAlign, margin: '0.25em'}}>
             {tabBars}
           </div>
           {this.props.onTab !== -1 && (this.props.isDraggable || false) && (
