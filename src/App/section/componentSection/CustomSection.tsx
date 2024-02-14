@@ -58,6 +58,9 @@ export class CustomSection extends React.Component<
       ? (JSON.parse(localRoot) as TileBranchSubstance)
       : rootPane()
     console.log('render!', root)
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+    }, 500)
     return (
       <ScopedTileProvider
         paneName={this.props.pane.name}
@@ -81,13 +84,17 @@ export class CustomSection extends React.Component<
         stretchBar={StretchBar}
         tilePaneProvider={{ paneProvider: this.middleManProvider }}
       >
-        <div style={{ backgroundColor: color.backL, color: color.primary }}>
-          {' '}
+        <div
+          style={{
+            height: '1.2em',
+            backgroundColor: color.backL,
+            color: color.primary,
+          }}
+        >
           Some Custom Stuff on Section Composition
         </div>
-        <TileContainer />
+        <TileContainer style={{ height: 'calc(100% - 1.2em)' }} />
         <AutoSaveLayout />
-        <div />
       </ScopedTileProvider>
     )
   }

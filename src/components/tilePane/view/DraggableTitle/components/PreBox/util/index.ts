@@ -21,7 +21,6 @@ export function calcPreBox(
 ): PaneWithPreBox | undefined {
   if (!innerPosition) return
   const [x, y] = innerPosition
-  console.log('')
   for (const { leaf, rect: titleRect, index } of leafWithTitleRects) {
     if (isInPane(titleRect, innerPosition)) {
       const isEnd = config?.isRow
@@ -38,6 +37,7 @@ export function calcPreBox(
     }
   }
 
+  //override
   if (characteristic.into) {
     const branch = branches.find((branch) => branch.parent == null)
     if (branch) {

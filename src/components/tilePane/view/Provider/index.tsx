@@ -42,7 +42,7 @@ export interface TileProviderProps {
 const TileProviderInner: React.FC<TileProviderProps> = ({
   children,
   rootNode = {
-    children: [{ children: [] }],
+    children: [],
   },
   tilePaneProvider = { paneProvider: defaultTilePaneProvider },
   tabBar = defaultTabsBarConfig,
