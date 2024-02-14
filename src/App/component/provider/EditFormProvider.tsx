@@ -10,9 +10,7 @@ export const editFormProvider: React.FC<SectionContext<{}>> = (
   const selectedPaneEditForm = editFormState[selection]
   return (
     <>
-      {selectedPaneEditForm?.render ? (
-        selectedPaneEditForm.render
-      ) : (
+      {selectedPaneEditForm?.render ?? (
         <div style={{ padding: '0.2em' }}>Some default noFORM?</div>
       )}
     </>

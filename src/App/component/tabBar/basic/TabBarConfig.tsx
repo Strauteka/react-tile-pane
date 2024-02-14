@@ -2,12 +2,9 @@ import {
   TabBarPropsWithAction,
   TabsBarConfig,
   TabsBarPosition,
-  TileLeaf,
 } from 'components'
 import { CustomTabBarProps, TabBar } from './TabBar'
 import { stretchBarThickness, thickness } from './styles'
-import { unfoldBearer } from 'App/sectionConfiguration/Bearer'
-
 type Partial<T> = {
   [P in keyof T]?: T[P]
 }

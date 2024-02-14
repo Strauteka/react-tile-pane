@@ -4,8 +4,7 @@ import {
   TileBranch,
   TileCharacteristic,
   TileLeaf,
-  TileNodeRect,
-  udefinedOrDefault,
+  TileNodeRect
 } from '../../../../..'
 import { Into, PaneWithPreBox } from '../../../typings'
 import { LeafWithTitleRect } from './calcLeafWithTitleRect'
@@ -52,23 +51,23 @@ export function calcPreBox(
       if (pane.isRow) {
         if (
           y - top <= height * branchProportion &&
-          udefinedOrDefault(pane.characteristic.movable?.top, true)
+          (pane.characteristic.movable?.top ?? true)
         )
           return { branch: { target: pane, into: 'top' } }
         if (
           top + height - y <= height * branchProportion &&
-          udefinedOrDefault(pane.characteristic.movable?.bottom, true)
+          (pane.characteristic.movable?.bottom ?? true)
         )
           return { branch: { target: pane, into: 'bottom' } }
       } else {
         if (
           x - left <= width * branchProportion &&
-          udefinedOrDefault(pane.characteristic.movable?.left, true)
+          (pane.characteristic.movable?.left ?? true)
         )
           return { branch: { target: pane, into: 'left' } }
         if (
           left + width - x <= width * branchProportion &&
-          udefinedOrDefault(pane.characteristic.movable?.right, true)
+          (pane.characteristic.movable?.right ??  true)
         )
           return { branch: { target: pane, into: 'right' } }
       }
@@ -79,25 +78,25 @@ export function calcPreBox(
       const { left, top, width, height } = pane.rect
       if (
         x - left <= width * leafProportion &&
-        udefinedOrDefault(pane.characteristic.movable?.left, true)
+        (pane.characteristic.movable?.left ??  true)
       )
         return { leaf: { target: pane, into: 'left' } }
       if (
         left + width - x <= width * leafProportion &&
-        udefinedOrDefault(pane.characteristic.movable?.right, true)
+        (pane.characteristic.movable?.right ??  true)
       )
         return { leaf: { target: pane, into: 'right' } }
       if (
         y - top <= height * leafProportion &&
-        udefinedOrDefault(pane.characteristic.movable?.top, true)
+        (pane.characteristic.movable?.top?? true)
       )
         return { leaf: { target: pane, into: 'top' } }
       if (
         top + height - y <= height * leafProportion &&
-        udefinedOrDefault(pane.characteristic.movable?.bottom, true)
+        (pane.characteristic.movable?.bottom ?? true)
       )
         return { leaf: { target: pane, into: 'bottom' } }
-      if (udefinedOrDefault(pane.characteristic.movable?.center, true))
+      if ((pane.characteristic.movable?.center ?? true))
         return { leaf: { target: pane, into: 'center' } }
     }
   }

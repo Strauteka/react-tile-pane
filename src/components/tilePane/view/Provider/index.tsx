@@ -68,8 +68,8 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
 
   const childrenMemo = useMemo(() => children, [children])
   const [targetRef, containerRect] = useMeasure({ scroll: true })
-  console.log('branches', branches)
-  console.log('leaves', leaves)
+  // console.log('branches', branches)
+  // console.log('leaves', leaves)
   return (
     <ContainerRefContext.Provider value={targetRef}>
       <PreBoxConfigContext.Provider value={preBox}>

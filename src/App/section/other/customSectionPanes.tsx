@@ -2,8 +2,8 @@ import { useAppScopeState } from 'App/context/AppScopeStateContext'
 import { useAppState, useScopedMovePane } from 'App/context/AppStateContext'
 import { useEditFormState } from 'App/context/EditFormStateContext'
 import { makeBearerString, unfoldBearer } from 'App/sectionConfiguration/Bearer'
+import { mainSectionConfiguration } from 'App/sectionConfiguration/MainSectionConfiguration'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
-import { named } from 'App/sectionConfiguration/named'
 import { contextName } from 'App/store/global'
 import { MovePane } from 'components'
 import { useEffect } from 'react'
@@ -54,7 +54,7 @@ export const functionalTestBounce: React.FC<any> = (props: {
 
 export const functionalTestX: React.FC<any> = (props: SectionContext<{}>) => {
   const { setAppState } = useAppState()
-  const fuits = Object.entries(named).map((entry, idx) => {
+  const fuits = Object.entries(mainSectionConfiguration).map((entry, idx) => {
     return (
       <div key={idx}>
         <input type="radio" value={entry[0]} name={props.pane.name} />{' '}

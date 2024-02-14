@@ -1,14 +1,22 @@
-import { TileBranchSubstance, TileContainer, TileLeaf, useGetRootNode } from 'components'
+import {
+  TileBranchSubstance,
+  TileContainer,
+  TileLeaf,
+  useGetRootNode,
+} from 'components'
 import React from 'react'
-import { makeBearerString, unfoldBearer } from 'App/sectionConfiguration/Bearer'
+import { unfoldBearer } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
-import { named } from 'App/sectionConfiguration/named'
 import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
 import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
 import { ScopedTileProvider } from 'App/context/ScopedTileProvider'
 import { PaneProvider } from 'App/component/provider/paneProvider'
+import { mainSectionConfiguration } from 'App/sectionConfiguration/MainSectionConfiguration'
+import { sectionKeys } from 'App/sectionConfiguration/SectionName'
+import { rootPane } from './customSectionLayout'
+import { color } from 'App/component/tabBar/basic/styles'
 
 type CustomSectionState = {}
 type CustomSectionProps = {}
@@ -35,40 +43,6 @@ export class CustomSection extends React.Component<
     )
   }
 
-  rootPane: TileBranchSubstance = {
-    characteristic: {
-      movable: {
-        center: false,
-        left: false,
-        right: false,
-        top: false,
-        bottom: false,
-      },
-    },
-    children: [
-      {
-        characteristic: {
-          movable: {
-            center: false,
-            left: false,
-            right: false,
-            top: false,
-            bottom: false,
-          },
-        },
-        children: [makeBearerString('grape')],
-      },
-      {
-        onTab: 2,
-        children: [
-          makeBearerString('aaa'),
-          makeBearerString('bbb'),
-          makeBearerString('custom'),
-        ],
-      },
-    ],
-  }
-
   shouldComponentUpdate(
     nextProps: Readonly<SectionContext<CustomSectionProps>>,
     nextState: Readonly<CustomSectionState>,
@@ -82,24 +56,35 @@ export class CustomSection extends React.Component<
     const localRoot = localStorage.getItem('SomeOtherKeyxxx')
     const root = localRoot
       ? (JSON.parse(localRoot) as TileBranchSubstance)
-      : this.rootPane
-
+      : rootPane()
+    console.log('render!', root)
     return (
       <ScopedTileProvider
         paneName={this.props.pane.name}
-        rootNode={this.rootPane}
-        tabBar={tabBarBuilder({ named, isDraggable: true },{
-          thicknessOverride: (leaf?: TileLeaf) => {
-            if (leaf) {
-              const bearer = unfoldBearer(leaf.children[leaf.onTab])
-              if (bearer.paneName === 'grape') {
-                return 0
+        rootNode={root}
+        tabBar={tabBarBuilder(
+          {
+            sectionConfiguration: mainSectionConfiguration,
+            isDraggable: false,
+          },
+          {
+            thicknessOverride: (leaf?: TileLeaf) => {
+              if (leaf) {
+                const bearer = unfoldBearer(leaf.children[leaf.onTab])
+                if (bearer.paneName === sectionKeys.grape) {
+                  return 0
+                }
               }
-            }
-          }})}
+            },
+          }
+        )}
         stretchBar={StretchBar}
         tilePaneProvider={{ paneProvider: this.middleManProvider }}
       >
+        <div style={{ backgroundColor: color.backL, color: color.primary }}>
+          {' '}
+          Some Custom Stuff on Section Composition
+        </div>
         <TileContainer />
         <AutoSaveLayout />
         <div />
@@ -109,6 +94,7 @@ export class CustomSection extends React.Component<
 }
 function AutoSaveLayout() {
   const getRootNode = useGetRootNode()
+  console.log()
   localStorage.setItem('SomeOtherKeyxxx', JSON.stringify(getRootNode()))
   return <></>
 }

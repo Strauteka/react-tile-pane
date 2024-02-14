@@ -1,51 +1,68 @@
-import { SectionConfiguration } from './SectionConfiguration'
+import { TileCharacteristic } from 'components'
+import { sectionKeys } from './SectionName'
 
-export const named: { [name: string]: SectionConfiguration } = {
-  customSection: {
+export interface SectionConfiguration {
+  tabTitle: string
+  isSelection?: boolean //default true
+  isParentPropsPersistent?: boolean //default false
+  characteristic?: TileCharacteristic
+}
+
+export const mainSectionConfiguration: { [name: string]: SectionConfiguration } = {
+  [sectionKeys.customSection]: {
     isSelection: false,
     tabTitle: 'Custom section',
   },
-  functionalSection: {
+  [sectionKeys.functionalSection]: {
     isSelection: true,
     tabTitle: '🥝',
+    characteristic: {
+      movable: {
+        bottom: false,
+        top: false,
+        left: true,
+        right: true,
+        center: true,
+      },
+    },
   },
-  pineapple: {
+  [sectionKeys.pineapple]: {
     isSelection: true,
     tabTitle: '🍍',
   },
-  lemon: {
+  [sectionKeys.lemon]: {
     isSelection: true,
     tabTitle: '🍋',
   },
-  grape: {
+  [sectionKeys.grape]: {
     isSelection: true,
     tabTitle: '🍇',
   },
-  aaa: {
+  [sectionKeys.aaa]: {
     isSelection: true,
     tabTitle: 'aaa',
   },
-  bbb: {
+  [sectionKeys.bbb]: {
     isSelection: true,
     tabTitle: 'bbb',
   },
-  SubSection1: {
+  [sectionKeys.SubSection1]: {
     isSelection: true,
     tabTitle: 'SubSection1',
   },
-  SubSection2: {
+  [sectionKeys.SubSection2]: {
     isSelection: true,
     tabTitle: 'SubSection2',
   },
-  SubSection3: {
+  [sectionKeys.SubSection3]: {
     isParentPropsPersistent: false,
     tabTitle: 'SubSection3',
   },
-  custom: {
+  [sectionKeys.custom]: {
     isSelection: false,
     tabTitle: 'custom',
   },
-  editForm: {
+  [sectionKeys.editForm]: {
     isSelection: false,
     tabTitle: 'Edit Form',
     characteristic: {
@@ -60,12 +77,8 @@ export const named: { [name: string]: SectionConfiguration } = {
       },
     },
   },
-  editFormSection: {
+  [sectionKeys.editFormSection]: {
     isSelection: true,
     tabTitle: 'Edit Form Section',
   },
 }
-
-const namedKeys = typeof named
-
-namedKeys

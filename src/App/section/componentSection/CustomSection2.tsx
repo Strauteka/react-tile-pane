@@ -1,12 +1,12 @@
 import { TileBranchSubstance, TileContainer, TileProvider } from 'components'
 import React from 'react'
-import { makeBearerString } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
 import { PaneProvider } from 'App/component/provider/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
 import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
-import { named } from 'App/sectionConfiguration/named'
+import { mainSectionConfiguration } from 'App/sectionConfiguration/MainSectionConfiguration'
+import { rootPane } from './customSection2Layout'
 type CustomSection2State = { result: string }
 type CustomSection2Props = {}
 
@@ -33,31 +33,17 @@ export class CustomSection2 extends React.Component<
     )
   }
 
-  rootPane: TileBranchSubstance = {
-    children: [
-      { children: [{ children: [makeBearerString('SubSection1')] }] },
-      {
-        grow: 2,
-        isRow: true,
-        children: [
-          { children: [makeBearerString('SubSection2')] },
-          { children: [makeBearerString('SubSection3')] },
-        ],
-      },
-    ],
-  }
-
   render = () => {
     const localRoot = localStorage.getItem('SomeOtherKey1')
     const root = localRoot
       ? (JSON.parse(localRoot) as TileBranchSubstance)
-      : this.rootPane
+      : rootPane()
 
     return (
       <TileProvider
         rootNode={root}
         tabBar={tabBarBuilder(
-          { named, isDraggable: false },
+          { sectionConfiguration: mainSectionConfiguration, isDraggable: false },
           { thickness: 0 }
         )}
         stretchBar={StretchBar}

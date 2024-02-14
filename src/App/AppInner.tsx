@@ -11,7 +11,6 @@ import {
   TileLeaf,
 } from 'components'
 
-import { named } from 'App/sectionConfiguration/named'
 import { makeBearerString, unfoldBearer } from './sectionConfiguration/Bearer'
 import { PaneProvider } from 'App/component/provider/paneProvider'
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
@@ -19,6 +18,9 @@ import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
 import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
 import { ContextStore, contextName } from 'App/store/global'
 import { color } from 'App/component/tabBar/basic/styles'
+import { mainSectionConfiguration } from './sectionConfiguration/MainSectionConfiguration'
+import { rootPane } from './sectionConfiguration/MainSectionLayout'
+import { sectionKeys } from './sectionConfiguration/SectionName'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
 
@@ -29,7 +31,7 @@ function PaneIcon(props: {
 }) {
   const bearer = makeBearerString(
     props.name,
-    props.name === 'editForm' ? props.name : undefined,
+    props.name === sectionKeys.editForm ? props.name : undefined,
     {}
   )
   const getLeaf = useGetLeaf()
@@ -91,19 +93,7 @@ const middleManProvider: React.FC<TilePaneProviderProps> = (
 }
 
 export const AppInner: React.FC = () => {
-  const rootPane: TileBranchSubstance = {
-    characteristic: {
-      movable: {
-        top: false,
-        bottom: false,
-        left: true,
-        right: false,
-        center: true,
-      },
-    },
-    children: [],
-  }
-
+ 
   const localRoot = localStorage.getItem(localStorageKey)
   const root = localRoot
     ? (JSON.parse(localRoot) as TileBranchSubstance)
@@ -113,15 +103,16 @@ export const AppInner: React.FC = () => {
     <TileProvider
       rootNode={root}
       tabBar={tabBarBuilder(
-        { named, isDraggable: true },
+        { sectionConfiguration: mainSectionConfiguration, isDraggable: true },
         {
           thicknessOverride: (leaf?: TileLeaf) => {
             if (leaf) {
               const bearer = unfoldBearer(leaf.children[leaf.onTab])
-              if (bearer.paneName === 'editForm') {
+              if (bearer.paneName === sectionKeys.editForm) {
                 return 0
               }
             }
+            return undefined
           },
         }
       )}
@@ -143,7 +134,7 @@ export const AppInner: React.FC = () => {
             background: color.backL,
           }}
         >
-          {Object.entries(named).map((name) => (
+          {Object.entries(mainSectionConfiguration).map((name) => (
             <PaneIcon
               key={name[0]}
               name={name[0]}
@@ -164,7 +155,7 @@ export const AppInner: React.FC = () => {
           <TileContainer />
         </div>
       </div>
-      {/* <AutoSaveLayout /> */}
+      <AutoSaveLayout />
       <ContextStore name={contextName.main} />
       <div />
     </TileProvider>

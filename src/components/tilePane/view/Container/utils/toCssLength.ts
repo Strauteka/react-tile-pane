@@ -19,7 +19,3 @@ export const toQuadrant = (position: TabsBarPosition) => [
 
 export const completeUnit = (len: number | string) =>
   typeof len === 'number' ? `${len}em` : len
-
-export const udefinedOrDefault = <T>(...value: T[]) => {
-  return (value || []).find(entry => entry != null)
-}

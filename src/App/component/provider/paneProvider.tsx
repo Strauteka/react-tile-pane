@@ -2,14 +2,17 @@ import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/
 import { section as sections } from '../../sectionConfiguration/Section'
 import { unfoldBearer } from '../../sectionConfiguration/Bearer'
 import React from 'react'
+import { useSelection } from 'App/context/AppSelectionContext'
 import {
-  useSelection,
-} from 'App/context/AppSelectionContext'
-import { named } from '../../sectionConfiguration/named'
-import { Constr, SectionContext } from '../../sectionConfiguration/SectionContext'
+  Constr,
+  SectionContext,
+} from '../../sectionConfiguration/SectionContext'
 import { TilePaneWithRect } from 'components'
 import { useAppState } from 'App/context/AppStateContext'
-import { SectionConfiguration } from '../../sectionConfiguration/SectionConfiguration'
+import {
+  SectionConfiguration,
+  mainSectionConfiguration,
+} from '../../sectionConfiguration/MainSectionConfiguration'
 
 export const PaneProvider: React.FC<TilePaneProviderProps> = (
   props: TilePaneProviderProps
@@ -17,7 +20,7 @@ export const PaneProvider: React.FC<TilePaneProviderProps> = (
   const bearer = unfoldBearer(props.pane.name)
   const sectionConfig: SectionConfiguration = {
     ...{ isSelection: true, isParentPropsPersistent: false },
-    ...named[bearer.paneName],
+    ...mainSectionConfiguration[bearer.paneName],
   }
   const { selection, setSelection } = useSelection()
   const { appState } = useAppState()

@@ -6,7 +6,7 @@ function createStyles<T extends Record<string, React.CSSProperties>>(
   return styles
 }
 
-export const thickness = 2.5
+export const thickness = 2
 export const stretchBarThickness = 0.25
 
 export const color = {

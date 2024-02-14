@@ -2,11 +2,11 @@ import { DraggableTitle, PaneName, TabBarPropsWithAction } from 'components'
 import React, { CSSProperties } from 'react'
 import { color, flex, size, styles } from './styles'
 import { unfoldBearer } from '../../../sectionConfiguration/Bearer'
-import { SectionConfiguration } from 'App/sectionConfiguration/SectionConfiguration'
+import { SectionConfiguration } from 'App/sectionConfiguration/MainSectionConfiguration'
 type TabBarState = { color: string }
 
 export type CustomTabBarProps = {
-  named: { [name: string]: SectionConfiguration }
+  sectionConfiguration: { [name: string]: SectionConfiguration }
   isDraggable?: boolean
 }
 
@@ -40,7 +40,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
     const bearer = unfoldBearer(tab)
     return (
       <div style={{ ...flex.center, ...size.full, margin: '0.5em' }}>
-        {this.props.named[bearer.paneName]?.tabTitle ?? 'no-title'}
+        {this.props.sectionConfiguration[bearer.paneName]?.tabTitle ?? 'no-title'}
       </div>
     )
   }
@@ -69,7 +69,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
       <DraggableTitle
         name={tab}
         drag={{ filterTaps: true, tapsThreshold: 10 }}
-        characteristic={this.props.named[bearer.paneName]?.characteristic}
+        characteristic={this.props.sectionConfiguration[bearer.paneName]?.characteristic}
         {...tagProps}
       >
         {this.content(tab, i)}
@@ -81,7 +81,7 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
 
   render = () => {
     const tabBars = this.props.tabs.map(this.tabBar)
-    return (
+    return ( this.props.tabs.length > 0 && 
       <div style={styles.tabBar}>
         <div ref={this.ref} style={{ ...styles.tabAlign, margin: '0.25em' }}>
           {tabBars}
