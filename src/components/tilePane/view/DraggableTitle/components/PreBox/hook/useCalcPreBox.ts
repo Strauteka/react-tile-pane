@@ -39,7 +39,6 @@ export function useCalcPreBox(
         leafWithTitleRects,
         innerPosition,
         preBoxInTabBar,
-        characteristic ?? {}
       ),
     [
       branches,

@@ -4,7 +4,7 @@ import {
   TileBranch,
   TileCharacteristic,
   TileLeaf,
-  TileNodeRect
+  TileNodeRect,
 } from '../../../../..'
 import { Into, PaneWithPreBox } from '../../../typings'
 import { LeafWithTitleRect } from './calcLeafWithTitleRect'
@@ -16,8 +16,7 @@ export function calcPreBox(
   leaves: TileLeaf[],
   leafWithTitleRects: LeafWithTitleRect[],
   innerPosition: [number, number],
-  config: TabsBarConfig['preBox'],
-  characteristic: TileCharacteristic
+  config: TabsBarConfig['preBox']
 ): PaneWithPreBox | undefined {
   if (!innerPosition) return
   const [x, y] = innerPosition
@@ -34,14 +33,6 @@ export function calcPreBox(
           hasNext: isNext,
         },
       }
-    }
-  }
-
-  //override
-  if (characteristic.into) {
-    const branch = branches.find((branch) => branch.parent == null)
-    if (branch) {
-      return { branch: { target: branch, into: characteristic.into } }
     }
   }
 
@@ -67,7 +58,7 @@ export function calcPreBox(
           return { branch: { target: pane, into: 'left' } }
         if (
           left + width - x <= width * branchProportion &&
-          (pane.characteristic.movable?.right ??  true)
+          (pane.characteristic.movable?.right ?? true)
         )
           return { branch: { target: pane, into: 'right' } }
       }
@@ -78,17 +69,17 @@ export function calcPreBox(
       const { left, top, width, height } = pane.rect
       if (
         x - left <= width * leafProportion &&
-        (pane.characteristic.movable?.left ??  true)
+        (pane.characteristic.movable?.left ?? true)
       )
         return { leaf: { target: pane, into: 'left' } }
       if (
         left + width - x <= width * leafProportion &&
-        (pane.characteristic.movable?.right ??  true)
+        (pane.characteristic.movable?.right ?? true)
       )
         return { leaf: { target: pane, into: 'right' } }
       if (
         y - top <= height * leafProportion &&
-        (pane.characteristic.movable?.top?? true)
+        (pane.characteristic.movable?.top ?? true)
       )
         return { leaf: { target: pane, into: 'top' } }
       if (
@@ -96,7 +87,7 @@ export function calcPreBox(
         (pane.characteristic.movable?.bottom ?? true)
       )
         return { leaf: { target: pane, into: 'bottom' } }
-      if ((pane.characteristic.movable?.center ?? true))
+      if (pane.characteristic.movable?.center ?? true)
         return { leaf: { target: pane, into: 'center' } }
     }
   }

@@ -29,9 +29,12 @@ export function startMovingTab(
         : newChildren.length - 1
     leaf.setChildren(newChildren)
 
-    if (leaf.parent && leaf.parent.children.length > 0) {
+    // if (newChildren.length === 0) {
+    //   removeNode(branches, leaf)
+    // }
+    if (leaf.parent) {
       leaf.parent.children.forEach((child) => {
-        if (child.children.length == 0) {
+        if (child.children.length === 0) {
           removeNode(branches, child)
         }
       })

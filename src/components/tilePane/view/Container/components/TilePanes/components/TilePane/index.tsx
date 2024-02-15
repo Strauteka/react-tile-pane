@@ -20,7 +20,7 @@ const TilePaneInner: React.FC<TilePaneProps> = ({
         styled={styled}
       />
     ),
-    [styled]
+    [styled, pane]
   )
 }
 

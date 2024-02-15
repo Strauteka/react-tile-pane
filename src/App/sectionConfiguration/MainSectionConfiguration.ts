@@ -66,7 +66,6 @@ export const mainSectionConfiguration: { [name: string]: SectionConfiguration } 
     isSelection: false,
     tabTitle: 'Edit Form',
     characteristic: {
-      into: 'right',
       grow: 0.25,
       movable: {
         bottom: false,

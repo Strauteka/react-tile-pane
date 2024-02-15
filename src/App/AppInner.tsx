@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   DraggableTitle,
   TileContainer,
   TileProvider,
   useGetLeaf,
   useMovePane,
-  useGetRootNode,
-  TileBranchSubstance,
   TileCharacteristic,
   TileLeaf,
+  TileBranchesContext,
+  TileBranch,
+  Into,
+  PaneWithPreBox,
+  TileLeavesContext,
 } from 'components'
 
 import { makeBearerString, unfoldBearer } from './sectionConfiguration/Bearer'
@@ -21,8 +24,24 @@ import { color } from 'App/component/tabBar/basic/styles'
 import { mainSectionConfiguration } from './sectionConfiguration/MainSectionConfiguration'
 import { rootPane } from './sectionConfiguration/MainSectionLayout'
 import { sectionKeys } from './sectionConfiguration/SectionName'
+import { SaveLayout, getLayout } from './sectionConfiguration/LayoutSave'
 
-const localStorageKey = 'react-tile-pane-left-tab-layout'
+const localStorageKey = 'rootLayout'
+
+const buildPreBox = (
+  tileNode?: TileLeaf | TileBranch,
+  into?: Into
+): PaneWithPreBox | undefined => {
+  if (tileNode && into) {
+    const tileType: string = tileNode instanceof TileBranch ? 'branch' : 'leaf'
+    return {
+      [tileType]: {
+        target: tileNode,
+        into: into,
+      },
+    }
+  }
+}
 
 function PaneIcon(props: {
   name: string
@@ -38,7 +57,17 @@ function PaneIcon(props: {
   const move = useMovePane()
   const leaf = getLeaf(bearer)
   const isShowing = !!leaf
-
+  const Branches = useContext(TileBranchesContext)
+  const leaves = useContext(TileLeavesContext)
+  const filteredLeaves = leaves.find((leaf) =>
+    leaf.children.find(
+      (child) => unfoldBearer(child).paneName !== sectionKeys.editForm
+    )
+  )
+  const preBox =
+    props.name === sectionKeys.editForm
+      ? buildPreBox(Branches[0], 'right')
+      : buildPreBox(filteredLeaves, 'center')
   return (
     <div
       style={{
@@ -64,7 +93,13 @@ function PaneIcon(props: {
       <div
         onClick={() => {
           // if (!isShowing) {
-          move(bearer, isShowing ? null : [0, 0], props.characteristic)
+          move(
+            bearer,
+            isShowing ? null : [0, 0],
+            props.characteristic,
+
+            preBox
+          )
           // }
         }}
         style={{
@@ -93,15 +128,9 @@ const middleManProvider: React.FC<TilePaneProviderProps> = (
 }
 
 export const AppInner: React.FC = () => {
- 
-  const localRoot = localStorage.getItem(localStorageKey)
-  const root = localRoot
-    ? (JSON.parse(localRoot) as TileBranchSubstance)
-    : rootPane
-
   return (
     <TileProvider
-      rootNode={root}
+      rootNode={getLayout(localStorageKey, rootPane)}
       tabBar={tabBarBuilder(
         { sectionConfiguration: mainSectionConfiguration, isDraggable: true },
         {
@@ -155,15 +184,9 @@ export const AppInner: React.FC = () => {
           <TileContainer />
         </div>
       </div>
-      <AutoSaveLayout />
+      <SaveLayout pane={localStorageKey} saveLayout={false} />
       <ContextStore name={contextName.main} />
       <div />
     </TileProvider>
   )
-}
-
-function AutoSaveLayout() {
-  const getRootNode = useGetRootNode()
-  localStorage.setItem(localStorageKey, JSON.stringify(getRootNode()))
-  return <></>
 }

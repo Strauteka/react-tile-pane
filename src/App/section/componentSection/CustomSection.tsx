@@ -1,13 +1,7 @@
-import {
-  TileBranchSubstance,
-  TileContainer,
-  TileLeaf,
-  useGetRootNode,
-} from 'components'
+import { TileContainer, TileLeaf } from 'components'
 import React from 'react'
 import { unfoldBearer } from 'App/sectionConfiguration/Bearer'
 import { SectionContext } from 'App/sectionConfiguration/SectionContext'
-
 import { TilePaneProviderProps } from 'components/tilePane/view/Provider/config/PaneProvider'
 import { tabBarBuilder } from 'App/component/tabBar/basic/TabBarConfig'
 import { StretchBar } from 'App/component/tabBar/basic/StretchBarConfig'
@@ -17,6 +11,7 @@ import { mainSectionConfiguration } from 'App/sectionConfiguration/MainSectionCo
 import { sectionKeys } from 'App/sectionConfiguration/SectionName'
 import { rootPane } from './customSectionLayout'
 import { color } from 'App/component/tabBar/basic/styles'
+import { SaveLayout, getLayout } from 'App/sectionConfiguration/LayoutSave'
 
 type CustomSectionState = {}
 type CustomSectionProps = {}
@@ -27,7 +22,7 @@ export class CustomSection extends React.Component<
 > {
   constructor(props: SectionContext<CustomSectionProps>) {
     super(props)
-    console.log('constructor123124124')
+    console.log(this.constructor.name, 'INIT')
   }
 
   middleManProvider: React.FC<TilePaneProviderProps> = (
@@ -43,28 +38,11 @@ export class CustomSection extends React.Component<
     )
   }
 
-  shouldComponentUpdate(
-    nextProps: Readonly<SectionContext<CustomSectionProps>>,
-    nextState: Readonly<CustomSectionState>,
-    nextContext: any
-  ): boolean {
-    console.log('shouldComponentUpdate', this.constructor.name)
-    return true
-  }
-
   render = () => {
-    const localRoot = localStorage.getItem('SomeOtherKeyxxx')
-    const root = localRoot
-      ? (JSON.parse(localRoot) as TileBranchSubstance)
-      : rootPane()
-    console.log('render!', root)
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'))
-    }, 500)
     return (
       <ScopedTileProvider
+        rootNode={getLayout(this.props.pane.name, rootPane)}
         paneName={this.props.pane.name}
-        rootNode={root}
         tabBar={tabBarBuilder(
           {
             sectionConfiguration: mainSectionConfiguration,
@@ -89,19 +67,14 @@ export class CustomSection extends React.Component<
             height: '1.2em',
             backgroundColor: color.backL,
             color: color.primary,
+            overflow: 'hidden',
           }}
         >
           Some Custom Stuff on Section Composition
         </div>
         <TileContainer style={{ height: 'calc(100% - 1.2em)' }} />
-        <AutoSaveLayout />
+        <SaveLayout pane={this.props.pane.name}  saveLayout={false} />
       </ScopedTileProvider>
     )
   }
-}
-function AutoSaveLayout() {
-  const getRootNode = useGetRootNode()
-  console.log()
-  localStorage.setItem('SomeOtherKeyxxx', JSON.stringify(getRootNode()))
-  return <></>
 }
