@@ -13,6 +13,7 @@ import {
   ClosedPaneStateContext,
   ClosedPaneType,
 } from './context/ClosedPaneStateContext'
+import { color } from './component/tabBar/basic/styles'
 
 // On initial build, rect panels registers edit state,
 // So multiple fire on setEditFormState and actual edditFormState lags behind
@@ -31,6 +32,7 @@ const App: React.FC = () => {
     <div
       style={{
         height: '100vh',
+        backgroundColor: color.secondaryLL
       }}
     >
       <AppSelectionContext.Provider value={selectionValue}>

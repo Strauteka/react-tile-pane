@@ -26,6 +26,7 @@ import { rootPane } from './sectionConfiguration/MainSectionLayout'
 import { sectionKeys } from './sectionConfiguration/SectionName'
 import { SaveLayout, getLayout } from './sectionConfiguration/LayoutSave'
 import { getClosedPane, useClosedPane } from './context/ClosedPaneStateContext'
+import { AppContainer } from './AppContainer'
 
 const localStorageKey = 'rootLayout'
 
@@ -191,7 +192,7 @@ export const AppInner: React.FC = () => {
             overflowX: 'hidden',
           }}
         >
-          <TileContainer />
+          <AppContainer />
         </div>
       </div>
       <SaveLayout pane={localStorageKey} saveLayout={false} />
