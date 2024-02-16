@@ -76,11 +76,11 @@ function PaneIcon(props: {
         alignItems: 'center',
         justifyContent: 'space-between',
         background: color.backL,
-        fontSize: 20,
+        fontSize: 18,
         padding: 10,
         color: '#ffffff',
         gap: '1rem',
-        width: '250px',
+        width: '180px',
       }}
     >
       <div style={{ cursor: 'move' }}>
@@ -168,6 +168,9 @@ export const AppInner: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             background: color.backL,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            width: '220px',
           }}
         >
           {Object.entries(mainSectionConfiguration).map((name) => (

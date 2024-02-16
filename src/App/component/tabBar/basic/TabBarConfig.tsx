@@ -41,6 +41,7 @@ export const tabBarBuilder = (
             moving={tabs.filter((entry) => {
               return !leaf.children.find((tabLeft) => tabLeft === entry)
             })}
+            closedPane={useClosedPane()}
             action={action}
             {...tabProps}
           ></TabBar>

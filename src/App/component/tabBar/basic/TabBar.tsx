@@ -14,6 +14,7 @@ export type CustomTabBarProps = {
 type TabBarProps = TabBarPropsWithAction &
   CustomTabBarProps & {
     moving: string[]
+    closedPane: ClosedPane
   }
 
 export class TabBar extends React.Component<TabBarProps, TabBarState> {
@@ -94,6 +95,10 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
           {this.props.onTab !== -1 && (this.props.isDraggable || false) && (
             <div
               onClick={() => {
+                this.props.closedPane(
+                  this.props.leaf,
+                  this.props.tabs[this.props.onTab]
+                )
                 this.props.action.closeTab(this.props.onTab)
               }}
               style={styles.closeButton}

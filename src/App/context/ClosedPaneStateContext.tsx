@@ -1,5 +1,12 @@
-import { foldBearer, unfoldBearer } from 'App/sectionConfiguration/Bearer'
-import { PaneName, TileLeaf } from 'components'
+import { unfoldBearer } from 'App/sectionConfiguration/Bearer'
+import { rootPane } from 'App/sectionConfiguration/MainSectionLayout'
+import { sectionKeys } from 'App/sectionConfiguration/SectionName'
+import {
+  PaneName,
+  TileDispatchContext,
+  TileLeaf,
+  TileLeavesContext,
+} from 'components'
 import { createContext, useContext } from 'react'
 
 export interface ClosedPaneType {
@@ -30,10 +37,29 @@ export const getClosedPane = (): getClosedPane => {
 
 export const useClosedPane = (): ClosedPane => {
   const closePaneContext = useContext(ClosedPaneStateContext)
+  const leaves = useContext(TileLeavesContext)
+  const dispatch = useContext(TileDispatchContext)
   return (leaf, name) => {
     if (leaf && name) {
       const bearer = unfoldBearer(name)
-      closePaneContext.setClosedPaneState(bearer.paneName, { grow: Math.min(leaf.grow, 0.75) })
+      console.log('Closing ', bearer.paneName)
+      if (
+        !leaves.some((leaf) =>
+          leaf.children.some(
+            (section) =>
+              unfoldBearer(section).paneName !== sectionKeys.editForm &&
+              section !== name
+          )
+        )
+      ) {
+        console.log('reset ROOT!')
+        dispatch({ reset: rootPane })
+      } else if (bearer.paneName === sectionKeys.editForm) {
+        const bearer = unfoldBearer(name)
+        closePaneContext.setClosedPaneState(bearer.paneName, {
+          grow: leaf.grow,
+        })
+      }
     }
   }
 }
