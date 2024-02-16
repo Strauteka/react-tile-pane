@@ -26,7 +26,7 @@ export const rootPane: TileBranchSubstance = {
       children: [sectionKeys.grape],
     },
     {
-      onTab: 1,
+      onTab: 2,
       children: [sectionKeys.aaa, sectionKeys.bbb, sectionKeys.custom],
     },
   ],

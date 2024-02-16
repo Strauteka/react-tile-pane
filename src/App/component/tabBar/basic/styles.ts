@@ -7,7 +7,7 @@ function createStyles<T extends Record<string, React.CSSProperties>>(
 }
 
 export const thickness = 2
-export const stretchBarThickness = 0.25
+export const stretchBarThickness = 0.24 // smaller than actual
 
 export const color = {
   backL: '#1C242D',

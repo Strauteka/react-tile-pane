@@ -5,7 +5,7 @@ import {
 } from 'components'
 import { makeBearerString } from './Bearer'
 // todo: save default layout on button rendered in tab?
-export const SaveLayout = (props: { pane: string, saveLayout: boolean  }) => {
+export const SaveLayout = (props: { pane: string; saveLayout: boolean }) => {
   const getRootNode = useGetRootNode()()
   localStorage.setItem(props.pane, JSON.stringify(getRootNode))
   return <></>
@@ -15,7 +15,7 @@ export const getLayout = (
   pane: string,
   root: TileBranchSubstance
 ): TileBranchSubstance | undefined => {
-  const localRoot = undefined// localStorage.getItem(pane)
+  const localRoot = localStorage.getItem(pane)
   return localRoot
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : getRootLayout(root)

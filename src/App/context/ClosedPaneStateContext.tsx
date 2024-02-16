@@ -33,7 +33,7 @@ export const useClosedPane = (): ClosedPane => {
   return (leaf, name) => {
     if (leaf && name) {
       const bearer = unfoldBearer(name)
-      closePaneContext.setClosedPaneState(bearer.paneName, { grow: leaf.grow })
+      closePaneContext.setClosedPaneState(bearer.paneName, { grow: Math.min(leaf.grow, 0.75) })
     }
   }
 }
