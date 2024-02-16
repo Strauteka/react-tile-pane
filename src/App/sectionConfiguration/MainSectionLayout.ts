@@ -6,7 +6,7 @@ export const rootPane: TileBranchSubstance = {
         top: false,
         bottom: false,
         left: true,
-        right: false,
+        right: true,
         center: true,
       },
     },

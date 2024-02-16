@@ -24,7 +24,6 @@ export function stopMovingTab(
   { movingTabs, ...rest }: TileStore,
   { pane, preBox, characteristic }: TabToStopMoving
 ): TileStore {
-  console.log('characteristic', characteristic)
   const newMovingTabs = removeInArray(movingTabs, (it) => (it.name = pane))
   if (preBox) {
     const { rootNode } = rest
@@ -45,7 +44,6 @@ function insertPane(
 ) {
   // const { targetNode: node, into } = preBox
   const node = preBox.leaf ?? preBox.branch ?? preBox.tab
-  console.log('node', node)
   if (!node) return
   const { target, into } = node
   const { leaves, branches } = nodes
@@ -53,7 +51,6 @@ function insertPane(
   const isBrother = typeof into === 'number' ? false : isSegment(target, into)
   const isRow = typeof into === 'number' ? false : row.includes(into)
   if (!(target instanceof TileBranch)) {
-    console.log('isTileLeaf', target)
     const leaf =
       leaves.find((it) => it === target) || leaves.find((notUsed) => true)
     if (leaf) {
@@ -77,7 +74,6 @@ function insertPane(
     }
   } else {
     const branch = branches.find((it) => it === target)
-    console.log('branch', branch)
     if (branch) {
       fission(target, pane, isNext, isRow, characteristic)
     }
@@ -92,7 +88,6 @@ function segment(
   isNext: boolean,
   characteristic?: TileCharacteristic
 ) {
-  console.log('segment', characteristic)
   const { parent } = node
   if (!parent) return
   const grow = characteristic?.grow || node.grow / 2
@@ -129,9 +124,9 @@ function fission(
   isRow: boolean,
   characteristic?: TileCharacteristic
 ) {
-  console.log('fission', characteristic)
   const { parent, grow } = node
   if (!parent) {
+
     const newLeafGrow = characteristic?.grow ?? 1
     const newLeaf: TileLeafSubstance = {
       characteristic,
@@ -146,22 +141,23 @@ function fission(
     if (node instanceof TileBranch) {
       node.isRow = isRow
       const childrenCount = node.children.length <= 1
+      let ch: GrowRequireType[] = []
       if (childrenCount) {
-        const childs = isNext
-          ? [...node.children, newLeaf]
-          : [newLeaf, ...node.children]
-        if (newLeafGrow != 1 && childs.length == 1) {
-          node.setChildren(
-            isNext
-              ? [{ grow: 1 - newLeafGrow, children: [] }, newLeaf]
-              : [newLeaf, ...node.children]
-          )
-        } else {
-          node.setChildren(childs)
+     
+        ch = isNext ? [...node.children, newLeaf] : [newLeaf, ...node.children]
+        if (newLeafGrow != 1 && ch.length == 1) {
+          ch = isNext
+            ? [{ grow: 1 - newLeafGrow, children: [] }, newLeaf]
+            : [newLeaf, ...node.children]
         }
       } else {
-        node.setChildren(isNext ? [oldLeaf, newLeaf] : [newLeaf, oldLeaf])
+        ch = isNext ? [oldLeaf, newLeaf] : [newLeaf, oldLeaf]
       }
+      const calcGrow = calcChildGrowsOnAddRoot(ch) as (
+        | TileBranchSubstance
+        | TileLeafSubstance
+      )[]
+      node.setChildren(calcGrow)
     }
     return
   }
@@ -217,4 +213,23 @@ function substanceHasPane(
       return it === pane
     })
   return substance.children === pane
+}
+
+type GrowRequireType = { grow?: number; characteristic?: { grow?: number } }
+export function calcChildGrowsOnAddRoot<T extends GrowRequireType>(children: T[]): T[] {
+  const growsSolid = children.map((c) => ({
+    grow: c.grow ?? 1,
+    desiredGrow: c.characteristic?.grow,
+  }))
+  const desiredSum = growsSolid.reduce((s, n) => (s += n.desiredGrow ?? 0), 0)
+  const growSum = growsSolid.reduce(
+    (s, n) => (s += n.desiredGrow ? 0 : n.grow),
+    0
+  )
+  const koef = growSum / (1 - desiredSum)
+  const grows = growsSolid.map((c) => c.desiredGrow ?? c.grow / koef)
+  return children.map((child, i) => {
+    child.grow = grows[i]
+    return child
+  })
 }

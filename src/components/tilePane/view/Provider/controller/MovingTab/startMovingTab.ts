@@ -20,6 +20,7 @@ export function startMovingTab(
   const leaf = leaves.find((l) => l.children.includes(name))
   const tabIndex = leaf?.children.findIndex((it) => it === name) ?? 0
   if (leaf) {
+    //report removing panes
     const newChildren = removeInArray(leaf.children, name)
     leaf.onTab =
       leaf.onTab != tabIndex

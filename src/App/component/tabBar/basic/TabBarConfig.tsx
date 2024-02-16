@@ -5,6 +5,7 @@ import {
 } from 'components'
 import { CustomTabBarProps, TabBar } from './TabBar'
 import { stretchBarThickness, thickness } from './styles'
+import { useClosedPane } from 'App/context/ClosedPaneStateContext'
 type Partial<T> = {
   [P in keyof T]?: T[P]
 }
@@ -28,6 +29,7 @@ export const tabBarBuilder = (
   tabProps: CustomTabBarProps,
   override?: Partial<TabsBarConfig>
 ): TabsBarConfig => {
+
   return {
     ...{
       render: ({ leaf, tabs, onTab, action }) => {

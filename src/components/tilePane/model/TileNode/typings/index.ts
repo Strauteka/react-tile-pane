@@ -1,5 +1,5 @@
-import { TileBranch, TileLeaf } from '..'
-import { Into, PaneName } from '../../..'
+import { TileBranch } from '..'
+import { PaneName } from '../../..'
 
 export type TileNodeID = string
 

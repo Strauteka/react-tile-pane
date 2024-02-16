@@ -3,6 +3,7 @@ import React, { CSSProperties } from 'react'
 import { color, flex, size, styles } from './styles'
 import { unfoldBearer } from '../../../sectionConfiguration/Bearer'
 import { SectionConfiguration } from 'App/sectionConfiguration/MainSectionConfiguration'
+import { ClosedPane } from 'App/context/ClosedPaneStateContext'
 type TabBarState = { color: string }
 
 export type CustomTabBarProps = {
@@ -40,7 +41,8 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
     const bearer = unfoldBearer(tab)
     return (
       <div style={{ ...flex.center, ...size.full, margin: '0.5em' }}>
-        {this.props.sectionConfiguration[bearer.paneName]?.tabTitle ?? 'no-title'}
+        {this.props.sectionConfiguration[bearer.paneName]?.tabTitle ??
+          'no-title'}
       </div>
     )
   }
@@ -69,7 +71,9 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
       <DraggableTitle
         name={tab}
         drag={{ filterTaps: true, tapsThreshold: 10 }}
-        characteristic={this.props.sectionConfiguration[bearer.paneName]?.characteristic}
+        characteristic={
+          this.props.sectionConfiguration[bearer.paneName]?.characteristic
+        }
         {...tagProps}
       >
         {this.content(tab, i)}
@@ -81,20 +85,24 @@ export class TabBar extends React.Component<TabBarProps, TabBarState> {
 
   render = () => {
     const tabBars = this.props.tabs.map(this.tabBar)
-    return ( this.props.tabs.length > 0 && 
-      <div style={styles.tabBar}>
-        <div ref={this.ref} style={{ ...styles.tabAlign, margin: '0.25em' }}>
-          {tabBars}
-        </div>
-        {this.props.onTab !== -1 && (this.props.isDraggable || false) && (
-          <div
-            onClick={() => this.props.action.closeTab(this.props.onTab)}
-            style={styles.closeButton}
-          >
-            ×
+    return (
+      this.props.tabs.length > 0 && (
+        <div style={styles.tabBar}>
+          <div ref={this.ref} style={{ ...styles.tabAlign, margin: '0.25em' }}>
+            {tabBars}
           </div>
-        )}
-      </div>
+          {this.props.onTab !== -1 && (this.props.isDraggable || false) && (
+            <div
+              onClick={() => {
+                this.props.action.closeTab(this.props.onTab)
+              }}
+              style={styles.closeButton}
+            >
+              ×
+            </div>
+          )}
+        </div>
+      )
     )
   }
 }

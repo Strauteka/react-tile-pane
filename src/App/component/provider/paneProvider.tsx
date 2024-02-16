@@ -13,6 +13,7 @@ import {
   SectionConfiguration,
   mainSectionConfiguration,
 } from '../../sectionConfiguration/MainSectionConfiguration'
+import { color } from '../tabBar/basic/styles'
 
 export const PaneProvider: React.FC<TilePaneProviderProps> = (
   props: TilePaneProviderProps
@@ -33,7 +34,7 @@ export const PaneProvider: React.FC<TilePaneProviderProps> = (
   const border =
     selection === props.pane.name
       ? { border: '0.25em solid #9dc6f8' }
-      : { border: '0.25em solid #000000' }
+      : { border: `0.25em solid ${color.backL}` }
   return (
     <div
       style={{

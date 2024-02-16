@@ -62,9 +62,13 @@ export const mainSectionConfiguration: { [name: string]: SectionConfiguration } 
     isSelection: false,
     tabTitle: 'custom',
   },
+  [sectionKeys.editFormSection]: {
+    isSelection: true,
+    tabTitle: 'Edit Form Section',
+  },
   [sectionKeys.editForm]: {
     isSelection: false,
-    tabTitle: 'Edit Form',
+    tabTitle: 'Right Pane Anchor',
     characteristic: {
       grow: 0.25,
       movable: {
@@ -75,9 +79,5 @@ export const mainSectionConfiguration: { [name: string]: SectionConfiguration } 
         center: false,
       },
     },
-  },
-  [sectionKeys.editFormSection]: {
-    isSelection: true,
-    tabTitle: 'Edit Form Section',
   },
 }

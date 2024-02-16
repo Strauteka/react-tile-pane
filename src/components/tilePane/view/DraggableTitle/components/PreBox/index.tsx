@@ -8,25 +8,22 @@ import {
 import { PaneWithPreBox } from '../../typings'
 import { useCalcPreBox } from './hook/useCalcPreBox'
 import { calcBoxPosition, calcTitleBoxPosition, toInContainer } from './util'
-import { TileCharacteristic } from 'components/tilePane/model/TileNode/typings'
 
 export interface PreBoxProps {
   paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>
   position: Vector2
-  characteristic?: TileCharacteristic
 }
 
 const PreBoxInner: React.FC<PreBoxProps> = ({
   position,
-  paneWithPreBoxRef,
-  characteristic
+  paneWithPreBoxRef
 }) => {
   const containerRect = useContext(ContainerRectContext)
   const { throttle, style, className, child } = useContext(PreBoxConfigContext)
   const { preBox: preBoxInTabBar } = useContext(TabsBarContext)
 
   const { paneWithPreBox, leafWithTitleRects} =
-    useCalcPreBox(position, throttle, characteristic)
+    useCalcPreBox(position, throttle)
   paneWithPreBoxRef.current = paneWithPreBox
 
   return useMemo(() => {

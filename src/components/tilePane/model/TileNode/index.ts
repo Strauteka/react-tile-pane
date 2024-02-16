@@ -86,10 +86,9 @@ export class TileLeaf extends TileNode {
   }
 
   public setChildren(children: PaneName[]) {
-    this.children = children
-    // .filter(
-    //   (child, i) => children.findIndex((it) => it === child) === i
-    // )
+    this.children = children.filter(
+      (child, i) => children.findIndex((it) => it === child) === i
+    )
   }
 
   public setCharacteristic(characteristic?: TileCharacteristic) {
@@ -123,7 +122,7 @@ export class TileBranch extends TileNode {
     const grows = calcChildGrows(children)
     const rect = calcChildRects(this, grows)
     this.children = children
-      // .filter((child, i) => children.findIndex((it) => it === child) === i)
+      .filter((child, i) => children.findIndex((it) => it === child) === i)
       .map((it, i) => {
         const bobo = isTileLeaf(it)
           ? new TileLeaf(

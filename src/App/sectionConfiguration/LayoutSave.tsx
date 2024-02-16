@@ -15,7 +15,7 @@ export const getLayout = (
   pane: string,
   root: TileBranchSubstance
 ): TileBranchSubstance | undefined => {
-  const localRoot = localStorage.getItem(pane)
+  const localRoot = undefined// localStorage.getItem(pane)
   return localRoot
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : getRootLayout(root)

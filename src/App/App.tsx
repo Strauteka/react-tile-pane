@@ -9,13 +9,18 @@ import {
 } from './context/EditFormStateContext'
 import { AppSelectionContext } from './context/AppSelectionContext'
 import { PaneName } from 'components'
+import {
+  ClosedPaneStateContext,
+  ClosedPaneType,
+} from './context/ClosedPaneStateContext'
 
-// 0n initial build, rect panels registers edit state,
+// On initial build, rect panels registers edit state,
 // So multiple fire on setEditFormState and actual edditFormState lags behind
 const instantMapOfEditState: { [x: string]: EditFormType } = {}
 const instantMapOfAppState: { [x: string]: AppStateType } = {}
 
-const Apps: React.FC = () => {
+const App: React.FC = () => {
+  const [closedPaneState, setClosedPaneState] = useState({})
   const [appState, setAppState] = useState({})
   const [selection, setSelection] = useState(selectionDefault)
   const selectionValue = { selection, setSelection }
@@ -51,7 +56,20 @@ const Apps: React.FC = () => {
               },
             }}
           >
-            <AppInner />
+            <ClosedPaneStateContext.Provider
+              value={{
+                closedPaneState: closedPaneState,
+                setClosedPaneState: (
+                  paneName: string,
+                  state: ClosedPaneType
+                ) => {
+                  setClosedPaneState({...closedPaneState, [paneName]: state})
+          
+                },
+              }}
+            >
+              <AppInner />
+            </ClosedPaneStateContext.Provider>
           </AppStateContext.Provider>
         </EditFormStateContext.Provider>
       </AppSelectionContext.Provider>
@@ -59,4 +77,4 @@ const Apps: React.FC = () => {
   )
 }
 
-export default Apps
+export default App

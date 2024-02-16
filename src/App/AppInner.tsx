@@ -25,6 +25,7 @@ import { mainSectionConfiguration } from './sectionConfiguration/MainSectionConf
 import { rootPane } from './sectionConfiguration/MainSectionLayout'
 import { sectionKeys } from './sectionConfiguration/SectionName'
 import { SaveLayout, getLayout } from './sectionConfiguration/LayoutSave'
+import { getClosedPane, useClosedPane } from './context/ClosedPaneStateContext'
 
 const localStorageKey = 'rootLayout'
 
@@ -56,18 +57,18 @@ function PaneIcon(props: {
   const getLeaf = useGetLeaf()
   const move = useMovePane()
   const leaf = getLeaf(bearer)
-  const isShowing = !!leaf
   const Branches = useContext(TileBranchesContext)
-  const leaves = useContext(TileLeavesContext)
-  const filteredLeaves = leaves.find((leaf) =>
+  const mainLeaf = useContext(TileLeavesContext).find((leaf) =>
     leaf.children.find(
       (child) => unfoldBearer(child).paneName !== sectionKeys.editForm
     )
   )
+  const ClosedPane = useClosedPane()
+  const closedPaneState = getClosedPane()
   const preBox =
     props.name === sectionKeys.editForm
       ? buildPreBox(Branches[0], 'right')
-      : buildPreBox(filteredLeaves, 'center')
+      : buildPreBox(mainLeaf, 'center')
   return (
     <div
       style={{
@@ -92,19 +93,23 @@ function PaneIcon(props: {
       </div>
       <div
         onClick={() => {
-          // if (!isShowing) {
+          ClosedPane(leaf, props.name)
           move(
             bearer,
-            isShowing ? null : [0, 0],
-            props.characteristic,
+            leaf ? null : [0, 0],
+            {
+              ...props.characteristic,
+              ...(props.name === sectionKeys.editForm
+                ? closedPaneState(props.name)
+                : {}),
+            },
 
             preBox
           )
-          // }
         }}
         style={{
           cursor: 'pointer',
-          background: isShowing ? color.primary : color.secondary,
+          background: leaf ? color.primary : color.secondary,
           width: 14,
           height: 14,
           borderRadius: 99,
@@ -135,11 +140,13 @@ export const AppInner: React.FC = () => {
         { sectionConfiguration: mainSectionConfiguration, isDraggable: true },
         {
           thicknessOverride: (leaf?: TileLeaf) => {
-            if (leaf) {
+            if (leaf && leaf.children.length > 0) {
               const bearer = unfoldBearer(leaf.children[leaf.onTab])
               if (bearer.paneName === sectionKeys.editForm) {
                 return 0
               }
+            } else {
+              return 0
             }
             return undefined
           },

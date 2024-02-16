@@ -50,7 +50,6 @@ export function useMovePane(): MovePane {
     const paneWithPreBox =
       preBox ??
       calcPreBox(branches, leaves, leafWithTitleRects, position, preBoxInTabBar)
-    console.log('PREBOX', paneWithPreBox)
     dispatch({ tabToStartMoving: { name } })
     dispatch({
       tabToStopMoving: { pane: name, preBox: paneWithPreBox, characteristic },
